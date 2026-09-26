@@ -127,10 +127,10 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: eic/EpsilonEridaniProgress/.github/workflows/merge.yml@6d26dd3ebcee77d49c10355cce9daf632cc03325
+    uses: eic/EpsilonEridaniProgress/.github/workflows/merge.yml@53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: 6d26dd3ebcee77d49c10355cce9daf632cc03325
+      progress_ref: 53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See

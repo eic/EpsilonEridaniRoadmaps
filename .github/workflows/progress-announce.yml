@@ -24,9 +24,9 @@ permissions:
 jobs:
   announce:
     # Same full SHA as progress-merge.yml uses; bump both together.
-    uses: eic/EpsilonEridaniProgress/.github/workflows/announce.yml@6d26dd3ebcee77d49c10355cce9daf632cc03325
+    uses: eic/EpsilonEridaniProgress/.github/workflows/announce.yml@53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
     with:
-      progress_ref: 6d26dd3ebcee77d49c10355cce9daf632cc03325
+      progress_ref: 53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
       channel: EpsilonEridani
       topic: Progress logs
     secrets:
