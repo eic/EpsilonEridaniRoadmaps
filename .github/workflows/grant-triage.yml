@@ -19,7 +19,7 @@ name: grant-triage
 #
 # Requires:
 #   - a `roadmap-triage` team in the organization, holding **Triage** on this repository
-#   - the tauceti-review-bot App to have organization **Members: write** (promote-reviewers.yml
+#   - the epsiloneridani-review-bot App to have organization **Members: write** (promote-reviewers.yml
 #     needs the same grant; repository-scoped permissions are not enough to manage team membership)
 
 on:

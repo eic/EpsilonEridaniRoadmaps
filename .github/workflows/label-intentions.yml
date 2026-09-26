@@ -12,7 +12,7 @@ name: label-intentions
 # and nobody has to be granted repository permissions to register an intention.
 #
 # The label matters because intentions.yml sets `auto-add-labels: intention`, so an unlabelled
-# intention issue never reaches the Tau Ceti board.
+# intention issue never reaches the EpsilonEridani board.
 #
 # Deliberately uses the claim-bot App token rather than GITHUB_TOKEN: a label applied by
 # GITHUB_TOKEN does not trigger further workflow runs, so intentions.yml would never see the

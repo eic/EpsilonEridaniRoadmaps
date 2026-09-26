@@ -1,13 +1,13 @@
-# Tau Ceti Roadmap
+# EpsilonEridani Roadmap
 
-The human-controlled roadmaps for [Tau Ceti](https://github.com/eic/EpsilonEridani), an
+The human-controlled roadmaps for [EpsilonEridani](https://github.com/eic/EpsilonEridani), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is a markdown `README.md`, the definitive specification of its area, usually with
 suggested Lean target signatures in `Suggested.lean`. The AI-authored mathematics lives
 in the code repo; review machinery lives in
 [EpsilonEridaniReview](https://github.com/eic/EpsilonEridaniReview).
 
-Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
+EpsilonEridani is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
 If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -74,10 +74,10 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 Each roadmap directory may carry two files that are **written by machine, not by hand**:
 
 - `STATUS.md` — a snapshot of where that roadmap stands, rewritten whole on each update and headed
-  by the Tau Ceti commit it describes. It is updated asynchronously from the work it reports, so it
+  by the EpsilonEridani commit it describes. It is updated asynchronously from the work it reports, so it
   is never authoritative about the current tip.
 - `PROGRESS.md` — an append-only log, one section per window of merged pull requests. Each new
-  section is normally announced in the **Tau Ceti > Progress logs** Zulip topic with links to both
+  section is normally announced in the **EpsilonEridani > Progress logs** Zulip topic with links to both
   the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
   without holding the report back.
 
@@ -91,7 +91,7 @@ roadmap actually asks for.
 
 ## Writing a roadmap
 
-A roadmap is a specification for material we want added to Tau Ceti, written so an AI contributor, and its
+A roadmap is a specification for material we want added to EpsilonEridani, written so an AI contributor, and its
 reviewers, can act on it without guessing.
 
 - **Build the library, don't race to the theorem.** For each object you introduce, ask for its
@@ -100,7 +100,7 @@ reviewers, can act on it without guessing.
   applies: when you make a definition, it is your job to make it *usable*, which means the right
   amount of API. A definition with no lemmas about it is not a contribution.
 
-- **No gaps.** Every milestone must rest on existing Mathlib or Tau Ceti material, on earlier
+- **No gaps.** Every milestone must rest on existing Mathlib or EpsilonEridani material, on earlier
   material in the same roadmap, or on an explicitly cited dependency in another roadmap. Anything
   else is a leap: a forward reference to a later layer, a connection between two developments that
   nobody builds, an object named but never made a target. If the roadmap needs something that
@@ -148,8 +148,8 @@ reviewers, can act on it without guessing.
 
 - **Defer to Mathlib.** Before specifying an object, search Zulip and the open Mathlib PRs for it.
   Someone may already have formalized it or settled its design. **Mathlib owns its API decisions.**
-  Tau Ceti adopts the resulting design and refactors when it lands. Cite what you find, follow the
-  direction it takes, and don't argue for a Tau Ceti spelling against Mathlib's.
+  EpsilonEridani adopts the resulting design and refactors when it lands. Cite what you find, follow the
+  direction it takes, and don't argue for a EpsilonEridani spelling against Mathlib's.
 
 - **But never wait.** Deferring to Mathlib is about *shape*, never about *timing*. An open Mathlib
   PR covering ground a roadmap needs is not a blocker, not a reason to leave a gap, and not a
@@ -158,7 +158,7 @@ reviewers, can act on it without guessing.
   lands, we delete ours and adopt Mathlib's; if it doesn't, we already have what we needed. Nothing
   on a roadmap is ever "pending upstream".
 
-- **Never push work to Mathlib.** Tau Ceti material is built in Tau Ceti and stays there. Plenty of
+- **Never push work to Mathlib.** EpsilonEridani material is built in EpsilonEridani and stays there. Plenty of
   it would make good Mathlib material, and Mathlib contributors are welcome to take any of it at
   any time, but deciding what Mathlib absorbs is solely theirs. So don't write a roadmap item as
   "to be upstreamed", don't hold one back because it "really belongs in Mathlib", and don't treat
@@ -168,7 +168,7 @@ reviewers, can act on it without guessing.
 
 - **Specify the mathematics, not your existing code.** Say what each milestone should prove,
   intrinsically, so a reviewer can judge it on its own terms. A roadmap may direct either a
-  greenfield development or the integration of existing work into Tau Ceti.
+  greenfield development or the integration of existing work into EpsilonEridani.
 
 - **Coordinate first.** Work with the authors of the existing material and obtain their agreement
   before integrating it. If coordination is not possible, do not assume that mathematical overlap
@@ -193,11 +193,11 @@ reviewers, can act on it without guessing.
   field or a `def _ : Prop := sorry`. Both assert nothing (a `Prop` field is satisfiable by `True`;
   a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
 
-- **Import existing Tau Ceti APIs.** This repository has Tau Ceti as a Lake dependency, so a
+- **Import existing EpsilonEridani APIs.** This repository has EpsilonEridani as a Lake dependency, so a
   `Suggested.lean` file may import individual `EpsilonEridani.*` modules as well as Mathlib. When an earlier
-  roadmap target is already implemented in Tau Ceti, prototype the new interface against that
+  roadmap target is already implemented in EpsilonEridani, prototype the new interface against that
   implementation instead of restating it behind a private stand-in. Import individual modules;
-  Tau Ceti's root module intentionally re-exports nothing.
+  EpsilonEridani's root module intentionally re-exports nothing.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
@@ -248,6 +248,6 @@ Use the **Roadmap issue** template to report a problem with a roadmap's content,
 ## Building
 
 ```bash
-lake exe cache get Mathlib Physlib TauCeti
+lake exe cache get Mathlib Physlib EpsilonEridani
 lake build
 ```

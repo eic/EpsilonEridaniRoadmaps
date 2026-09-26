@@ -1,7 +1,7 @@
 name = "EpsilonEridaniRoadmap"
 defaultTargets = ["EpsilonEridaniRoadmap", "Completed"]
 
-# Roadmap target signatures should consume existing Tau Ceti declarations directly rather than
+# Roadmap target signatures should consume existing EpsilonEridani declarations directly rather than
 # restating a Mathlib-only approximation of the implementation boundary.
 [[require]]
 name = "EpsilonEridani"
@@ -16,7 +16,7 @@ name = "EpsilonEridaniRoadmap"
 globs = ["EpsilonEridaniRoadmap.*"]
 
 # Completed roadmaps are no longer offered to contributors, but their Lean files remain checked
-# against the current Tau Ceti pin. In particular, discharged targets continue to certify that
+# against the current EpsilonEridani pin. In particular, discharged targets continue to certify that
 # the library realizes the archived statements.
 [[lean_lib]]
 name = "Completed"

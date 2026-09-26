@@ -1,4 +1,4 @@
-# Tau Ceti roadmaps
+# EpsilonEridani roadmaps
 
 Read [`README.md`](../README.md) before doing anything in this repository. It is normative, not
 background: the **Writing a roadmap** section is the standing checklist that all roadmap content is

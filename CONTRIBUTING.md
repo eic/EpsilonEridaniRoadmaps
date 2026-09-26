@@ -1,7 +1,7 @@
 # Contributing
 
 This repository holds the human-curated roadmaps for
-[Tau Ceti](https://github.com/eic/EpsilonEridani). A roadmap is the definitive
+[EpsilonEridani](https://github.com/eic/EpsilonEridani). A roadmap is the definitive
 specification of an area: it says what we want built, in enough detail that an AI contributor
 and its reviewers can act on it without guessing. Writing and reviewing roadmaps is where human
 judgement is worth the most, so that is what this repository asks of you.
@@ -41,10 +41,10 @@ A few points from the Zulip topic that the README checklist does not yet spell o
 
 - **Roadmaps are not scoped to Mathlib.** Anything that would be good to have in a central,
   coordinated library is in scope. But a roadmap must make contact with material that already
-  exists in Mathlib or Tau Ceti. A roadmap whose lowest rung is still far above what has been
+  exists in Mathlib or EpsilonEridani. A roadmap whose lowest rung is still far above what has been
   formalized just makes agents thrash and produce bad code.
 - **A roadmap for work you have already formalized is welcome**, and is a good way to bring
-  existing material up to Tau Ceti quality. Write it so someone could implement it fresh, and
+  existing material up to EpsilonEridani quality. Write it so someone could implement it fresh, and
   treat your existing repository as a cited source rather than as the specification. The point
   of the review process is to improve the material, not to ratify it.
 - **Do not tail off into an under-specified ambitious extension.** If the last section of your
@@ -140,6 +140,6 @@ demonstrably moved a roadmap forward.
 The Lean files in this repository are checked by the `build` check.
 
 ```bash
-lake exe cache get Mathlib Physlib TauCeti
+lake exe cache get Mathlib Physlib EpsilonEridani
 lake build
 ```

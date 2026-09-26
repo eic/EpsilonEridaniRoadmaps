@@ -7,7 +7,7 @@ name: promote-reviewers
 # who have demonstrably landed reviewed roadmap work. `workflow_dispatch` runs a full sweep
 # (backfill / catch-up).
 #
-# Requires the tauceti-review-bot App to have the organization **Members: write** permission; the
+# Requires the epsiloneridani-review-bot App to have the organization **Members: write** permission; the
 # repo-scoped pull-requests/contents grants are NOT enough to manage team membership. Grant it in
 # the App settings and re-accept the installation's permission update, or this job fails at the PUT.
 

@@ -1,10 +1,10 @@
 name: main-red
 
-# Tell the Tau Ceti Zulip when `main` stops building, and when it recovers.
+# Tell the EpsilonEridani Zulip when `main` stops building, and when it recovers.
 #
 # `main` went red on 2026-09-14 and stayed red for three days because nothing said so: the failing
 # run was recorded and nobody was watching the Actions tab. Prevention alone cannot close that gap,
-# since a Mathlib or Tau Ceti pin bump can redden `main` with no pull request at fault, so the
+# since a Mathlib or EpsilonEridani pin bump can redden `main` with no pull request at fault, so the
 # missing piece is noticing.
 #
 # This runs on `workflow_run` rather than as a job inside CI so that the Zulip credentials never
@@ -55,7 +55,7 @@ jobs:
           # Through env, never interpolated into the script: a commit message is
           # attacker-influenced, and interpolation would make it shell source.
           TITLE: ${{ github.event.workflow_run.head_commit.message }}
-          CHANNEL: Tau Ceti
+          CHANNEL: EpsilonEridani
           TOPIC: main build
         run: |
           set -euo pipefail

@@ -22,7 +22,7 @@ jobs:
       pull-requests: write
     uses: leanprover-community/intentions/.github/workflows/intentions.yml@v1
     with:
-      project-title: "Tau Ceti"
+      project-title: "EpsilonEridani"
       default-ttl: "30d"
       max-ttl: "90d"
       # Only intention issues belong on the board; keep roadmap-feedback / meta off it.

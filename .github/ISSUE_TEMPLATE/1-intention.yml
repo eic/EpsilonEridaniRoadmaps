@@ -9,7 +9,7 @@ body:
         Use this to stake out a slice of a roadmap (one or more targets), so other
         contributors and worker agents don't duplicate it.
 
-        After opening this issue, **comment `claim`** on it to take it on the Tau Ceti board
+        After opening this issue, **comment `claim`** on it to take it on the EpsilonEridani board
         (optionally with a duration, e.g. `claim 3 weeks`). It will auto-release when the claim
         expires. Keep the scope as specific as you reasonably can.
   - type: dropdown
