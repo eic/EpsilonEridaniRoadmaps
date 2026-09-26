@@ -248,6 +248,6 @@ Use the **Roadmap issue** template to report a problem with a roadmap's content,
 ## Building
 
 ```bash
-lake exe cache get
+lake exe cache get Mathlib Physlib TauCeti
 lake build
 ```

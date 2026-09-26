@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Install Lean and materialize the dependency workspace. This restores Mathlib through its
-      # own cache (`lake exe cache get`) but deliberately leaves the project build to the final step.
+      # own cache (`lake exe cache get Mathlib Physlib TauCeti`) but deliberately leaves the project build to the final step.
       - name: Set up Lean and restore Mathlib
         uses: leanprover/lean-action@v1
         with:
