@@ -1,8 +1,8 @@
 # Roadmap: contour integration and the Hungerbühler–Wasem generalized residue theorem
 
 **Status: declared complete by the maintainers (2026-08-29).** The library this roadmap asked for
-has been built, sorry-free, in [TauCeti](https://github.com/TauCetiProject/TauCeti) under
-`TauCeti/Analysis/Contour/`. All four layers are there: the generalized winding number and its
+has been built, sorry-free, in [EpsilonEridani](https://github.com/EpsilonEridaniProject/EpsilonEridani) under
+`EpsilonEridani/Analysis/Contour/`. All four layers are there: the generalized winding number and its
 model-sector geometry (L0–L1), residues with the argument principle and the classical residue
 theorem (L2), the homology Cauchy theorem by Dixon's argument (L3), and the summit — the
 Hungerbühler–Wasem generalized residue theorem for singularities lying *on* the cycle, with
@@ -45,7 +45,7 @@ the standard fundamental domain — a contour that *passes through* the elliptic
 exactly Hungerbühler–Wasem winding numbers of points on the contour. So the non-integer
 theory is not decoration; it is the engine the modular application runs on.
 
-Suggested home: `TauCeti/Analysis/Contour/`.
+Suggested home: `EpsilonEridani/Analysis/Contour/`.
 
 ## Standing conventions
 
@@ -115,7 +115,7 @@ singularities *on* the cycle. None of this is upstream.
 ## The build, in layers
 
 The ordering is the dependency order. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, its milestones go into `Suggested.lean` (with `sorry`).
+expressible in `EpsilonEridani/`, its milestones go into `Suggested.lean` (with `sorry`).
 
 ### Layer 0: curves, cycles, and the generalized winding number
 - **Piecewise-`C¹` curves, closed immersions, and cycles** on `[a,b]`: continuity, piecewise

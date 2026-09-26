@@ -1,6 +1,6 @@
 name: Sync roadmap dropdowns
 
-# The roadmap directories under TauCetiRoadmap/ are the source of truth for the
+# The roadmap directories under EpsilonEridaniRoadmap/ are the source of truth for the
 # list of roadmaps. The `area` dropdowns in the issue templates copy that list,
 # and GitHub issue forms have no templating, so the copy drifts whenever a
 # roadmap is added or removed. Rather than make contributors fix that by hand,
@@ -16,7 +16,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "TauCetiRoadmap/**"
+      - "EpsilonEridaniRoadmap/**"
       - ".github/scripts/check_roadmap_areas.py"
       - ".github/workflows/sync-roadmap-dropdowns.yml"
   # Run on demand, e.g. to clear existing drift right after first setup.

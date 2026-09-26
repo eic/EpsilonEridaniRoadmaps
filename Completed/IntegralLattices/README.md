@@ -24,7 +24,7 @@ categorical claim.  It also does not replace Tau Ceti's root-system, Cartan-matr
 weight-lattice developments.  Those supply named ADE data; this roadmap supplies the bridge from
 that data to integral lattices and performs the discriminant-form calculations.
 
-Suggested home: `TauCeti/LinearAlgebra/IntegralLattice/`, with separate files for the basic lattice,
+Suggested home: `EpsilonEridani/LinearAlgebra/IntegralLattice/`, with separate files for the basic lattice,
 duality, finite bilinear and quadratic modules, overlattices, and ADE examples.
 
 ## Standing conventions
@@ -145,16 +145,16 @@ this roadmap defines on top of it.
 ### Tau Ceti and neighboring roadmaps
 
 Tau Ceti's root-system library already owns standard Cartan matrices and root data.  In particular,
-`TauCeti/LinearAlgebra/RootSystem/FiniteType/Dynkin.lean` realizes the `E₈` Cartan/Gram matrix and its
+`EpsilonEridani/LinearAlgebra/RootSystem/FiniteType/Dynkin.lean` realizes the `E₈` Cartan/Gram matrix and its
 `E₆` and `E₇` submatrices, while
-`TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/E8.lean` enumerates the 240 `E₈` roots in
-integral bases.  The [root-systems roadmap](../../TauCetiRoadmap/RepresentationTheory/RootSystems/README.md) owns the
+`EpsilonEridani/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/E8.lean` enumerates the 240 `E₈` roots in
+integral bases.  The [root-systems roadmap](../../EpsilonEridaniRoadmap/RepresentationTheory/RootSystems/README.md) owns the
 classification, Bourbaki numbering, and pinned integral root data; its highest-weight neighbor owns
 general root and weight lattices.  This roadmap constructs the conversion of such data into its
 integral-lattice structure, proves that the Gram matrix is the named Cartan matrix, and computes the
 associated dual quotient and forms.  It does not duplicate roots, Weyl groups, Cartan matrices, or
 root-data classification.  This repository has Tau Ceti as a Lake dependency, so the accompanying
-`Suggested.lean` imports the individual `TauCeti.LinearAlgebra.RootSystem.*` modules it needs and
+`Suggested.lean` imports the individual `EpsilonEridani.LinearAlgebra.RootSystem.*` modules it needs and
 prototypes the bridge against them rather than behind a Mathlib-only stand-in.
 
 ---

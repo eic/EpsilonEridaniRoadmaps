@@ -1,11 +1,11 @@
 # Tau Ceti Roadmap
 
-The human-controlled roadmaps for [Tau Ceti](https://github.com/TauCetiProject/TauCeti), an
+The human-controlled roadmaps for [Tau Ceti](https://github.com/EpsilonEridaniProject/EpsilonEridani), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is a markdown `README.md`, the definitive specification of its area, usually with
 suggested Lean target signatures in `Suggested.lean`. The AI-authored mathematics lives
 in the code repo; review machinery lives in
-[TauCetiReview](https://github.com/TauCetiProject/TauCetiReview).
+[EpsilonEridaniReview](https://github.com/EpsilonEridaniProject/EpsilonEridaniReview).
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
@@ -13,52 +13,52 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 
 ## Roadmaps
 
-- [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
-- [Algebraic codes and code-lattice constructions](TauCetiRoadmap/AlgebraicCodingTheory/README.md)
-- [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
-- [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
-- [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
-- [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)
-- [Arithmetic Dirichlet series and Tauberian methods](TauCetiRoadmap/ArithmeticDirichletSeries/README.md)
-- [Belyi maps, dessins d'enfants, and three-point covers](TauCetiRoadmap/BelyiMaps/README.md)
-- [Class field theory](TauCetiRoadmap/ClassFieldTheory/README.md)
-- [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
-- [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
-- [Continuous cohomology of profinite groups](TauCetiRoadmap/ProfiniteCohomology/README.md)
-- [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
-- [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
-- [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
-- [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
-- [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
-- [Fuchsian groups and orbifold Riemann surfaces](TauCetiRoadmap/FuchsianOrbifolds/README.md)
-- [Galois groups of polynomials](TauCetiRoadmap/PolynomialGaloisGroups/README.md)
-- [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
-- [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
-- [Global number fields, ray classes, adeles, and Hecke characters](TauCetiRoadmap/GlobalNumberFields/README.md)
-- [Global quadratic forms over number fields](TauCetiRoadmap/GlobalQuadraticForms/README.md)
-- [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
-- [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
-- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
-- [Local fields and ramification](TauCetiRoadmap/LocalFieldsRamification/README.md)
-- [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
-- [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
-- [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
-- [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
-- [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
-- [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
-- [Partial differential equations](TauCetiRoadmap/PDE/README.md)
-- [Profinite and pro-`p` groups](TauCetiRoadmap/ProfiniteProPGroups/README.md)
-- [Quadratic forms and cohomological invariants](TauCetiRoadmap/QuadraticFormInvariants/README.md)
-- [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
-- [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
-- [Restricted products of topological groups and rational diagonals](TauCetiRoadmap/RestrictedProducts/README.md)
-- [Stable reduction of curves and stable maps](TauCetiRoadmap/StableReduction/README.md)
-- [Stable, periodic, and curved homological algebra](TauCetiRoadmap/StablePeriodicCurved/README.md)
-- [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
-- [The Chebotarev density theorem](TauCetiRoadmap/Chebotarev/README.md)
-- [The Jacobian challenge](TauCetiRoadmap/JacobianChallenge/README.md)
-- [Universal covers](TauCetiRoadmap/UniversalCovers/README.md)
-- [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
+- [A statement of the classification of finite simple groups](EpsilonEridaniRoadmap/CFSGStatement/README.md)
+- [Algebraic codes and code-lattice constructions](EpsilonEridaniRoadmap/AlgebraicCodingTheory/README.md)
+- [Algebraic curves: function fields, divisors, and Riemann–Roch](EpsilonEridaniRoadmap/AlgebraicCurves/README.md)
+- [Algebraic topology of spaces and manifolds](EpsilonEridaniRoadmap/AlgebraicTopology/README.md)
+- [Algebraic vector bundles](EpsilonEridaniRoadmap/AlgebraicVectorBundles/README.md)
+- [Analytic toric geometry](EpsilonEridaniRoadmap/AnalyticToricGeometry/README.md)
+- [Arithmetic Dirichlet series and Tauberian methods](EpsilonEridaniRoadmap/ArithmeticDirichletSeries/README.md)
+- [Belyi maps, dessins d'enfants, and three-point covers](EpsilonEridaniRoadmap/BelyiMaps/README.md)
+- [Class field theory](EpsilonEridaniRoadmap/ClassFieldTheory/README.md)
+- [Combinatorial Heegaard Floer and grid homology](EpsilonEridaniRoadmap/CombinatorialHeegaardFloer/README.md)
+- [Conformal mapping and the geometric theory of holomorphic functions](EpsilonEridaniRoadmap/ConformalMapping/README.md)
+- [Continuous cohomology of profinite groups](EpsilonEridaniRoadmap/ProfiniteCohomology/README.md)
+- [Dense graph limits and graphons](EpsilonEridaniRoadmap/DenseGraphLimits/README.md)
+- [DG and A-infinity algebras, categories, and modules](EpsilonEridaniRoadmap/DGAInfinity/README.md)
+- [Elliptic curves](EpsilonEridaniRoadmap/EllipticCurves/README.md)
+- [Exchangeability and de Finetti](EpsilonEridaniRoadmap/Exchangeability/README.md)
+- [Foundations of adic spaces](EpsilonEridaniRoadmap/AdicSpaces/README.md)
+- [Fuchsian groups and orbifold Riemann surfaces](EpsilonEridaniRoadmap/FuchsianOrbifolds/README.md)
+- [Galois groups of polynomials](EpsilonEridaniRoadmap/PolynomialGaloisGroups/README.md)
+- [Geodesics, the exponential map, and the Hopf-Rinow theorem](EpsilonEridaniRoadmap/HopfRinow/README.md)
+- [Geometric topology and the Kirby-list problems](EpsilonEridaniRoadmap/GeometricTopology/README.md)
+- [Global number fields, ray classes, adeles, and Hecke characters](EpsilonEridaniRoadmap/GlobalNumberFields/README.md)
+- [Global quadratic forms over number fields](EpsilonEridaniRoadmap/GlobalQuadraticForms/README.md)
+- [Grothendieck groups, Cartan maps, and Euler forms](EpsilonEridaniRoadmap/GrothendieckEulerForms/README.md)
+- [Heegaard Floer homology, analytically](EpsilonEridaniRoadmap/HeegaardFloer/README.md)
+- [Hodge structures: pure, mixed, and polarized](EpsilonEridaniRoadmap/HodgeStructures/README.md)
+- [Local fields and ramification](EpsilonEridaniRoadmap/LocalFieldsRamification/README.md)
+- [Modular forms — Hecke theory, newforms, and L-functions](EpsilonEridaniRoadmap/ModularForms/README.md)
+- [Multiquadratic fields and genus theory](EpsilonEridaniRoadmap/Multiquadratic/README.md)
+- [Number fields, ramification, Frobenius, and the LMFDB invariants](EpsilonEridaniRoadmap/NumberFieldArithmetic/README.md)
+- [One-parameter semigroups, completely monotone functions, and BCR Bochner](EpsilonEridaniRoadmap/OneParameterSemigroups/README.md)
+- [Optimal transport and Wasserstein geometry](EpsilonEridaniRoadmap/OptimalTransport/README.md)
+- [Orthogonal and spin groups](EpsilonEridaniRoadmap/OrthogonalSpinGroups/README.md)
+- [Partial differential equations](EpsilonEridaniRoadmap/PDE/README.md)
+- [Profinite and pro-`p` groups](EpsilonEridaniRoadmap/ProfiniteProPGroups/README.md)
+- [Quadratic forms and cohomological invariants](EpsilonEridaniRoadmap/QuadraticFormInvariants/README.md)
+- [Reductive algebraic groups](EpsilonEridaniRoadmap/ReductiveGroups/README.md)
+- [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](EpsilonEridaniRoadmap/RepresentationTheory/README.md)
+- [Restricted products of topological groups and rational diagonals](EpsilonEridaniRoadmap/RestrictedProducts/README.md)
+- [Stable reduction of curves and stable maps](EpsilonEridaniRoadmap/StableReduction/README.md)
+- [Stable, periodic, and curved homological algebra](EpsilonEridaniRoadmap/StablePeriodicCurved/README.md)
+- [Standard probability distributions and their elementary theory](EpsilonEridaniRoadmap/StandardDistributions/README.md)
+- [The Chebotarev density theorem](EpsilonEridaniRoadmap/Chebotarev/README.md)
+- [The Jacobian challenge](EpsilonEridaniRoadmap/JacobianChallenge/README.md)
+- [Universal covers](EpsilonEridaniRoadmap/UniversalCovers/README.md)
+- [Zigzag, preprojective, and Ginzburg algebras](EpsilonEridaniRoadmap/ZigzagPreprojective/README.md)
 
 ## Completed roadmaps
 
@@ -81,7 +81,7 @@ Each roadmap directory may carry two files that are **written by machine, not by
   the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
   without holding the report back.
 
-Both are produced by [TauCetiProgress](https://github.com/TauCetiProject/TauCetiProgress). A pull
+Both are produced by [EpsilonEridaniProgress](https://github.com/EpsilonEridaniProject/EpsilonEridaniProgress). A pull
 request carrying them can merge without human review, but only when an automated gate accepts it;
 anything the gate declines is left for a human like any other contribution. **Their prose is not
 security-validated**: the gate proves which paths changed and that the log only grew at the end, but
@@ -194,7 +194,7 @@ reviewers, can act on it without guessing.
   a `sorry` body is `sorryAx Prop`), so omit a condition you cannot state rather than name an empty one.
 
 - **Import existing Tau Ceti APIs.** This repository has Tau Ceti as a Lake dependency, so a
-  `Suggested.lean` file may import individual `TauCeti.*` modules as well as Mathlib. When an earlier
+  `Suggested.lean` file may import individual `EpsilonEridani.*` modules as well as Mathlib. When an earlier
   roadmap target is already implemented in Tau Ceti, prototype the new interface against that
   implementation instead of restating it behind a private stand-in. Import individual modules;
   Tau Ceti's root module intentionally re-exports nothing.
@@ -205,12 +205,12 @@ reviewers, can act on it without guessing.
 ## How changes are made
 
 Anyone can open a pull request against a roadmap. It merges automatically once it has an
-approving review from a member of the `@TauCetiProject/roadmap-reviewers` team (the code owners
+approving review from a member of the `@EpsilonEridaniProject/roadmap-reviewers` team (the code owners
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
-Lake config, the toolchain pin) stay with the core `@TauCetiProject/humans` team.
+Lake config, the toolchain pin) stay with the core `@EpsilonEridaniProject/humans` team.
 
 Rights accrue as you contribute. Opening your first pull request gets you invited to
-`@TauCetiProject/roadmap-triage`, which carries triage on this repository: enough to label,
+`@EpsilonEridaniProject/roadmap-triage`, which carries triage on this repository: enough to label,
 assign, and manage issues and pull requests, which is what worker agents need and what a new
 contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
 watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two

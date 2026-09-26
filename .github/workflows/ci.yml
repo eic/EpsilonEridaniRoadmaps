@@ -14,7 +14,7 @@ on:
   # to be up to date (`strict_required_status_checks_policy` is off, which is correct once a queue
   # exists and would otherwise force a rebase before every merge). A pull request can therefore be
   # green against a month-old base and still break `main` on merge. That is exactly how `main` broke
-  # on 2026-09-14: #350 archived `TauCetiRoadmap/IntegralLattices/Suggested.lean` to `Completed/` on
+  # on 2026-09-14: #350 archived `EpsilonEridaniRoadmap/IntegralLattices/Suggested.lean` to `Completed/` on
   # the 10th, #218 -- opened on 2026-08-13 and never retested -- merged on the 14th still importing
   # the old path, and each was green alone. The queue tests the result of merging, in order, so the
   # combination is what has to pass.
@@ -85,8 +85,8 @@ jobs:
             log="$RUNNER_TEMP/tauceti-cache-get-$attempt.log"
             rc=0
             LAKE_CONFIG="$config" LAKE_CACHE_DIR="$cache_dir" \
-                lake cache get --package=TauCeti --service=tauceti-public \
-                  --repo=TauCetiProject/TauCeti --mappings-only --max-revs=20 \
+                lake cache get --package=EpsilonEridani --service=tauceti-public \
+                  --repo=EpsilonEridaniProject/EpsilonEridani --mappings-only --max-revs=20 \
                   > "$log" 2>&1 || rc=$?
             cat "$log"
 

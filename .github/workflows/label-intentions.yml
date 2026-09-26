@@ -42,8 +42,8 @@ jobs:
         with:
           app-id: ${{ vars.CLAIM_BOT_APP_ID }}
           private-key: ${{ secrets.CLAIM_BOT_APP_PRIVATE_KEY }}
-          owner: TauCetiProject
-          repositories: TauCetiRoadmap
+          owner: EpsilonEridaniProject
+          repositories: EpsilonEridaniRoadmap
           permission-issues: write
 
       - name: Apply the intention label

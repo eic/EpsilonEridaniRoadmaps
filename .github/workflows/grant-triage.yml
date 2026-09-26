@@ -47,13 +47,13 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: TauCetiProject
+          owner: EpsilonEridaniProject
           permission-members: write
 
       - name: Invite the author to the triage team
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
-          ORG: TauCetiProject
+          ORG: EpsilonEridaniProject
           TEAM: roadmap-triage
           REPO: ${{ github.repository }}
           USER: ${{ inputs.user || github.event.pull_request.user.login }}

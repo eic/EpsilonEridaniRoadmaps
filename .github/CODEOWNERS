@@ -2,10 +2,10 @@
 # (plus the `build` check) makes a PR mergeable, and merges it automatically once auto-merge is
 # enabled. Infrastructure stays with the humans team. Last-match-wins.
 
-*                     @TauCetiProject/roadmap-reviewers
+*                     @EpsilonEridaniProject/roadmap-reviewers
 
 # Infrastructure stays human-governed (the more trusted core team):
-/.github/             @TauCetiProject/humans
-/lakefile.toml        @TauCetiProject/humans
-/lake-manifest.json   @TauCetiProject/humans
-/lean-toolchain       @TauCetiProject/humans
+/.github/             @EpsilonEridaniProject/humans
+/lakefile.toml        @EpsilonEridaniProject/humans
+/lake-manifest.json   @EpsilonEridaniProject/humans
+/lean-toolchain       @EpsilonEridaniProject/humans

@@ -11,12 +11,12 @@ finishes neither a layer nor the roadmap.
 The narrative roadmap (the layer-by-layer build plan, the worked examples, and the
 references) is in `README.md`. Mathlib has Minkowski's convex-body theorem, the canonical
 embedding, and the Minkowski bound, but not the explicit effective estimates; we build
-those here in `TauCeti/`, with geometry of numbers as the engine.
+those here in `EpsilonEridani/`, with geometry of numbers as the engine.
 
 This file holds the **Layer 1** targets: the explicit discriminant, class-number, and
 unit-square-index bounds over an arbitrary number field. They elaborate against the pinned
 Mathlib and are stated with `sorry` (allowed in this human-owned roadmap library). As
-later layers make their types expressible in `TauCeti/`, add their milestones here: the
+later layers make their types expressible in `EpsilonEridani/`, add their milestones here: the
 explicit ideal count `#{I ≠ ⊥ : N(I) ≤ X} ≤ X²·2ⁿ` (the input to the class number bound),
 the measure-free packing/doubling engine (Layer 0, after its `ZLattice` reconciliation),
 and the effective Hermite–Minkowski count (Layer 2, the summit; Mathlib already has the
@@ -25,10 +25,10 @@ qualitative finiteness, `NumberField.finite_of_discr_bdd`, and the lower bound
 
 The Layer-1 bounds are migrated from
 [kim-em/erdos-unit-distance](https://github.com/kim-em/erdos-unit-distance); credit it in
-the ported `TauCeti/` files.
+the ported `EpsilonEridani/` files.
 -/
 
-namespace TauCetiRoadmap.EffectiveBounds
+namespace EpsilonEridaniRoadmap.EffectiveBounds
 
 /-- **Layer 1, discriminant from an integral basis.** For any `ℚ`-basis `b` of a number
 field consisting of algebraic integers, `|d_K| ≤ |disc b|` (the index of `b` in a maximal
@@ -59,4 +59,4 @@ example (F : Type*) [Field F] [NumberField F] :
       2 ^ Module.finrank ℚ F :=
   sorry
 
-end TauCetiRoadmap.EffectiveBounds
+end EpsilonEridaniRoadmap.EffectiveBounds

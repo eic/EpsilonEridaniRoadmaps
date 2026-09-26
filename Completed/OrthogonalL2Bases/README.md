@@ -2,7 +2,7 @@
 
 **Status: declared complete by the maintainers (2026-08-16).** The library this roadmap asked
 for has been built, sorry-free, in
-[TauCeti](https://github.com/TauCetiProject/TauCeti). The family-agnostic spine is there: the
+[EpsilonEridani](https://github.com/EpsilonEridaniProject/EpsilonEridani). The family-agnostic spine is there: the
 weight-to-measure isometry (`weightL2Isometry`) with its `HilbertBasis` transport
 (`HilbertBasis.mapₗᵢ`); the completeness toolkit grounded in moment determinacy
 (`ae_eq_zero_of_forall_moment_eq_zero`, and its measure-level form); the orthogonality-relation
@@ -15,7 +15,7 @@ have landed: Hermite, on the function side (`hermiteHilbertBasis`) and the measu
 (`chebyshevTHilbertBasis`), together with the cosine transfer its acceptance criterion named.
 The Hermite function object API of A2, meaning the ladder relations, the oscillator
 eigen-equation and the Schwartz-map packaging, is under
-`TauCeti/Analysis/SpecialFunctions/Hermite/Function/`.
+`EpsilonEridani/Analysis/SpecialFunctions/Hermite/Function/`.
 
 The last target landed on 2026-07-30. `Suggested.lean` beside this file is now **discharged**:
 every target it states is closed by the Tau Ceti declaration that realizes it, so that

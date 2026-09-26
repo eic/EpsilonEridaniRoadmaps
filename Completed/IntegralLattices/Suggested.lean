@@ -1,20 +1,20 @@
 import Mathlib
-import TauCeti.LinearAlgebra.FiniteBilinearModule.Orthogonal.Quotient
-import TauCeti.LinearAlgebra.FiniteBilinearModule.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Cardinality
-import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.Examples
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Index
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Bilinear
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.OrthogonalSum
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.RadicalQuotient
-import TauCeti.LinearAlgebra.IntegralLattice.RankOne
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.SimpleRoots
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
-import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
+import EpsilonEridani.LinearAlgebra.FiniteBilinearModule.Orthogonal.Quotient
+import EpsilonEridani.LinearAlgebra.FiniteBilinearModule.Quadratic
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Discriminant.Cardinality
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Examples
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Overlattice.Index
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Bilinear
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.OrthogonalSum
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Quadratic
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RadicalQuotient
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RankOne
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RootLattice.TypeA
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RootLattice.TypeD.SimpleRoots
+import EpsilonEridani.LinearAlgebra.IntegralLattice.RootLattice.TypeE
+import EpsilonEridani.LinearAlgebra.IntegralLattice.Unimodular
 
 /-!
 # Integral lattices, discriminant forms, and overlattices: target signatures
@@ -46,10 +46,10 @@ rather than through a rational witness, and it names the definiteness predicates
 `IsPosSemidef`, `IsNegDef` and `IsNegSemidef`; both are related to the roadmap's forms below.
 -/
 
-namespace TauCetiRoadmap.IntegralLattices
+namespace EpsilonEridaniRoadmap.IntegralLattices
 
 open scoped TensorProduct
-open Module TauCeti TauCeti.IntegralLattice
+open Module EpsilonEridani EpsilonEridani.IntegralLattice
 
 universe u v
 
@@ -63,7 +63,7 @@ variable {V : Type u} [AddCommGroup V] [Module ℚ V]
 symmetric rational form, and integrality of the form on the carrier.  Nondegeneracy is not a
 field: see `IsNondegenerate` below. -/
 abbrev IntegralLattice (V : Type u) [AddCommGroup V] [Module ℚ V] : Type u :=
-  TauCeti.IntegralLattice V
+  EpsilonEridani.IntegralLattice V
 
 /-- The form takes integer values on pairs of lattice vectors.  This is the roadmap's integrality
 field, which Tau Ceti stores as the inclusion of the carrier in its dual submodule. -/
@@ -264,7 +264,7 @@ end Lattices
 section FiniteModules
 
 /-- A finite symmetric bilinear module with adjoint valued in Mathlib's character module. -/
-abbrev FiniteBilinearModule : Type (u + 1) := TauCeti.FiniteBilinearModule.{u}
+abbrev FiniteBilinearModule : Type (u + 1) := EpsilonEridani.FiniteBilinearModule.{u}
 
 namespace FiniteBilinearModule
 
@@ -278,12 +278,12 @@ theorem isNondegenerate_iff : A.IsNondegenerate ↔ Function.Bijective A.pairing
 
 /-- Nondegeneracy gives an actual equivalence with the character dual. -/
 noncomputable abbrev adjointEquiv (hA : A.IsNondegenerate) : A ≃+ CharacterModule A :=
-  TauCeti.FiniteBilinearModule.adjointEquiv A hA
+  EpsilonEridani.FiniteBilinearModule.adjointEquiv A hA
 
 /-- The orthogonal complement is available as an explicit subgroup. -/
 theorem mem_orthogonalComplement_iff (H : AddSubgroup A) (x : A) :
     x ∈ A.orthogonalComplement H ↔ ∀ y ∈ H, A.pairing x y = 0 :=
-  TauCeti.FiniteBilinearModule.mem_orthogonalComplement_iff A H x
+  EpsilonEridani.FiniteBilinearModule.mem_orthogonalComplement_iff A H x
 
 /-- Bilinear isotropy means that the pairing vanishes on `H × H`. -/
 theorem isIsotropic_iff (H : AddSubgroup A) :
@@ -297,7 +297,7 @@ theorem isLagrangian_iff (H : AddSubgroup A) :
 /-- The cardinality formula for a subgroup of a nondegenerate finite bilinear module. -/
 theorem natCard_mul_natCard_orthogonalComplement (hA : A.IsNondegenerate) (H : AddSubgroup A) :
     Nat.card H * Nat.card (A.orthogonalComplement H) = Nat.card A :=
-  TauCeti.FiniteBilinearModule.IsNondegenerate.card_mul_card_orthogonalComplement A hA H
+  EpsilonEridani.FiniteBilinearModule.IsNondegenerate.card_mul_card_orthogonalComplement A hA H
 
 /-- The explicit quotient type `H^⊥/H` used in the gluing theorem: the orthogonal complement
 modulo the copy of `H` inside it. -/
@@ -310,13 +310,13 @@ theorem orthogonalQuotient_carrier (H : AddSubgroup A) :
 theorem orthogonalQuotient_pairing (H : AddSubgroup A) (x y : A.orthogonalComplement H) :
     (A.orthogonalQuotient H).pairing (A.orthogonalQuotientMk H x) (A.orthogonalQuotientMk H y) =
       A.pairing x.1 y.1 :=
-  TauCeti.FiniteBilinearModule.orthogonalQuotient_pairing_mk A H x y
+  EpsilonEridani.FiniteBilinearModule.orthogonalQuotient_pairing_mk A H x y
 
 end FiniteBilinearModule
 
 /-- A quadratic refinement, reusing Mathlib's quadratic-map structure in the half-norm
 convention. -/
-abbrev FiniteQuadraticModule : Type (u + 1) := TauCeti.FiniteQuadraticModule.{u}
+abbrev FiniteQuadraticModule : Type (u + 1) := EpsilonEridani.FiniteQuadraticModule.{u}
 
 namespace FiniteQuadraticModule
 
@@ -325,7 +325,7 @@ variable (A : FiniteQuadraticModule.{u})
 /-- The polar form of the quadratic refinement is the stored pairing. -/
 theorem polar (x y : A) :
     QuadraticMap.polar A.quadratic x y = A.toFiniteBilinearModule.pairing x y :=
-  TauCeti.FiniteQuadraticModule.polar_eq_pairing' A x y
+  EpsilonEridani.FiniteQuadraticModule.polar_eq_pairing' A x y
 
 /-- Nondegeneracy of a quadratic module means nondegeneracy of its polar pairing. -/
 theorem isNondegenerate_iff :
@@ -337,7 +337,7 @@ theorem isIsotropic_iff (H : AddSubgroup A) :
 
 /-- Isometries preserve the quadratic refinement, hence also its polar form. -/
 theorem isometry_map_quadratic {B : FiniteQuadraticModule.{v}}
-    (f : TauCeti.FiniteQuadraticModule.Isometry A B) (x : A) :
+    (f : EpsilonEridani.FiniteQuadraticModule.Isometry A B) (x : A) :
     B.quadratic (f x) = A.quadratic x :=
   f.map_app x
 
@@ -346,13 +346,13 @@ bilinear orthogonal quotient. -/
 theorem orthogonalQuotient_toFiniteBilinearModule (H : AddSubgroup A) (hH : A.IsIsotropic H) :
     (A.orthogonalQuotient H hH).toFiniteBilinearModule =
       A.toFiniteBilinearModule.orthogonalQuotient H :=
-  TauCeti.FiniteQuadraticModule.orthogonalQuotient_toFiniteBilinearModule A H hH
+  EpsilonEridani.FiniteQuadraticModule.orthogonalQuotient_toFiniteBilinearModule A H hH
 
 /-- Orthogonal reduction preserves nondegeneracy when the ambient polar pairing is
 nondegenerate. -/
 theorem orthogonalQuotient_isNondegenerate (hA : A.IsNondegenerate) (H : AddSubgroup A)
     (hH : A.IsIsotropic H) : (A.orthogonalQuotient H hH).IsNondegenerate :=
-  TauCeti.FiniteQuadraticModule.IsNondegenerate.isNondegenerate_orthogonalQuotient A hA hH
+  EpsilonEridani.FiniteQuadraticModule.IsNondegenerate.isNondegenerate_orthogonalQuotient A hA hH
 
 end FiniteQuadraticModule
 
@@ -417,8 +417,8 @@ end DiscriminantModules
 
 section Overlattices
 
-open TauCeti.IntegralLattice (IntermediateCarrier)
-open TauCeti.IntegralLattice.IntermediateCarrier (IsIntegral IsEven)
+open EpsilonEridani.IntegralLattice (IntermediateCarrier)
+open EpsilonEridani.IntegralLattice.IntermediateCarrier (IsIntegral IsEven)
 
 variable {V : Type u} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V)
 
@@ -433,12 +433,12 @@ theorem intermediate_le_dual (M : L.IntermediateCarrier) : M.1 ≤ L.dualCarrier
 /-- Integrality of an intermediate lattice. -/
 theorem isIntegral_iff (M : L.IntermediateCarrier) :
     IsIntegral M ↔ ∀ x ∈ M.1, ∀ y ∈ M.1, L.form x y ∈ (1 : Submodule ℤ ℚ) :=
-  TauCeti.IntegralLattice.IntermediateCarrier.isIntegral_def
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.isIntegral_def
 
 /-- Evenness of an intermediate lattice. -/
 theorem isEven_iff' (M : L.IntermediateCarrier) :
     IsEven M ↔ ∀ x ∈ M.1, ∃ n : ℤ, L.norm x = 2 * n :=
-  TauCeti.IntegralLattice.IntermediateCarrier.isEven_def
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.isEven_def
 
 /-- The subgroup `M/L ≤ A_L` attached to an intermediate lattice, by the class of a dual vector. -/
 theorem mk_mem_discriminantSubgroup_iff (M : L.IntermediateCarrier) (x : L.dualCarrier) :
@@ -493,23 +493,23 @@ theorem toIntegralLattice_isEven {M : L.IntermediateCarrier} (hM : IsEven M) :
 omit [L.IsNondegenerate] in
 /-- `[L_H : L] = |H|`. -/
 theorem index_intermediateCarrierOfDiscriminantSubgroup (H : AddSubgroup L.DiscriminantGroup) :
-    TauCeti.IntegralLattice.IntermediateCarrier.index
+    EpsilonEridani.IntegralLattice.IntermediateCarrier.index
         (L.intermediateCarrierOfDiscriminantSubgroup H) = Nat.card H :=
-  TauCeti.IntegralLattice.IntermediateCarrier.index_intermediateCarrierOfDiscriminantSubgroup H
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.index_intermediateCarrierOfDiscriminantSubgroup H
 
 /-- `disc(L_H) · [L_H : L]² = disc(L)`, the divisibility conclusion included. -/
 theorem discriminant_mul_index_sq {M : L.IntermediateCarrier} (hM : IsIntegral M) :
     hM.toIntegralLattice.discriminant *
-        TauCeti.IntegralLattice.IntermediateCarrier.index M ^ 2 = L.discriminant :=
+        EpsilonEridani.IntegralLattice.IntermediateCarrier.index M ^ 2 = L.discriminant :=
   hM.discriminant_mul_index_sq
 
 omit [L.IsNondegenerate] in
 /-- Index is multiplicative along a chain of intermediate lattices. -/
 theorem relIndex_mul_relIndex {M N P : L.IntermediateCarrier} (hMN : M ≤ N) (hNP : N ≤ P) :
-    TauCeti.IntegralLattice.IntermediateCarrier.relIndex M N *
-        TauCeti.IntegralLattice.IntermediateCarrier.relIndex N P =
-      TauCeti.IntegralLattice.IntermediateCarrier.relIndex M P :=
-  TauCeti.IntegralLattice.IntermediateCarrier.relIndex_mul_relIndex hMN hNP
+    EpsilonEridani.IntegralLattice.IntermediateCarrier.relIndex M N *
+        EpsilonEridani.IntegralLattice.IntermediateCarrier.relIndex N P =
+      EpsilonEridani.IntegralLattice.IntermediateCarrier.relIndex M P :=
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.relIndex_mul_relIndex hMN hNP
 
 /-- **The discriminant form of an even overlattice is the induced form on `H^⊥/H`.** -/
 noncomputable abbrev discriminantFormOverlatticeEquiv (hL : L.IsEven)
@@ -517,9 +517,9 @@ noncomputable abbrev discriminantFormOverlatticeEquiv (hL : L.IsEven)
     FiniteQuadraticModule.Isometry
       (hM.isIntegral.toIntegralLattice.discriminantQuadraticModule hM.isEven_toIntegralLattice)
       ((L.discriminantQuadraticModule hL).orthogonalQuotient (L.discriminantSubgroup M)
-        ((TauCeti.IntegralLattice.IntermediateCarrier.isEven_iff_isIsotropic_discriminantSubgroup
+        ((EpsilonEridani.IntegralLattice.IntermediateCarrier.isEven_iff_isIsotropic_discriminantSubgroup
           hL M).mp hM)) :=
-  TauCeti.IntegralLattice.IntermediateCarrier.discriminantOrthogonalQuotientIsometry hL hM
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.discriminantOrthogonalQuotientIsometry hL hM
 
 /-- The same comparison for an integral overlattice that need not be even, on the discriminant
 *bilinear* modules; the roadmap records the two refinements separately. -/
@@ -527,19 +527,19 @@ noncomputable abbrev discriminantBilinearFormOverlatticeEquiv {M : L.Intermediat
     (hM : IsIntegral M) :
     FiniteBilinearModule.Isometry hM.toIntegralLattice.discriminantBilinearModule
       (L.discriminantBilinearModule.orthogonalQuotient (L.discriminantSubgroup M)) :=
-  TauCeti.IntegralLattice.IntermediateCarrier.discriminantBilinearOrthogonalQuotientIsometry hM
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.discriminantBilinearOrthogonalQuotientIsometry hM
 
 /-- The order of the orthogonal quotient is the discriminant of the glued lattice. -/
 theorem natCard_orthogonalQuotient (hL : L.IsEven) {M : L.IntermediateCarrier} (hM : IsEven M) :
     Nat.card ((L.discriminantQuadraticModule hL).orthogonalQuotient (L.discriminantSubgroup M)
-        ((TauCeti.IntegralLattice.IntermediateCarrier.isEven_iff_isIsotropic_discriminantSubgroup
+        ((EpsilonEridani.IntegralLattice.IntermediateCarrier.isEven_iff_isIsotropic_discriminantSubgroup
           hL M).mp hM)) =
       hM.isIntegral.toIntegralLattice.discriminant :=
-  TauCeti.IntegralLattice.IntermediateCarrier.natCard_orthogonalQuotient hL hM
+  EpsilonEridani.IntegralLattice.IntermediateCarrier.natCard_orthogonalQuotient hL hM
 
 /-- The glued lattice is unimodular exactly when the isotropic subgroup is Lagrangian. -/
 theorem ofIsotropicSubgroup_unimodular_iff (H : AddSubgroup L.DiscriminantGroup) :
-    TauCeti.IntegralLattice.IntermediateCarrier.dual
+    EpsilonEridani.IntegralLattice.IntermediateCarrier.dual
           (L.intermediateCarrierOfDiscriminantSubgroup H) =
         L.intermediateCarrierOfDiscriminantSubgroup H ↔
       L.discriminantBilinearModule.IsLagrangian H :=
@@ -557,7 +557,7 @@ variable (m : ℤ)
 /-- The lattice `⟨2m⟩` on the standard copy of `ℤ` in `ℚ`: nonvanishing of `m` is carried as a
 `NeZero` instance, so that the degenerate `m = 0` form stays an object of the same type. -/
 theorem rankOne_form_apply (x y : ℚ) : (rankOne m).form x y = 2 * m * x * y :=
-  _root_.TauCeti.IntegralLattice.rankOne_form_apply m x y
+  _root_.EpsilonEridani.IntegralLattice.rankOne_form_apply m x y
 
 theorem rankOne_isEven : (rankOne m).IsEven := isEven_rankOne m
 
@@ -594,7 +594,7 @@ noncomputable abbrev rankOneDiscriminantEquivZMod :
 /-- The quotient has the expected absolute order for either sign of `m`. -/
 theorem natCard_rankOne_discriminantGroup :
     Nat.card (rankOne m).DiscriminantGroup = (2 * m).natAbs :=
-  _root_.TauCeti.IntegralLattice.natCard_rankOne_discriminantGroup m
+  _root_.EpsilonEridani.IntegralLattice.natCard_rankOne_discriminantGroup m
 
 /-- The generator has self-pairing `1/(2m) mod ℤ`. -/
 theorem rankOne_bilinear_generator :
@@ -627,13 +627,13 @@ section Definiteness
 /-- The hyperbolic plane `!![0,1;1,0]`: even, unimodular, and indefinite. -/
 theorem hyperbolicPlane_form_apply (x y : Fin 2 → ℚ) :
     hyperbolicPlane.form x y = x 0 * y 1 + x 1 * y 0 :=
-  _root_.TauCeti.IntegralLattice.hyperbolicPlane_form_apply x y
+  _root_.EpsilonEridani.IntegralLattice.hyperbolicPlane_form_apply x y
 
 instance : hyperbolicPlane.IsNondegenerate :=
   ⟨hyperbolicPlane.determinant_ne_zero_iff.mp (by simp)⟩
 
 theorem hyperbolicPlane_signature : hyperbolicPlane.signature = (1, 0, 1) :=
-  _root_.TauCeti.IntegralLattice.hyperbolicPlane_signature
+  _root_.EpsilonEridani.IntegralLattice.hyperbolicPlane_signature
 
 theorem hyperbolicPlane_isEven : hyperbolicPlane.IsEven := isEven_hyperbolicPlane
 
@@ -647,12 +647,12 @@ theorem hyperbolicPlane_isIndefinite : hyperbolicPlane.IsIndefinite :=
 a lattice of the same type, which is the point of keeping nondegeneracy out of the structure. -/
 theorem affineA1_form_apply (x y : Fin 2 → ℚ) :
     affineA1.form x y = 2 * (x 0 - x 1) * (y 0 - y 1) :=
-  _root_.TauCeti.IntegralLattice.affineA1_form_apply x y
+  _root_.EpsilonEridani.IntegralLattice.affineA1_form_apply x y
 
 theorem affineA1_isEven : affineA1.IsEven := isEven_affineA1
 
 theorem affineA1_signature : affineA1.signature = (1, 1, 0) :=
-  _root_.TauCeti.IntegralLattice.affineA1_signature
+  _root_.EpsilonEridani.IntegralLattice.affineA1_signature
 
 theorem affineA1_isPositiveSemidefinite : affineA1.IsPosSemidef := isPosSemidef_affineA1
 
@@ -662,7 +662,7 @@ theorem affineA1_not_isNondegenerate : ¬ affineA1.IsNondegenerate := fun h ↦
 /-- Quotienting out the radical of `Ã₁` gives the `A₁` root lattice `⟨2⟩`. -/
 noncomputable abbrev affineA1RadicalQuotientIsometry :
     affineA1.radicalQuotient.Isometry a1 :=
-  _root_.TauCeti.IntegralLattice.affineA1RadicalQuotientIsometry
+  _root_.EpsilonEridani.IntegralLattice.affineA1RadicalQuotientIsometry
 
 /-- `A₁` is the rank-one lattice `⟨2⟩`. -/
 theorem a1_eq_rankOne : a1 = rankOne 1 := (rankOne_one).symm
@@ -704,7 +704,7 @@ theorem typeARootLattice_isPosDef (n : ℕ) : (typeARootLattice n).IsPosDef :=
   isPosDef_typeARootLattice n
 
 theorem discriminant_typeARootLattice (n : ℕ) : (typeARootLattice n).discriminant = n + 1 :=
-  _root_.TauCeti.IntegralLattice.discriminant_typeARootLattice n
+  _root_.EpsilonEridani.IntegralLattice.discriminant_typeARootLattice n
 
 /-- `A_n` has cyclic discriminant group of order `n+1`, generated by the first fundamental weight,
 whose quadratic value is `n / (2(n+1))`. -/
@@ -712,7 +712,7 @@ theorem discriminantQuadraticMap_typeAFundamentalWeightClass (n : ℕ) [NeZero n
     (typeARootLattice n).discriminantQuadraticMap (isEven_typeARootLattice n)
         (typeAFundamentalWeightClass n) =
       (((n : ℚ) / (2 * ((n : ℚ) + 1)) : ℚ) : AddCircle (1 : ℚ)) :=
-  _root_.TauCeti.IntegralLattice.discriminantQuadraticMap_typeAFundamentalWeightClass n
+  _root_.EpsilonEridani.IntegralLattice.discriminantQuadraticMap_typeAFundamentalWeightClass n
 
 /-- The `Aₙ` row is verified as a finite quadratic module, not merely as a group order. -/
 noncomputable abbrev typeADiscriminantEquiv (n : ℕ) [NeZero n] :
@@ -734,12 +734,12 @@ theorem checkerboardLattice_isPosDef (n : ℕ) : (checkerboardLattice n).IsPosDe
 theorem discriminantQuadraticMap_checkerboardVectorClass (n : ℕ) [NeZero n] :
     (checkerboardLattice n).discriminantQuadraticMap (isEven_checkerboardLattice n)
         (checkerboardVectorClass n) = ((1 / 2 : ℚ) : AddCircle (1 : ℚ)) :=
-  _root_.TauCeti.IntegralLattice.discriminantQuadraticMap_checkerboardVectorClass n
+  _root_.EpsilonEridani.IntegralLattice.discriminantQuadraticMap_checkerboardVectorClass n
 
 theorem discriminantQuadraticMap_checkerboardSpinorClass (n : ℕ) [NeZero n] :
     (checkerboardLattice n).discriminantQuadraticMap (isEven_checkerboardLattice n)
         (checkerboardSpinorClass n) = (((n : ℚ) / 8 : ℚ) : AddCircle (1 : ℚ)) :=
-  _root_.TauCeti.IntegralLattice.discriminantQuadraticMap_checkerboardSpinorClass n
+  _root_.EpsilonEridani.IntegralLattice.discriminantQuadraticMap_checkerboardSpinorClass n
 
 /-- Even `Dₙ` is the row that group order alone cannot settle: the discriminant module is the
 Klein four model with the table's values. -/
@@ -780,7 +780,7 @@ theorem e8_isUnimodular : typeE₈RootLattice.IsUnimodular := isUnimodular_typeE
 
 /-- The subgroup generated by the spinor class of `A_{D₈} ≅ (ℤ/2)²` has order two. -/
 theorem natCard_d8SpinorSubgroup : Nat.card d8SpinorSubgroup = 2 :=
-  _root_.TauCeti.IntegralLattice.natCard_d8SpinorSubgroup
+  _root_.EpsilonEridani.IntegralLattice.natCard_d8SpinorSubgroup
 
 /-- `q(s) = 8/8 = 0`, so the subgroup is quadratic-isotropic. -/
 theorem d8SpinorSubgroup_isIsotropic :
@@ -791,7 +791,7 @@ theorem d8SpinorSubgroup_isIsotropic :
 /-- `D₈⁺` is produced by the general gluing operation, not by a fresh construction, and its
 carrier is `D₈ ∪ (s + D₈)`. -/
 theorem d8Plus_eq_toIntegralLattice
-    (h : TauCeti.IntegralLattice.IntermediateCarrier.IsEven
+    (h : EpsilonEridani.IntegralLattice.IntermediateCarrier.IsEven
       ((checkerboardLattice 8).intermediateCarrierOfDiscriminantSubgroup d8SpinorSubgroup)) :
     h.isIntegral.toIntegralLattice = d8PlusLattice :=
   toIntegralLattice_eq_d8PlusLattice h
@@ -833,4 +833,4 @@ noncomputable abbrev d8PlusDiscriminantEquiv :
 
 end ADE
 
-end TauCetiRoadmap.IntegralLattices
+end EpsilonEridaniRoadmap.IntegralLattices

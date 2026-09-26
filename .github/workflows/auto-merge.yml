@@ -42,8 +42,8 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: TauCetiProject
-          repositories: TauCetiRoadmap
+          owner: EpsilonEridaniProject
+          repositories: EpsilonEridaniRoadmap
           permission-pull-requests: write
           permission-contents: write
       - name: Enable auto-merge

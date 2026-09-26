@@ -1,7 +1,7 @@
 # Contributing
 
 This repository holds the human-curated roadmaps for
-[Tau Ceti](https://github.com/TauCetiProject/TauCeti). A roadmap is the definitive
+[Tau Ceti](https://github.com/EpsilonEridaniProject/EpsilonEridani). A roadmap is the definitive
 specification of an area: it says what we want built, in enough detail that an AI contributor
 and its reviewers can act on it without guessing. Writing and reviewing roadmaps is where human
 judgement is worth the most, so that is what this repository asks of you.
@@ -65,21 +65,21 @@ A few points from the Zulip topic that the README checklist does not yet spell o
 
 Open the PR against `main`. Anyone can open one; no permissions are needed.
 
-It merges automatically once a member of the `@TauCetiProject/roadmap-reviewers` team approves
+It merges automatically once a member of the `@EpsilonEridaniProject/roadmap-reviewers` team approves
 it and the `build` check passes. Roadmap content is owned by that team; infrastructure files
-(the workflows, the Lake config, the toolchain pin) stay with `@TauCetiProject/humans`, so a PR
+(the workflows, the Lake config, the toolchain pin) stay with `@EpsilonEridaniProject/humans`, so a PR
 touching those needs their approval too.
 
 Apply the **`awaiting-review`** label when you open it. If you cannot apply labels yet, see
 [Permissions](#permissions) below, and in the meantime say so in the PR description or the
 [Zulip topic][zulip-topic] and someone will apply it.
 
-**A roadmap pull request touches only its own directory under `TauCetiRoadmap/`.** Four files
+**A roadmap pull request touches only its own directory under `EpsilonEridaniRoadmap/`.** Four files
 list the roadmaps, and all four are derived from the set of directories that contain a
 `README.md`: the "Roadmaps" list in `README.md`, the `area` dropdown in each of the two issue
-templates, and the root `TauCetiRoadmap.lean`. The first three are regenerated and committed by
-the sync bot after your PR merges, and `TauCetiRoadmap.lean` carries no import list at all
-because `lakefile.toml` globs every module under `TauCetiRoadmap/`. Adding your roadmap to any
+templates, and the root `EpsilonEridaniRoadmap.lean`. The first three are regenerated and committed by
+the sync bot after your PR merges, and `EpsilonEridaniRoadmap.lean` carries no import list at all
+because `lakefile.toml` globs every module under `EpsilonEridaniRoadmap/`. Adding your roadmap to any
 of them by hand does nothing except conflict with every other open roadmap PR, so leave them
 alone; if you want to check what the generated list will look like, run
 `python3 .github/scripts/check_roadmap_areas.py --fix` locally and then discard the result.
@@ -128,11 +128,11 @@ reopen it; that is not a reprimand, just the mechanism working.
 Rights accrue as you contribute, and the reviewer pool grows out of people who have
 demonstrably moved a roadmap forward.
 
-- **Opening your first pull request** gets you invited to `@TauCetiProject/roadmap-triage`,
+- **Opening your first pull request** gets you invited to `@EpsilonEridaniProject/roadmap-triage`,
   which carries triage on this repository: enough to label, assign, and manage issues and pull
   requests. GitHub cannot add you to an organization without your say-so, so watch for the
   invitation and accept it. Triage starts when you accept, not when the PR opens.
-- **Two merged roadmap PRs** adds you to `@TauCetiProject/roadmap-reviewers`, and you can start
+- **Two merged roadmap PRs** adds you to `@EpsilonEridaniProject/roadmap-reviewers`, and you can start
   approving others' roadmap work.
 
 ## Building

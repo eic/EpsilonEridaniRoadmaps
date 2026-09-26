@@ -1,12 +1,12 @@
 {"version": "1.2.0",
  "packagesDir": ".lake/packages",
  "packages":
- [{"url": "https://github.com/TauCetiProject/TauCeti",
+ [{"url": "https://github.com/EpsilonEridaniProject/EpsilonEridani",
    "type": "git",
    "subDir": null,
    "scope": "",
    "rev": "5cb65f0393fd8deeaf3fb6398ba48bad654e479d",
-   "name": "TauCeti",
+   "name": "EpsilonEridani",
    "manifestFile": "lake-manifest.json",
    "inputRev": "main",
    "inherited": false,
@@ -101,6 +101,6 @@
    "inputRev": "v4.34.0-rc2",
    "inherited": true,
    "configFile": "lakefile.toml"}],
- "name": "TauCetiRoadmap",
+ "name": "EpsilonEridaniRoadmap",
  "lakeDir": ".lake",
  "fixedToolchain": false}

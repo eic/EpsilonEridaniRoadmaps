@@ -2,7 +2,7 @@
 
 ## `check_roadmap_areas.py`
 
-The roadmap directories under `TauCetiRoadmap/` are the source of truth for the
+The roadmap directories under `EpsilonEridaniRoadmap/` are the source of truth for the
 list of roadmaps. That list is also copied into the `area` dropdowns of the
 issue templates (`1-intention.yml`, `2-roadmap-issue.yml`) and, with prose
 titles, into the README's "Roadmaps" list. GitHub issue forms have no
@@ -38,7 +38,7 @@ list waives every rule for the listed actor. One-time setup by an org admin:
    - "Where can this app be installed": *Only on this account*.
 2. **Generate a private key** (app page -> bottom -> Generate a private key)
    and note the numeric **App ID** near the top.
-3. **Install it** on the `TauCetiProject` org, scoped to this repo.
+3. **Install it** on the `EpsilonEridaniProject` org, scoped to this repo.
 4. **Store the credentials** on the repo:
    - `gh variable set SYNC_BOT_APP_ID --body <app-id>`
    - `gh secret set SYNC_BOT_APP_PRIVATE_KEY < path/to/key.pem`

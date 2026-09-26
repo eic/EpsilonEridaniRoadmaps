@@ -14,7 +14,7 @@ on:
       # Exactly where a generated report can land: one area directory under either parent. `**` would
       # match across slashes, so a nested or root-level PROGRESS.md written by hand would trigger an
       # announcement attempt for something the gate would never have accepted.
-      - 'TauCetiRoadmap/*/PROGRESS.md'
+      - 'EpsilonEridaniRoadmap/*/PROGRESS.md'
       - 'Completed/*/PROGRESS.md'
   workflow_dispatch:
 
@@ -24,7 +24,7 @@ permissions:
 jobs:
   announce:
     # Same full SHA as progress-merge.yml uses; bump both together.
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/announce.yml@6d26dd3ebcee77d49c10355cce9daf632cc03325
+    uses: EpsilonEridaniProject/EpsilonEridaniProgress/.github/workflows/announce.yml@6d26dd3ebcee77d49c10355cce9daf632cc03325
     with:
       progress_ref: 6d26dd3ebcee77d49c10355cce9daf632cc03325
       channel: Tau Ceti

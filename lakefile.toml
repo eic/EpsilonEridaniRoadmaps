@@ -1,19 +1,19 @@
-name = "TauCetiRoadmap"
-defaultTargets = ["TauCetiRoadmap", "Completed"]
+name = "EpsilonEridaniRoadmap"
+defaultTargets = ["EpsilonEridaniRoadmap", "Completed"]
 
 # Roadmap target signatures should consume existing Tau Ceti declarations directly rather than
 # restating a Mathlib-only approximation of the implementation boundary.
 [[require]]
-name = "TauCeti"
-git = "https://github.com/TauCetiProject/TauCeti"
+name = "EpsilonEridani"
+git = "https://github.com/EpsilonEridaniProject/EpsilonEridani"
 rev = "main"
 
 # Human-owned roadmaps: markdown plus Lean target signatures. `sorry` is allowed here
 # (these are goals, not proofs), so this library builds without `warningAsError`. Glob all
 # submodules so every roadmap file is built (and an orphan or broken target is caught).
 [[lean_lib]]
-name = "TauCetiRoadmap"
-globs = ["TauCetiRoadmap.*"]
+name = "EpsilonEridaniRoadmap"
+globs = ["EpsilonEridaniRoadmap.*"]
 
 # Completed roadmaps are no longer offered to contributors, but their Lean files remain checked
 # against the current Tau Ceti pin. In particular, discharged targets continue to certify that
