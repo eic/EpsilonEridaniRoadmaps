@@ -86,7 +86,7 @@ jobs:
             rc=0
             LAKE_CONFIG="$config" LAKE_CACHE_DIR="$cache_dir" \
                 lake cache get --package=EpsilonEridani --service=tauceti-public \
-                  --repo=EpsilonEridaniProject/EpsilonEridani --mappings-only --max-revs=20 \
+                  --repo=eic/EpsilonEridani --mappings-only --max-revs=20 \
                   > "$log" 2>&1 || rc=$?
             cat "$log"
 

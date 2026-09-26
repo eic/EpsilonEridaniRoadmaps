@@ -42,7 +42,7 @@ jobs:
         with:
           app-id: ${{ vars.CLAIM_BOT_APP_ID }}
           private-key: ${{ secrets.CLAIM_BOT_APP_PRIVATE_KEY }}
-          owner: EpsilonEridaniProject
+          owner: eic
           repositories: EpsilonEridaniRoadmap
           permission-issues: write
 

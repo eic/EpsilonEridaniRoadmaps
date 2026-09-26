@@ -1,7 +1,7 @@
 # Contributing
 
 This repository holds the human-curated roadmaps for
-[Tau Ceti](https://github.com/EpsilonEridaniProject/EpsilonEridani). A roadmap is the definitive
+[Tau Ceti](https://github.com/eic/EpsilonEridani). A roadmap is the definitive
 specification of an area: it says what we want built, in enough detail that an AI contributor
 and its reviewers can act on it without guessing. Writing and reviewing roadmaps is where human
 judgement is worth the most, so that is what this repository asks of you.
@@ -65,9 +65,9 @@ A few points from the Zulip topic that the README checklist does not yet spell o
 
 Open the PR against `main`. Anyone can open one; no permissions are needed.
 
-It merges automatically once a member of the `@EpsilonEridaniProject/roadmap-reviewers` team approves
+It merges automatically once a member of the `@eic/roadmap-reviewers` team approves
 it and the `build` check passes. Roadmap content is owned by that team; infrastructure files
-(the workflows, the Lake config, the toolchain pin) stay with `@EpsilonEridaniProject/humans`, so a PR
+(the workflows, the Lake config, the toolchain pin) stay with `@eic/humans`, so a PR
 touching those needs their approval too.
 
 Apply the **`awaiting-review`** label when you open it. If you cannot apply labels yet, see
@@ -128,11 +128,11 @@ reopen it; that is not a reprimand, just the mechanism working.
 Rights accrue as you contribute, and the reviewer pool grows out of people who have
 demonstrably moved a roadmap forward.
 
-- **Opening your first pull request** gets you invited to `@EpsilonEridaniProject/roadmap-triage`,
+- **Opening your first pull request** gets you invited to `@eic/roadmap-triage`,
   which carries triage on this repository: enough to label, assign, and manage issues and pull
   requests. GitHub cannot add you to an organization without your say-so, so watch for the
   invitation and accept it. Triage starts when you accept, not when the PR opens.
-- **Two merged roadmap PRs** adds you to `@EpsilonEridaniProject/roadmap-reviewers`, and you can start
+- **Two merged roadmap PRs** adds you to `@eic/roadmap-reviewers`, and you can start
   approving others' roadmap work.
 
 ## Building

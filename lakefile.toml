@@ -5,7 +5,7 @@ defaultTargets = ["EpsilonEridaniRoadmap", "Completed"]
 # restating a Mathlib-only approximation of the implementation boundary.
 [[require]]
 name = "EpsilonEridani"
-git = "https://github.com/EpsilonEridaniProject/EpsilonEridani"
+git = "https://github.com/eic/EpsilonEridani"
 rev = "main"
 
 # Human-owned roadmaps: markdown plus Lean target signatures. `sorry` is allowed here

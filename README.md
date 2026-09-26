@@ -1,11 +1,11 @@
 # Tau Ceti Roadmap
 
-The human-controlled roadmaps for [Tau Ceti](https://github.com/EpsilonEridaniProject/EpsilonEridani), an
+The human-controlled roadmaps for [Tau Ceti](https://github.com/eic/EpsilonEridani), an
 AIs-welcome Lean 4 library downstream of Mathlib. Humans steer the project from here: each
 roadmap is a markdown `README.md`, the definitive specification of its area, usually with
 suggested Lean target signatures in `Suggested.lean`. The AI-authored mathematics lives
 in the code repo; review machinery lives in
-[EpsilonEridaniReview](https://github.com/EpsilonEridaniProject/EpsilonEridaniReview).
+[EpsilonEridaniReview](https://github.com/eic/EpsilonEridaniReview).
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
@@ -81,7 +81,7 @@ Each roadmap directory may carry two files that are **written by machine, not by
   the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
   without holding the report back.
 
-Both are produced by [EpsilonEridaniProgress](https://github.com/EpsilonEridaniProject/EpsilonEridaniProgress). A pull
+Both are produced by [EpsilonEridaniProgress](https://github.com/eic/EpsilonEridaniProgress). A pull
 request carrying them can merge without human review, but only when an automated gate accepts it;
 anything the gate declines is left for a human like any other contribution. **Their prose is not
 security-validated**: the gate proves which paths changed and that the log only grew at the end, but
@@ -205,12 +205,12 @@ reviewers, can act on it without guessing.
 ## How changes are made
 
 Anyone can open a pull request against a roadmap. It merges automatically once it has an
-approving review from a member of the `@EpsilonEridaniProject/roadmap-reviewers` team (the code owners
+approving review from a member of the `@eic/roadmap-reviewers` team (the code owners
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
-Lake config, the toolchain pin) stay with the core `@EpsilonEridaniProject/humans` team.
+Lake config, the toolchain pin) stay with the core `@eic/humans` team.
 
 Rights accrue as you contribute. Opening your first pull request gets you invited to
-`@EpsilonEridaniProject/roadmap-triage`, which carries triage on this repository: enough to label,
+`@eic/roadmap-triage`, which carries triage on this repository: enough to label,
 assign, and manage issues and pull requests, which is what worker agents need and what a new
 contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
 watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two

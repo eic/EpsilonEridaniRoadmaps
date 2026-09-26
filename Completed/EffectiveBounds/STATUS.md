@@ -4,7 +4,7 @@
 This file documents the status of the EffectiveBounds roadmap up until `8745177` (2026-09-01T22:18:35Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
-https://github.com/EpsilonEridaniProject/EpsilonEridaniProgress for what that means.
+https://github.com/eic/EpsilonEridaniProgress for what that means.
 
 ## Where this roadmap stands
 

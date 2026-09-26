@@ -2,7 +2,7 @@
 
 **Status: declared complete by the maintainers (2026-07-02).** The library this roadmap
 asked for has been built: the whole spine below has landed, sorry-free, in
-[EpsilonEridani](https://github.com/EpsilonEridaniProject/EpsilonEridani): the Layer-1 bounds
+[EpsilonEridani](https://github.com/eic/EpsilonEridani): the Layer-1 bounds
 (`abs_discr_le_of_basis_isIntegral`, `classNumber_le_bound`, `units_sq_index_le`),
 the explicit ideal count (`card_ideal_absNorm_le`), and the Layer-2 summit, the
 effective Hermite–Minkowski count

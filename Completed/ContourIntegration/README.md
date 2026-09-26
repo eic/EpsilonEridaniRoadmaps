@@ -1,7 +1,7 @@
 # Roadmap: contour integration and the Hungerbühler–Wasem generalized residue theorem
 
 **Status: declared complete by the maintainers (2026-08-29).** The library this roadmap asked for
-has been built, sorry-free, in [EpsilonEridani](https://github.com/EpsilonEridaniProject/EpsilonEridani) under
+has been built, sorry-free, in [EpsilonEridani](https://github.com/eic/EpsilonEridani) under
 `EpsilonEridani/Analysis/Contour/`. All four layers are there: the generalized winding number and its
 model-sector geometry (L0–L1), residues with the argument principle and the classical residue
 theorem (L2), the homology Cauchy theorem by Dixon's argument (L3), and the summit — the

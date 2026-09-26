@@ -2,7 +2,7 @@
 
 **Status: declared complete by the maintainers (2026-08-16).** The library this roadmap asked
 for has been built, sorry-free, in
-[EpsilonEridani](https://github.com/EpsilonEridaniProject/EpsilonEridani). The family-agnostic spine is there: the
+[EpsilonEridani](https://github.com/eic/EpsilonEridani). The family-agnostic spine is there: the
 weight-to-measure isometry (`weightL2Isometry`) with its `HilbertBasis` transport
 (`HilbertBasis.mapₗᵢ`); the completeness toolkit grounded in moment determinacy
 (`ae_eq_zero_of_forall_moment_eq_zero`, and its measure-level form); the orthogonality-relation

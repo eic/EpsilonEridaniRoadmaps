@@ -35,13 +35,13 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: EpsilonEridaniProject
+          owner: eic
           permission-members: write
 
       - name: Promote contributors past the merged-PR threshold
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
-          ORG: EpsilonEridaniProject
+          ORG: eic
           TEAM: roadmap-reviewers
           THRESHOLD: "2"
           REPO: ${{ github.repository }}

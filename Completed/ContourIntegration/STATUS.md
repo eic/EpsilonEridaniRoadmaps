@@ -4,7 +4,7 @@
 This file documents the status of the ContourIntegration roadmap up until `0672a6c` (2026-09-04T22:05:30Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
-https://github.com/EpsilonEridaniProject/EpsilonEridaniProgress for what that means.
+https://github.com/eic/EpsilonEridaniProgress for what that means.
 
 ## Where this roadmap stands
 
