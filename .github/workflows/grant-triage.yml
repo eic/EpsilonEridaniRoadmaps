@@ -1,7 +1,7 @@
 name: grant-triage
 
 # Give anyone who opens a pull request here triage rights, by inviting them to the
-# `roadmap-triage` team. Triage lets a contributor label and manage issues and PRs, which is what
+# `epsilon-eridani-roadmap-triage` team. Triage lets a contributor label and manage issues and PRs, which is what
 # a worker agent keeps tripping over: labelling anything needs triage, so a contributor who has
 # just arrived gets `does not have the correct permissions to execute AddLabelsToLabelable`.
 #
@@ -18,7 +18,7 @@ name: grant-triage
 # they accept.
 #
 # Requires:
-#   - a `roadmap-triage` team in the organization, holding **Triage** on this repository
+#   - a `epsilon-eridani-roadmap-triage` team in the organization, holding **Triage** on this repository
 #   - the epsiloneridani-review-bot App to have organization **Members: write** (promote-reviewers.yml
 #     needs the same grant; repository-scoped permissions are not enough to manage team membership)
 
@@ -55,7 +55,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
           ORG: eic
-          TEAM: roadmap-triage
+          TEAM: epsilon-eridani-roadmap-triage
           REPO: ${{ github.repository }}
           USER: ${{ inputs.user || github.event.pull_request.user.login }}
         run: |

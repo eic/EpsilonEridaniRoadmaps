@@ -2,7 +2,7 @@ name: auto-merge
 
 # Queue every non-draft PR targeting protected `main` for GitHub-native auto-merge, using a
 # epsiloneridani-review-bot App token (the org disables write GITHUB_TOKEN). The `main` ruleset requires a
-# roadmap-reviewers code-owner approval, the `build` check, and a merge queue, so GitHub adds the
+# epsilon-eridani-roadmap-reviewers code-owner approval, the `build` check, and a merge queue, so GitHub adds the
 # PR to the queue once a team member approves, and the queue builds it against `main` plus the
 # entries ahead of it before merging. PRs targeting feature branches must not
 # reach `gh pr merge --auto`: those branches have no merge requirements, so the command would merge
