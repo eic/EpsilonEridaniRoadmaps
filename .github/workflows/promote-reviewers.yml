@@ -36,6 +36,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: eic
+          repositories: EpsilonEridaniRoadmaps
           permission-members: write
 
       - name: Promote contributors past the merged-PR threshold
