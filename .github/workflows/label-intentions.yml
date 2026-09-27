@@ -36,7 +36,20 @@ jobs:
       !contains(github.event.issue.labels.*.name, 'intention')
     runs-on: ubuntu-latest
     steps:
+      - name: Check for App configuration
+        id: check
+        env:
+          PRIVATE_KEY: ${{ secrets.CLAIMS_APP_PRIVATE_KEY }}
+        run: |
+          if [ -z "${{ vars.CLAIMS_APP_ID }}" ] || [ -z "$PRIVATE_KEY" ]; then
+            echo "::warning::CLAIMS_APP_ID or CLAIMS_APP_PRIVATE_KEY is not set. Skipping label application."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Mint App token (issues write)
+        if: steps.check.outputs.skip != 'true'
         id: token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
@@ -47,6 +60,7 @@ jobs:
           permission-issues: write
 
       - name: Apply the intention label
+        if: steps.check.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
         run: |

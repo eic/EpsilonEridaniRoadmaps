@@ -16,7 +16,25 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  check-auth:
+    runs-on: ubuntu-latest
+    outputs:
+      has_auth: ${{ steps.check.outputs.has_auth }}
+    steps:
+      - id: check
+        env:
+          PRIVATE_KEY: ${{ secrets.CLAIMS_APP_PRIVATE_KEY }}
+        run: |
+          if [ -z "${{ vars.CLAIMS_APP_ID }}" ] || [ -z "$PRIVATE_KEY" ]; then
+            echo "::warning::CLAIMS_APP_ID or CLAIMS_APP_PRIVATE_KEY is not set. Skipping intentions synchronization."
+            echo "has_auth=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_auth=true" >> $GITHUB_OUTPUT
+          fi
+
   intentions:
+    needs: check-auth
+    if: needs.check-auth.outputs.has_auth == 'true'
     permissions:
       issues: write
       pull-requests: write
