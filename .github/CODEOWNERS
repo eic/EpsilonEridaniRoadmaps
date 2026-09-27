@@ -1,11 +1,11 @@
-# Roadmap content is reviewed by the roadmap-reviewers team: an approving review from a member
+# Roadmap content is reviewed by the epsilon-eridani-roadmap-reviewers team: an approving review from a member
 # (plus the `build` check) makes a PR mergeable, and merges it automatically once auto-merge is
-# enabled. Infrastructure stays with the humans team. Last-match-wins.
+# enabled. Infrastructure stays with the epsilon-eridani-humans team. Last-match-wins.
 
-*                     @eic/roadmap-reviewers
+*                     @eic/epsilon-eridani-roadmap-reviewers
 
 # Infrastructure stays human-governed (the more trusted core team):
-/.github/             @eic/humans
-/lakefile.toml        @eic/humans
-/lake-manifest.json   @eic/humans
-/lean-toolchain       @eic/humans
+/.github/             @eic/epsilon-eridani-humans
+/lakefile.toml        @eic/epsilon-eridani-humans
+/lake-manifest.json   @eic/epsilon-eridani-humans
+/lean-toolchain       @eic/epsilon-eridani-humans

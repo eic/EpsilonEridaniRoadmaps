@@ -1,7 +1,7 @@
 name: promote-reviewers
 
 # Accrue reviewing rights to proven contributors automatically: when a roadmap PR merges into
-# protected `main`, promote its author to the `roadmap-reviewers` team once they have at least
+# protected `main`, promote its author to the `epsilon-eridani-roadmap-reviewers` team once they have at least
 # PROMOTE_THRESHOLD PRs merged into `main`. A team member's approval (CODEOWNERS) plus the `build`
 # check makes a roadmap PR auto-mergeable, so this lets the reviewer pool grow itself from people
 # who have demonstrably landed reviewed roadmap work. `workflow_dispatch` runs a full sweep
@@ -43,7 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
           ORG: eic
-          TEAM: roadmap-reviewers
+          TEAM: epsilon-eridani-roadmap-reviewers
           THRESHOLD: "2"
           REPO: ${{ github.repository }}
           BASE: main
