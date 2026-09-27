@@ -48,6 +48,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: eic
+          repositories: EpsilonEridaniRoadmaps
           permission-members: write
 
       - name: Invite the author to the triage team

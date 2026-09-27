@@ -43,7 +43,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: eic
-          repositories: EpsilonEridaniRoadmap
+          repositories: EpsilonEridaniRoadmaps
           permission-pull-requests: write
           permission-contents: write
       - name: Enable auto-merge
