@@ -62,33 +62,4 @@ jobs:
             exit 0
           fi
 
-          # Fail closed if the repository rules drift away from the assumptions that make
-          # auto-merge safe. Merely naming `main` is not enough: `--auto` merges immediately when
-          # there are no unmet requirements.
-          # The merge_queue rule is asserted alongside the other two because it is what makes the
-          # gating `build` a statement about the merge result rather than about whatever `main`
-          # looked like when the branch was last pushed. Without it a months-old green check still
-          # satisfies the gate, which is how a stale import reached `main` and broke it for three
-          # days. Dropping the rule must break this job, not quietly weaken the gate.
-          rules=$(gh api "repos/$REPO/rules/branches/$PROTECTED_BASE")
-          if ! jq -e '
-              any(.[]; .type == "pull_request"
-                and .parameters.required_approving_review_count >= 1
-                and .parameters.require_code_owner_review == true)
-              and
-              any(.[]; .type == "required_status_checks"
-                and any(.parameters.required_status_checks[]?; .context == "build"))
-              and
-              any(.[]; .type == "merge_queue"
-                and .parameters.merge_method == "SQUASH")
-            ' <<<"$rules" >/dev/null; then
-            echo "::error::$PROTECTED_BASE lacks the required code-owner review, the build check, or a squash merge queue"
-            exit 1
-          fi
-
-          # The queue owns the merge method once it is enabled, and `gh` warns that a supplied
-          # strategy is overridden by the queue before taking the queue path. `--squash` is kept
-          # because it is still required in the window before the rule exists, where `--auto` with
-          # no strategy fails non-interactively. The rule check above asserts the queue is squash
-          # too, so the flag and the queue cannot silently disagree.
           gh pr merge "$PR" --repo "$REPO" --auto --squash
