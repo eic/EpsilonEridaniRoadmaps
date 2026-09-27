@@ -22,9 +22,11 @@ jobs:
       has_auth: ${{ steps.check.outputs.has_auth }}
     steps:
       - id: check
+        env:
+          PRIVATE_KEY: ${{ secrets.CLAIMS_APP_PRIVATE_KEY }}
         run: |
-          if [ -z "${{ vars.CLAIMS_APP_ID }}" ]; then
-            echo "::warning::CLAIMS_APP_ID is not set. Skipping intentions synchronization."
+          if [ -z "${{ vars.CLAIMS_APP_ID }}" ] || [ -z "$PRIVATE_KEY" ]; then
+            echo "::warning::CLAIMS_APP_ID or CLAIMS_APP_PRIVATE_KEY is not set. Skipping intentions synchronization."
             echo "has_auth=false" >> $GITHUB_OUTPUT
           else
             echo "has_auth=true" >> $GITHUB_OUTPUT

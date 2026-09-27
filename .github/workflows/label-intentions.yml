@@ -38,9 +38,11 @@ jobs:
     steps:
       - name: Check for App configuration
         id: check
+        env:
+          PRIVATE_KEY: ${{ secrets.CLAIMS_APP_PRIVATE_KEY }}
         run: |
-          if [ -z "${{ vars.CLAIMS_APP_ID }}" ] && [ -z "${{ vars.CLAIM_BOT_APP_ID }}" ]; then
-            echo "::warning::CLAIMS_APP_ID is not set. Skipping label application."
+          if [ -z "${{ vars.CLAIMS_APP_ID }}" ] || [ -z "$PRIVATE_KEY" ]; then
+            echo "::warning::CLAIMS_APP_ID or CLAIMS_APP_PRIVATE_KEY is not set. Skipping label application."
             echo "skip=true" >> $GITHUB_OUTPUT
           else
             echo "skip=false" >> $GITHUB_OUTPUT
