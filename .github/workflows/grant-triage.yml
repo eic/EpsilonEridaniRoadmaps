@@ -18,7 +18,7 @@ name: grant-triage
 # they accept.
 #
 # Requires:
-#   - a `epsilon-eridani-roadmap-triage` team in the organization, holding **Triage** on this repository
+#   - an `epsilon-eridani-roadmap-triage` team in the organization, holding **Triage** on this repository
 #   - the epsiloneridani-review-bot App to have organization **Members: write** (promote-reviewers.yml
 #     needs the same grant; repository-scoped permissions are not enough to manage team membership)
 

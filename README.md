@@ -205,16 +205,16 @@ reviewers, can act on it without guessing.
 ## How changes are made
 
 Anyone can open a pull request against a roadmap. It merges automatically once it has an
-approving review from a member of the `@eic/roadmap-reviewers` team (the code owners
+approving review from a member of the `@eic/epsilon-eridani-roadmap-reviewers` team (the code owners
 for roadmap content) and the `build` check passes. Infrastructure files (the workflows, the
-Lake config, the toolchain pin) stay with the core `@eic/humans` team.
+Lake config, the toolchain pin) stay with the core `@eic/epsilon-eridani-humans` team.
 
 Rights accrue as you contribute. Opening your first pull request gets you invited to
-`@eic/roadmap-triage`, which carries triage on this repository: enough to label,
+`@eic/epsilon-eridani-roadmap-triage`, which carries triage on this repository: enough to label,
 assign, and manage issues and pull requests, which is what worker agents need and what a new
 contributor otherwise lacks. GitHub cannot add you to an organization without your say-so, so
 watch for the invitation and accept it; triage starts then, not when the PR opens. Landing two
-merged roadmap PRs then adds you to `roadmap-reviewers`, so the reviewer pool grows itself out
+merged roadmap PRs then adds you to `epsilon-eridani-roadmap-reviewers`, so the reviewer pool grows itself out
 of people who have demonstrably moved a roadmap forward and they can start approving others'
 roadmap work.
 
