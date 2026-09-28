@@ -37,8 +37,22 @@ jobs:
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
           use-github-cache: false
+
+      - name: Fetch Dependencies cache
+        run: |
+          if ! lake exe cache get Mathlib Physlib TauCeti; then
+            echo "::warning::lake exe cache get failed; forcing a full refetch"
+            lake exe cache get! Mathlib Physlib TauCeti
+          fi
+
+      - name: Fetch Dependencies cache
+        run: |
+          if ! lake exe cache get Mathlib Physlib TauCeti; then
+            echo "::warning::lake exe cache get failed; forcing a full refetch"
+            lake exe cache get! Mathlib Physlib TauCeti
+          fi
 
       # Fetch EpsilonEridani's cache map from its public Lake service. Artifacts stay lazy: the build
       # downloads only the EpsilonEridani modules it actually imports. This is distinct from Mathlib's
