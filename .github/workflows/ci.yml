@@ -47,13 +47,6 @@ jobs:
             lake exe cache get! Mathlib Physlib TauCeti
           fi
 
-      - name: Fetch Dependencies cache
-        run: |
-          if ! lake exe cache get Mathlib Physlib TauCeti; then
-            echo "::warning::lake exe cache get failed; forcing a full refetch"
-            lake exe cache get! Mathlib Physlib TauCeti
-          fi
-
       # Fetch EpsilonEridani's cache map from its public Lake service. Artifacts stay lazy: the build
       # downloads only the EpsilonEridani modules it actually imports. This is distinct from Mathlib's
       # cache above, and avoids making every package in the workspace cache-writable.
@@ -63,6 +56,7 @@ jobs:
         env:
           PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC }}
           PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC }}
+      - name: Fetch Dependencies cache
         run: |
           set -euo pipefail
           if [ -z "$PUBLIC_ARTIFACT_ENDPOINT" ] || [ -z "$PUBLIC_REVISION_ENDPOINT" ]; then
@@ -138,6 +132,7 @@ jobs:
       - name: Report EpsilonEridani cache use
         if: ${{ always() && steps.epsiloneridani_cache.outputs.enabled == '1' }}
         shell: bash
+      - name: Fetch Dependencies cache
         run: |
           count=0
           if [ -d "$LAKE_CACHE_DIR/artifacts" ]; then
