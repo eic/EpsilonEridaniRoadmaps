@@ -20,6 +20,8 @@ body:
       options:
         - CollinearEvolution
         - DeepInelasticScattering
+        - Diffraction
+        - ElectroweakAndBSM
     validations:
       required: true
   - type: textarea
