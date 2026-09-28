@@ -14,7 +14,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Roadmaps
 
 - [Collinear evolution, moments, and the running coupling](EpsilonEridaniRoadmap/CollinearEvolution/README.md)
-- [Deep Inelastic Scattering (DIS) Kinematics](EpsilonEridaniRoadmap/DeepInelasticScattering/README.md)
 - [Diffraction, rapidity gaps, and the Pomeron](EpsilonEridaniRoadmap/Diffraction/README.md)
 - [Electroweak physics, effective operators, and connections beyond QCD](EpsilonEridaniRoadmap/ElectroweakAndBSM/README.md)
 - [Generalized parton distributions and spatial imaging](EpsilonEridaniRoadmap/GeneralizedPartonDistributions/README.md)
