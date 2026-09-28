@@ -140,6 +140,6 @@ demonstrably moved a roadmap forward.
 The Lean files in this repository are checked by the `build` check.
 
 ```bash
-lake exe cache get Mathlib Physlib EpsilonEridani
+lake exe cache get Mathlib TauCeti Physlib EpsilonEridani
 lake build
 ```
