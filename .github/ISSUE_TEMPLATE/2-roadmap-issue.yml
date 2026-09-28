@@ -18,6 +18,9 @@ body:
         - DeepInelasticScattering
         - Diffraction
         - ElectroweakAndBSM
+        - GeneralizedPartonDistributions
+        - HadronMassAndEnergyMomentumTensor
+        - InclusiveStructureFunctions
     validations:
       required: true
   - type: textarea

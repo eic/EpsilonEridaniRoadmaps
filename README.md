@@ -17,6 +17,9 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Deep Inelastic Scattering (DIS) Kinematics](EpsilonEridaniRoadmap/DeepInelasticScattering/README.md)
 - [Diffraction, rapidity gaps, and the Pomeron](EpsilonEridaniRoadmap/Diffraction/README.md)
 - [Electroweak physics, effective operators, and connections beyond QCD](EpsilonEridaniRoadmap/ElectroweakAndBSM/README.md)
+- [Generalized parton distributions and spatial imaging](EpsilonEridaniRoadmap/GeneralizedPartonDistributions/README.md)
+- [Inclusive structure functions of the proton and neutron](EpsilonEridaniRoadmap/InclusiveStructureFunctions/README.md)
+- [The hadron mass, the energy-momentum tensor, and gravitational form factors](EpsilonEridaniRoadmap/HadronMassAndEnergyMomentumTensor/README.md)
 
 ## Completed roadmaps
 
