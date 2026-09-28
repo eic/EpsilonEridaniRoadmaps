@@ -26,6 +26,7 @@ body:
         - MultiPartonCorrelations
         - NuclearMedium
         - Photoproduction
+        - RadiativeCorrections
         - SpinStructure
         - WignerDistributions
     validations:
