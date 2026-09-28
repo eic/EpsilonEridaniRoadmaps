@@ -22,6 +22,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Inclusive structure functions of the proton and neutron](EpsilonEridaniRoadmap/InclusiveStructureFunctions/README.md)
 - [The bridge between Euclidean lattice quantities and light-cone distributions](EpsilonEridaniRoadmap/LatticeBridge/README.md)
 - [The hadron mass, the energy-momentum tensor, and gravitational form factors](EpsilonEridaniRoadmap/HadronMassAndEnergyMomentumTensor/README.md)
+- [Wigner distributions, generalized TMDs, and orbital angular momentum](EpsilonEridaniRoadmap/WignerDistributions/README.md)
 
 ## Completed roadmaps
 

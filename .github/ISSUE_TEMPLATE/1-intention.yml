@@ -27,6 +27,7 @@ body:
         - Hadronization
         - InclusiveStructureFunctions
         - LatticeBridge
+        - WignerDistributions
     validations:
       required: true
   - type: textarea
