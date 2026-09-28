@@ -2,7 +2,7 @@
 
 ## `check_roadmap_areas.py`
 
-The roadmap directories under `EpsilonEridaniRoadmap/` are the source of truth for the
+The roadmap directories under `EpsilonEridaniRoadmaps/` are the source of truth for the
 list of roadmaps. That list is also copied into the `area` dropdowns of the
 issue templates (`1-intention.yml`, `2-roadmap-issue.yml`) and, with prose
 titles, into the README's "Roadmaps" list. GitHub issue forms have no
