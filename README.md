@@ -56,7 +56,8 @@ reviewers, can act on it without guessing.
   applies: when you make a definition, it is your job to make it *usable*, which means the right
   amount of API. A definition with no lemmas about it is not a contribution.
 
-- **No gaps.** Every milestone must rest on existing Mathlib or EpsilonEridani material, on earlier
+- **No gaps.** Every milestone must rest on existing material in one of the four upstream
+  libraries — Mathlib, TauCeti, Physlib or EpsilonEridani — on earlier
   material in the same roadmap, or on an explicitly cited dependency in another roadmap. Anything
   else is a leap: a forward reference to a later layer, a connection between two developments that
   nobody builds, an object named but never made a target. If the roadmap needs something that
@@ -89,6 +90,34 @@ reviewers, can act on it without guessing.
   representation theory, let's cover everything taught in graduate classes at more than one
   university. Breadth makes boundaries easier to draw and optimizes for reuse. But roadmaps also
   have to *motivate* people to contribute, and a deep one is sometimes better at that.
+
+### The upstream libraries
+
+A roadmap may build on four libraries. Naming only some of them is how a roadmap ends up
+reproving something that already exists, so check all four before declaring a gap.
+
+| Library | Role | Where it is pinned |
+| --- | --- | --- |
+| **Mathlib** | General mathematics. | `EpsilonEridani`'s `lake-manifest.json` |
+| **TauCeti** | AIs-welcome mathematics, downstream of Mathlib. Carries material Mathlib does not: one-parameter semigroups with an abstract Cauchy problem, Fredholm theory, Cauchy-principal-value contour integration, Stieltjes and Bernstein representations. | same |
+| **Physlib** | General physics: Lorentz group and algebra, Lorentz tensor calculus, Dirac and Weyl spinors, Clifford algebra, the Standard Model representations, the CKM matrix, anomaly cancellation, electromagnetism, units and dimensions. | same |
+| **EpsilonEridani** | The physics of this programme, including the deep-inelastic-scattering development the roadmaps extend. | this repository's `lakefile.toml` |
+
+Two things about this list are easy to get wrong, and both have already caused work to be
+duplicated here:
+
+- **Physlib is not optional background.** It is a declared dependency of `EpsilonEridani` and is
+  imported by 24 of its 143 modules. Lorentz tensor contraction, the Minkowski product, the
+  Levi-Civita tensor and the gamma matrices all live there, and a hadronic-tensor decomposition or
+  a Dirac trace should consume them rather than restate them.
+- **TauCeti is not yet used by `EpsilonEridani` at all** — zero of its modules import it — so a
+  TauCeti citation is a statement about where the mathematics *should* come from, not a record of
+  an existing import. That is legitimate, and it is a different kind of claim from a Physlib or
+  Mathlib citation; say which you mean.
+
+Every upstream module a roadmap cites must exist at the pinned revision. Check it rather than
+writing from memory: a citation that does not resolve is a defect a reviewer will find, and the
+module trees of all four are available locally once `lake exe cache get` has run.
 
 ### Working with Mathlib
 
@@ -204,6 +233,6 @@ Use the **Roadmap issue** template to report a problem with a roadmap's content,
 ## Building
 
 ```bash
-lake exe cache get Mathlib Physlib EpsilonEridani
+lake exe cache get Mathlib TauCeti Physlib EpsilonEridani
 lake build
 ```
