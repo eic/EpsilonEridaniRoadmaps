@@ -29,6 +29,7 @@ body:
         - LatticeBridge
         - MultiPartonCorrelations
         - NuclearMedium
+        - Photoproduction
         - SpinStructure
         - WignerDistributions
     validations:
