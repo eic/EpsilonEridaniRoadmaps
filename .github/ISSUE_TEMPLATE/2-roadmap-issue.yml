@@ -23,6 +23,7 @@ body:
         - Hadronization
         - InclusiveStructureFunctions
         - LatticeBridge
+        - MultiPartonCorrelations
         - SpinStructure
         - WignerDistributions
     validations:
