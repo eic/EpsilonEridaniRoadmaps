@@ -25,6 +25,7 @@ body:
         - JetsAndEventShapes
         - LatticeBridge
         - LightNuclei
+        - MesonStructure
         - MultiPartonCorrelations
         - NuclearMedium
         - Photoproduction
