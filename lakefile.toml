@@ -1,5 +1,5 @@
-name = "EpsilonEridaniRoadmap"
-defaultTargets = ["EpsilonEridaniRoadmap", "Completed"]
+name = "EpsilonEridaniRoadmaps"
+defaultTargets = ["EpsilonEridaniRoadmaps", "Completed"]
 
 # Roadmap target signatures should consume existing EpsilonEridani declarations directly rather than
 # restating a Mathlib-only approximation of the implementation boundary.
@@ -12,8 +12,8 @@ rev = "main"
 # (these are goals, not proofs), so this library builds without `warningAsError`. Glob all
 # submodules so every roadmap file is built (and an orphan or broken target is caught).
 [[lean_lib]]
-name = "EpsilonEridaniRoadmap"
-globs = ["EpsilonEridaniRoadmap.*"]
+name = "EpsilonEridaniRoadmaps"
+globs = ["EpsilonEridaniRoadmaps.*"]
 
 # Completed roadmaps are no longer offered to contributors, but their Lean files remain checked
 # against the current EpsilonEridani pin. In particular, discharged targets continue to certify that

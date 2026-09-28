@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Keep the roadmap list in sync across the repo.
 
-The single source of truth is the set of directories under `EpsilonEridaniRoadmap/`
+The single source of truth is the set of directories under `EpsilonEridaniRoadmaps/`
 that contain a `README.md`. That same list is copied, by hand, into the
 `area` dropdowns of two issue templates and into the README's "Roadmaps"
 list. GitHub issue forms are static YAML with no templating, so the copies
@@ -32,7 +32,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-ROADMAP_DIR = ROOT / "EpsilonEridaniRoadmap"
+ROADMAP_DIR = ROOT / "EpsilonEridaniRoadmaps"
 DROPDOWN_TEMPLATES = [
     ROOT / ".github" / "ISSUE_TEMPLATE" / "1-intention.yml",
     ROOT / ".github" / "ISSUE_TEMPLATE" / "2-roadmap-issue.yml",
@@ -92,11 +92,11 @@ def title_from_h1(area: str) -> str:
     return area
 
 
-# A line in the README's "## Roadmaps" list: `- [Title](EpsilonEridaniRoadmap/X/README.md)`.
+# A line in the README's "## Roadmaps" list: `- [Title](EpsilonEridaniRoadmaps/X/README.md)`.
 # The legacy `N. ` bullet is still accepted so that pull requests opened against
 # the numbered list keep parsing; `--fix` rewrites them as `- `.
 _README_ITEM = re.compile(
-    r"^(?:-|\d+\.)\s+\[(?P<title>.+?)\]\(EpsilonEridaniRoadmap/(?P<area>[^/]+)/README\.md\)\s*$"
+    r"^(?:-|\d+\.)\s+\[(?P<title>.+?)\]\(EpsilonEridaniRoadmaps/(?P<area>[^/]+)/README\.md\)\s*$"
 )
 _README_SECTION = re.compile(r"(?ms)^(## Roadmaps\n\n)(?P<body>.*?)(\n## )")
 
@@ -158,7 +158,7 @@ def rewrite_readme(text: str, canonical: list[str]) -> str:
     # title rather than at the end, where every other new roadmap would land.
     kept.sort(key=lambda entry: entry[1].casefold())
     lines[start : end + 1] = [
-        f"- [{t}](EpsilonEridaniRoadmap/{a}/README.md)" for a, t in kept
+        f"- [{t}](EpsilonEridaniRoadmaps/{a}/README.md)" for a, t in kept
     ]
     return text[: m.start("body")] + "\n".join(lines) + text[m.end("body") :]
 
@@ -216,7 +216,7 @@ def main() -> int:
             problems.append(f"README.md: {', '.join(detail)}")
 
     if problems and not fix:
-        print("Roadmap area lists are out of sync with EpsilonEridaniRoadmap/:\n")
+        print("Roadmap area lists are out of sync with EpsilonEridaniRoadmaps/:\n")
         for p in problems:
             print(f"  - {p}")
         print(
