@@ -65,6 +65,12 @@ jobs:
 
           # Anyone already at triage or above has nothing to gain, and re-inviting them would
           # send pointless notifications. On a public repository a stranger reads as "read".
+          # Check if they are already in the org
+          if ! gh api "/orgs/$ORG/members/$USER" --silent 2>/dev/null; then
+            echo "· $USER is not a member of @$ORG; skipping triage grant to avoid inviting external users."
+            exit 0
+          fi
+
           have=$(gh api "/repos/$REPO/collaborators/$USER/permission" --jq '.permission' 2>/dev/null || echo none)
           case "$have" in
             triage|write|maintain|admin) echo "· $USER already has $have; nothing to do"; exit 0 ;;
