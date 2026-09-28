@@ -27,6 +27,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Parton structure and form factors of the pion and kaon](EpsilonEridaniRoadmap/MesonStructure/README.md)
 - [Photoproduction and ultra-peripheral collisions](EpsilonEridaniRoadmap/Photoproduction/README.md)
 - [QED radiative corrections](EpsilonEridaniRoadmap/RadiativeCorrections/README.md)
+- [Quarkonium production, exotic hadrons, and spectroscopy](EpsilonEridaniRoadmap/QuarkoniaAndExotics/README.md)
 - [Small-x evolution, gluon saturation, and the Color Glass Condensate](EpsilonEridaniRoadmap/SmallXAndSaturation/README.md)
 - [Spin structure of the proton and neutron](EpsilonEridaniRoadmap/SpinStructure/README.md)
 - [The bridge between Euclidean lattice quantities and light-cone distributions](EpsilonEridaniRoadmap/LatticeBridge/README.md)

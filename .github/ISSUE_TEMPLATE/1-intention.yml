@@ -33,6 +33,7 @@ body:
         - NuclearMedium
         - NuclearPartonDistributions
         - Photoproduction
+        - QuarkoniaAndExotics
         - RadiativeCorrections
         - SmallXAndSaturation
         - SpinStructure
