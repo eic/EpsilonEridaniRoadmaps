@@ -21,6 +21,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Hadronization and fragmentation functions](EpsilonEridaniRoadmap/Hadronization/README.md)
 - [Inclusive structure functions of the proton and neutron](EpsilonEridaniRoadmap/InclusiveStructureFunctions/README.md)
 - [Multi-parton correlations and higher twist](EpsilonEridaniRoadmap/MultiPartonCorrelations/README.md)
+- [Parton propagation in nuclear matter and collective effects](EpsilonEridaniRoadmap/NuclearMedium/README.md)
 - [Spin structure of the proton and neutron](EpsilonEridaniRoadmap/SpinStructure/README.md)
 - [The bridge between Euclidean lattice quantities and light-cone distributions](EpsilonEridaniRoadmap/LatticeBridge/README.md)
 - [The hadron mass, the energy-momentum tensor, and gravitational form factors](EpsilonEridaniRoadmap/HadronMassAndEnergyMomentumTensor/README.md)

@@ -28,6 +28,7 @@ body:
         - InclusiveStructureFunctions
         - LatticeBridge
         - MultiPartonCorrelations
+        - NuclearMedium
         - SpinStructure
         - WignerDistributions
     validations:
