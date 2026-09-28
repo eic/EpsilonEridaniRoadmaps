@@ -33,7 +33,7 @@ list waives every rule for the listed actor. One-time setup by an org admin:
 
 1. **Create the app** (org Settings -> Developer settings -> GitHub Apps -> New).
    - Webhook: uncheck *Active* (it needs none).
-   - Repository permissions: **Contents: Read and write**, nothing else
+   - Repository permissions: **Contents: Read and write**, and **Administration: Read and write**
      (Metadata: Read-only is added automatically).
    - "Where can this app be installed": *Only on this account*.
 2. **Generate a private key** (app page -> bottom -> Generate a private key)

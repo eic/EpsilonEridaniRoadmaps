@@ -57,6 +57,12 @@ jobs:
             local user="$1"
             case "$user" in *"[bot]") return 0 ;; esac   # never promote a bot
             local count
+            # Check if they are already in the org
+            if ! gh api "/orgs/$ORG/members/$user" --silent; then
+              echo "· $user is not a member of @$ORG; skipping promotion to avoid inviting external users."
+              return 0
+            fi
+
             count=$(gh pr list --repo "$REPO" --state merged --base "$BASE" --author "$user" \
               --limit 500 --json number --jq 'length')
             if [ "$count" -ge "$THRESHOLD" ]; then
