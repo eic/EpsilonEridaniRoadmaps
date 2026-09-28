@@ -27,6 +27,7 @@ body:
         - NuclearMedium
         - Photoproduction
         - RadiativeCorrections
+        - SmallXAndSaturation
         - SpinStructure
         - TransverseMomentumDistributions
         - WignerDistributions

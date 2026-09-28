@@ -24,6 +24,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Parton propagation in nuclear matter and collective effects](EpsilonEridaniRoadmap/NuclearMedium/README.md)
 - [Photoproduction and ultra-peripheral collisions](EpsilonEridaniRoadmap/Photoproduction/README.md)
 - [QED radiative corrections](EpsilonEridaniRoadmap/RadiativeCorrections/README.md)
+- [Small-x evolution, gluon saturation, and the Color Glass Condensate](EpsilonEridaniRoadmap/SmallXAndSaturation/README.md)
 - [Spin structure of the proton and neutron](EpsilonEridaniRoadmap/SpinStructure/README.md)
 - [The bridge between Euclidean lattice quantities and light-cone distributions](EpsilonEridaniRoadmap/LatticeBridge/README.md)
 - [The hadron mass, the energy-momentum tensor, and gravitational form factors](EpsilonEridaniRoadmap/HadronMassAndEnergyMomentumTensor/README.md)
