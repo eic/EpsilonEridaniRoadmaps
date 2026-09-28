@@ -24,6 +24,7 @@ body:
         - ElectroweakAndBSM
         - GeneralizedPartonDistributions
         - HadronMassAndEnergyMomentumTensor
+        - Hadronization
         - InclusiveStructureFunctions
     validations:
       required: true

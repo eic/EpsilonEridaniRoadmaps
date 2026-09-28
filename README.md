@@ -18,6 +18,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Diffraction, rapidity gaps, and the Pomeron](EpsilonEridaniRoadmap/Diffraction/README.md)
 - [Electroweak physics, effective operators, and connections beyond QCD](EpsilonEridaniRoadmap/ElectroweakAndBSM/README.md)
 - [Generalized parton distributions and spatial imaging](EpsilonEridaniRoadmap/GeneralizedPartonDistributions/README.md)
+- [Hadronization and fragmentation functions](EpsilonEridaniRoadmap/Hadronization/README.md)
 - [Inclusive structure functions of the proton and neutron](EpsilonEridaniRoadmap/InclusiveStructureFunctions/README.md)
 - [The hadron mass, the energy-momentum tensor, and gravitational form factors](EpsilonEridaniRoadmap/HadronMassAndEnergyMomentumTensor/README.md)
 
