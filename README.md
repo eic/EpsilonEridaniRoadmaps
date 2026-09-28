@@ -13,6 +13,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 
 ## Roadmaps
 
+- [Collinear evolution, moments, and the running coupling](EpsilonEridaniRoadmap/CollinearEvolution/README.md)
 - [Deep Inelastic Scattering (DIS) Kinematics](EpsilonEridaniRoadmap/DeepInelasticScattering/README.md)
 
 ## Completed roadmaps

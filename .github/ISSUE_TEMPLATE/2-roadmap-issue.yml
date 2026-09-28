@@ -14,6 +14,7 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - CollinearEvolution
         - DeepInelasticScattering
     validations:
       required: true
