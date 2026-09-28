@@ -22,6 +22,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Jets, event shapes, and the strong coupling](EpsilonEridaniRoadmap/JetsAndEventShapes/README.md)
 - [Light nuclei, short-range correlations, and the nuclear force](EpsilonEridaniRoadmap/LightNuclei/README.md)
 - [Multi-parton correlations and higher twist](EpsilonEridaniRoadmap/MultiPartonCorrelations/README.md)
+- [Nuclear parton distributions](EpsilonEridaniRoadmap/NuclearPartonDistributions/README.md)
 - [Parton propagation in nuclear matter and collective effects](EpsilonEridaniRoadmap/NuclearMedium/README.md)
 - [Parton structure and form factors of the pion and kaon](EpsilonEridaniRoadmap/MesonStructure/README.md)
 - [Photoproduction and ultra-peripheral collisions](EpsilonEridaniRoadmap/Photoproduction/README.md)

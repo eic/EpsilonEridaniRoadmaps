@@ -27,6 +27,7 @@ body:
         - MesonStructure
         - MultiPartonCorrelations
         - NuclearMedium
+        - NuclearPartonDistributions
         - Photoproduction
         - RadiativeCorrections
         - SmallXAndSaturation
