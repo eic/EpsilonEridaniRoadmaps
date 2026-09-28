@@ -26,6 +26,7 @@ body:
         - HadronMassAndEnergyMomentumTensor
         - Hadronization
         - InclusiveStructureFunctions
+        - LatticeBridge
     validations:
       required: true
   - type: textarea
