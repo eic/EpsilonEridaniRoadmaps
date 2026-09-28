@@ -28,6 +28,7 @@ body:
         - Photoproduction
         - RadiativeCorrections
         - SpinStructure
+        - TransverseMomentumDistributions
         - WignerDistributions
     validations:
       required: true
