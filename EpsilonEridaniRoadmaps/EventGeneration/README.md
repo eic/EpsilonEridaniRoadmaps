@@ -505,10 +505,12 @@ limit theorems.
 - The effective sample size `(Σ w)² / Σ w²` and the theorem bounding the variance of the
   self-normalised estimator in terms of it, which is the quantity a generator reports and the
   reason it reports it.
-- Negative weights: the theorem that the variance of an estimator with weights of both signs is
-  bounded below by a function of the negative-weight fraction, so that a sample with fraction
-  `ε` of negative weights needs a factor `(1 − 2ε)⁻²` more events for the same precision. This
-  is the price named in Convention 4, as a theorem.
+- Negative weights: for weights of unit magnitude with a fraction `ε` negative, the effective
+  sample size `(Σ w)² / Σ w²` is exactly `(1 − 2ε)² N`, so a factor `(1 − 2ε)⁻²` more events
+  are needed for the precision an unweighted sample gives; for general magnitudes the same
+  bound holds with `ε` replaced by the magnitude-weighted negative fraction. This is the price
+  named in Convention 4, as a theorem — and an equality, so that the hypothesis on `ε` is
+  load-bearing rather than decorative.
 - Multi-channel sampling: `g = Σ α_i g_i` with `Σ α_i = 1`, the weight `f / g`, and the theorem
   that the estimator is unbiased for any `α` in the simplex, with the variance as a function of
   `α` whose minimisation is the adaptive step.
@@ -565,7 +567,7 @@ limit theorems.
 ## Layer 2: the Sudakov process and the shower as a Markov process
 
 References: Sjöstrand, Phys. Lett. B 157 (1985) 321, for the veto algorithm; Buckley et al.,
-Phys. Rep. 504 (2011) 145, §3, for the shower as a Markov process; Platzer and Sjödahl, Eur.
+Phys. Rep. 504 (2011) 145, §3, for the shower as a Markov process; Plätzer and Sjödahl, Eur.
 Phys. J. Plus 127 (2012) 26, for the Sudakov veto algorithm's proof in generality; Engel and
 Nagel, *One-Parameter Semigroups for Linear Evolution Equations*, for the semigroup framing
 that `TauCeti.Analysis.Semigroups` develops; Norris, *Markov Chains*, for the pure-jump process.
