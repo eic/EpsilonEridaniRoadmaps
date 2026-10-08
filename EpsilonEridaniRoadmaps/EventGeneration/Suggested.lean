@@ -214,14 +214,29 @@ theorem importanceVariance_ge (f g O : ℝ → ℝ) (hf : ∀ x, 0 ≤ f x) (hg 
     (∫ x, |O x| * f x) ^ 2 - (∫ x, O x * f x) ^ 2 ≤ importanceVariance f g O := by
   sorry
 
-/-- The price of negative weights: with a fraction `ε` of negative weight, the variance of the
-mean is bounded below by `(1 - 2 ε)⁻²` times what it would be with all weights positive, so the
-sample size needed for a given precision grows by that factor. Layer 1.3. `W` is the law of the
-weight, carried as a measure on `ℝ`. -/
-theorem negativeWeight_variance_bound (W : Measure ℝ) [IsProbabilityMeasure W] (ε : ℝ)
-    (hε : W (Set.Iio 0) = ENNReal.ofReal ε) (hε1 : ε < 1 / 2)
-    (hint : Integrable (fun w => w) W) (hint2 : Integrable (fun w => w ^ 2) W) :
-    (∫ w, |w| ∂W) ^ 2 ≤ (1 - 2 * ε)⁻¹ ^ 2 * (∫ w, w ∂W) ^ 2 + variance (fun w => w) W := by
+/-- The effective-sample-size fraction of a weight law: `(∫ w)² / ∫ w²`, the ratio by which a
+weighted sample's precision falls short of an unweighted sample of the same size. Layer 1.3. -/
+noncomputable def essFraction (W : Measure ℝ) : ℝ :=
+  (∫ w, w ∂W) ^ 2 / ∫ w, w ^ 2 ∂W
+
+/-- The price of negative weights, for weights of unit magnitude: with a fraction `ε` of them
+negative, the effective-sample-size fraction is exactly `(1 - 2 ε)²`, so `(1 - 2 ε)⁻²` times as
+many events are needed for the precision an unweighted sample would give. Layer 1.3; Convention
+4. This is an equality, and the hypothesis `hε` is load-bearing — a previous form of this
+statement was an inequality that held for every `W` with finite second moment and so said
+nothing about `ε`. -/
+theorem essFraction_eq_of_unitWeights (W : Measure ℝ) [IsProbabilityMeasure W] (ε : ℝ)
+    (hunit : ∀ᵐ w ∂W, |w| = 1) (hε : W (Set.Iio 0) = ENNReal.ofReal ε) :
+    essFraction W = (1 - 2 * ε) ^ 2 := by
+  sorry
+
+/-- The general case: with `a⁻` the magnitude-weighted mass of the negative weights and `a` the
+total magnitude, the effective-sample-size fraction is at most `(1 - 2 a⁻ / a)²`. For unit
+magnitudes `a⁻ / a = ε` and this is the equality above. Layer 1.3. -/
+theorem essFraction_le_of_negativeMass (W : Measure ℝ) [IsProbabilityMeasure W]
+    (hint : Integrable (fun w => w ^ 2) W) (hpos : 0 < ∫ w, |w| ∂W) :
+    essFraction W
+      ≤ (1 - 2 * (∫ w in Set.Iio 0, |w| ∂W) / ∫ w, |w| ∂W) ^ 2 := by
   sorry
 
 /-- The cross-section estimator: the mean of `N` i.i.d. weights, where a rejected trial carries
@@ -249,16 +264,26 @@ theorem crossSectionEstimator_ae_tendsto {Ω : Type*} [MeasurableSpace Ω] (μ :
 
 /-! ## Layer 2: the Sudakov process and the shower as a Markov process -/
 
+/-- The first emission scale of a counting process run downward from `T`: the supremum of the
+scales `t ≤ T` at which the count on `(t, T]` is already positive, and `T` itself if there is no
+emission at all. Layer 2.1. -/
+noncomputable def firstEmission (count : Set ℝ → ℕ) (T : ℝ) : ℝ :=
+  sSup ({t | t ≤ T ∧ 1 ≤ count (Set.Ioc t T)} ∪ {T})
+
 open EpsilonEridani.QFT.Shower in
-/-- `sudakov` is a probability: the law of the first emission scale `τ` of the emission
-process at intensity `K`, run downward from `T`, assigns to `{τ < t}` exactly the Sudakov
-factor. The emission process is carried as its first-emission law `τLaw`, which is what the
-theorem is about; constructing it as a Poisson random measure is Layer 2.1's target. Convention
-6: this is the theorem after which `sudakov` may be called a probability. -/
-theorem sudakov_eq_prob_noEmission (K : ℝ → ℝ) (hK : ∀ s, 0 ≤ K s) (hKc : Continuous K)
-    (T : ℝ) (τLaw : Measure ℝ) [IsProbabilityMeasure τLaw]
-    (hτ : ∀ t ≤ T, τLaw (Set.Ioc t T) = ENNReal.ofReal (1 - sudakov K t T)) (t : ℝ) (ht : t ≤ T) :
-    τLaw (Set.Iic t) = ENNReal.ofReal (sudakov K t T) := by
+/-- **`sudakov` is a probability.** For a counting process whose count on `(t, T]` is Poisson
+with mean `∫_t^T K` — the hypothesis is stated through the exponential, so that `sudakov` does
+not appear in it — the first emission scale satisfies `ℙ(τ < t) = sudakov K t T`. Convention 6:
+this is the theorem after which `sudakov` may be called a probability. `count` is a random
+measure's counting function; its monotonicity in the set is what makes `{τ < t}` the event
+"no emission in `(t, T]`". Layer 2.1. -/
+theorem sudakov_eq_prob_noEmission {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
+    [IsProbabilityMeasure μ] (K : ℝ → ℝ) (hK : ∀ s, 0 ≤ K s) (hKc : Continuous K) (T : ℝ)
+    (count : Ω → Set ℝ → ℕ) (hmono : ∀ ω A B, A ⊆ B → count ω A ≤ count ω B)
+    (hpoisson : ∀ t ≤ T, μ {ω | count ω (Set.Ioc t T) = 0}
+      = ENNReal.ofReal (Real.exp (-(∫ s in t..T, K s))))
+    (hmeas : Measurable fun ω => firstEmission (count ω) T) (t : ℝ) (ht : t < T) :
+    μ {ω | firstEmission (count ω) T < t} = ENNReal.ofReal (sudakov K t T) := by
   sorry
 
 open EpsilonEridani.QFT.Shower in
@@ -281,10 +306,22 @@ noncomputable def vetoKernel (K G : ℝ → ℝ) : ProbabilityTheory.Kernel (ℝ
   sorry
 
 /-- The accepted scale of the veto chain: the first component at the first step whose second
-component is `true`. Defined on trajectories, which is the type the Ionescu-Tulcea construction
-produces. -/
-noncomputable def acceptedScale (traj : ℕ → ℝ × Bool) : ℝ :=
-  sorry
+component is `true`, and `0` on the null set of trajectories that never accept. Defined on
+trajectories, which is the type the Ionescu-Tulcea construction produces. -/
+noncomputable def acceptedScale (traj : ℕ → ℝ × Bool) : ℝ := by
+  classical
+  exact if h : ∃ n, (traj n).2 = true then (traj (Nat.find h)).1 else 0
+
+/-- A trajectory law *is the chain* of a kernel from a start: its zeroth marginal is the start
+and each successive marginal is the previous one pushed through the kernel. This is the
+marginal form of the Markov property, and it is the hypothesis that ties a `Measure (ℕ → S)` to
+the kernel named in a conclusion; without it a statement about `trajLaw` is about an arbitrary
+measure. The full-trajectory construction is `Mathlib.Probability.Kernel.IonescuTulcea.Traj`.
+Layer 2.2. -/
+def IsChainOf {S : Type*} [MeasurableSpace S] (trajLaw : Measure (ℕ → S))
+    (κ : ProbabilityTheory.Kernel S S) (start : S) : Prop :=
+  trajLaw.map (fun τ => τ 0) = Measure.dirac start ∧
+  ∀ n, trajLaw.map (fun τ => τ (n + 1)) = (trajLaw.map (fun τ => τ n)).bind κ
 
 open EpsilonEridani.QFT.Shower in
 /-- **The main theorem of Layer 2.** For every overestimate `G ≥ K`, the law of the accepted
@@ -296,6 +333,7 @@ constructed by `Mathlib.Probability.Kernel.IonescuTulcea.Traj` in Layer 2.2. -/
 theorem vetoChain_law (K G : ℝ → ℝ) (hK : ∀ s, 0 ≤ K s) (hKG : ∀ s, K s ≤ G s)
     (hKc : Continuous K) (hGc : Continuous G) (hGi : ∀ t, IntervalIntegrable G volume t t)
     (T : ℝ) (trajLaw : Measure (ℕ → ℝ × Bool)) [IsProbabilityMeasure trajLaw]
+    (hchain : IsChainOf trajLaw (vetoKernel K G) (T, false))
     (hmeas : Measurable acceptedScale) :
     trajLaw.map acceptedScale
       = (volume.restrict (Set.Iic T)).withDensity
@@ -309,7 +347,9 @@ overestimate costs proposals and changes the law not at all. Layer 2.2. `rejecti
 theorem vetoChain_expected_rejections (K G : ℝ → ℝ) (hK : ∀ s, 0 ≤ K s) (hKG : ∀ s, K s ≤ G s)
     (hKc : Continuous K) (hGc : Continuous G) (T t : ℝ) (ht : t ≤ T)
     (trajLaw : Measure (ℕ → ℝ × Bool)) [IsProbabilityMeasure trajLaw]
-    (rejections : (ℕ → ℝ × Bool) → ℕ) (hmeas : Measurable rejections) :
+    (hchain : IsChainOf trajLaw (vetoKernel K G) (T, false))
+    (rejections : (ℕ → ℝ × Bool) → ℕ) (hmeas : Measurable rejections)
+    (hrej : ∀ τ, rejections τ = sInf {n | (τ n).2 = true}) :
     ∫ τ, (rejections τ : ℝ) ∂(trajLaw.restrict {τ | t ≤ acceptedScale τ})
       = ∫ s in t..T, (G s - K s) := by
   sorry
@@ -362,6 +402,23 @@ noncomputable def totalRate {V Flavor Colour : Type*} (P : Flavor → ℝ → �
     (c : Config V Flavor Colour) (t : ℝ) : ℝ :=
   ∑ i, ∫ z in (0 : ℝ)..1, if z * (1 - z) * t > tCut then P (c.flavour i) z t else 0
 
+/-- The splitting kernel on configurations at scale `t`: from a configuration, pick a parton, a
+channel, a resolvable momentum fraction and an azimuth, and replace the parton by two through
+the splitting map of Layer 3.4. A Markov kernel; its construction is Layer 2.4's target. -/
+noncomputable def splittingKernel {V Flavor Colour : Type*} [MeasurableSpace V]
+    [MeasurableSpace Flavor] [MeasurableSpace Colour] [MeasurableSpace (Config V Flavor Colour)]
+    (P : Flavor → ℝ → ℝ → ℝ) (tCut : ℝ) (t : ℝ) :
+    ProbabilityTheory.Kernel (Config V Flavor Colour) (Config V Flavor Colour) :=
+  sorry
+
+/-- The generator of the shower process at scale `t`, acting on an observable `f`:
+`λ(c, t) (∫ f dQ(c, t) − f c)`, the pure-jump form. Layer 2.4. -/
+noncomputable def showerGenerator {V Flavor Colour : Type*} [MeasurableSpace V]
+    [MeasurableSpace Flavor] [MeasurableSpace Colour] [MeasurableSpace (Config V Flavor Colour)]
+    (P : Flavor → ℝ → ℝ → ℝ) (tCut : ℝ) (f : Config V Flavor Colour → ℝ)
+    (c : Config V Flavor Colour) (t : ℝ) : ℝ :=
+  totalRate P tCut c t * ((∫ c', f c' ∂(splittingKernel P tCut t c)) - f c)
+
 /-- The transition semigroup of the shower process, indexed by the *decrement* in the scale
 (Convention 7), as operators on bounded measurable functions of the configuration. Carried as a
 family of kernels; the construction from the jump chain and holding times is Layer 2.4's target.
@@ -376,28 +433,50 @@ structure ShowerSemigroup (V Flavor Colour : Type*) [MeasurableSpace V] [Measura
   /-- Zero decrement is the identity kernel. -/
   zero : ∀ T, U T 0 = ProbabilityTheory.Kernel.id
 
+/-- A shower semigroup *is generated by* the kernel `P` with cutoff `tCut`: the derivative at
+zero decrement of every bounded observable's expectation is the shower generator. This is the
+hypothesis that ties an abstract `ShowerSemigroup` to the physics named in a conclusion; it is
+the backward equation at `s = 0`, and together with the semigroup law it determines `U`. Layer
+2.4. -/
+def ShowerSemigroup.IsGeneratedBy {V Flavor Colour : Type*} [MeasurableSpace V]
+    [MeasurableSpace Flavor] [MeasurableSpace Colour] [MeasurableSpace (Config V Flavor Colour)]
+    (S : ShowerSemigroup V Flavor Colour) (P : Flavor → ℝ → ℝ → ℝ) (tCut : ℝ) : Prop :=
+  ∀ (T : ℝ) (c : Config V Flavor Colour) (f : Config V Flavor Colour → ℝ), Measurable f →
+    (∃ M, ∀ c', |f c'| ≤ M) →
+    HasDerivAt (fun s => ∫ c', f c' ∂(S.U T s c)) (showerGenerator P tCut f c T) 0
+
 /-- The no-emission probability of the shower from a single-parton configuration is the Sudakov
 factor of its total regulated rate: the semigroup applied to the indicator of "same
 multiplicity". This connects Layer 2.1's survival probability to the process. Layer 2.4. -/
 theorem ShowerSemigroup.noEmission_eq_sudakov {V Flavor Colour : Type*} [MeasurableSpace V]
     [MeasurableSpace Flavor] [MeasurableSpace Colour] [MeasurableSpace (Config V Flavor Colour)]
     (S : ShowerSemigroup V Flavor Colour) (P : Flavor → ℝ → ℝ → ℝ) (tCut : ℝ)
+    (hgen : S.IsGeneratedBy P tCut)
+    (hsplit : ∀ t c',
+      (splittingKernel P tCut t c') {c'' : Config V Flavor Colour | c''.n = c'.n} = 0)
     (c : Config V Flavor Colour) (hc : c.n = 1) (T s : ℝ) (hs : 0 ≤ s) (hmeas : MeasurableSet
       {c' : Config V Flavor Colour | c'.n = c.n}) :
     (S.U T s c) {c' | c'.n = c.n}
       = ENNReal.ofReal (EpsilonEridani.QFT.Shower.sudakov (totalRate P tCut c) (T - s) T) := by
   sorry
 
-/-- The branching-process termination criterion: a Galton–Watson process with offspring law
-`ξ` on `{0, 2}` is almost surely finite if and only if the mean offspring number is at most one.
-Built here as a target because neither Mathlib nor TauCeti has it. Layer 2.5. `totalProgeny` is
-the total number of individuals, carried as an `ℕ∞`-valued random variable on the process's
-probability space. -/
-theorem galtonWatson_finite_iff {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
-    [IsProbabilityMeasure μ] (ξ : ℕ → Ω → ℕ) (hind : iIndepFun ξ μ)
-    (hident : ∀ i, IdentDistrib (ξ i) (ξ 0) μ μ) (hsupp : ∀ i ω, ξ i ω = 0 ∨ ξ i ω = 2)
-    (totalProgeny : Ω → ℕ∞) (hmeas : Measurable totalProgeny) :
-    (∀ᵐ ω ∂μ, totalProgeny ω < ⊤) ↔ ∫ ω, (ξ 0 ω : ℝ) ∂μ ≤ 1 := by
+/-- Generation sizes of a Galton–Watson process from doubly-indexed offspring counts
+`ξ n k` (individual `k` of generation `n`): one ancestor, and each generation the sum of its
+members' offspring. Layer 2.5. -/
+def generationSize {Ω : Type*} (ξ : ℕ → ℕ → Ω → ℕ) : ℕ → Ω → ℕ
+  | 0, _ => 1
+  | n + 1, ω => ∑ k ∈ Finset.range (generationSize ξ n ω), ξ n k ω
+
+/-- The branching-process termination criterion: with i.i.d. offspring counts supported on
+`{0, 2}`, the process dies out almost surely if and only if the mean offspring number is at
+most one. Built here as a target because neither Mathlib nor TauCeti has it; the
+generating-function proof is the content. Layer 2.5. -/
+theorem galtonWatson_extinction_iff {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
+    [IsProbabilityMeasure μ] (ξ : ℕ → ℕ → Ω → ℕ)
+    (hind : iIndepFun (fun p : ℕ × ℕ => ξ p.1 p.2) μ)
+    (hident : ∀ n k, IdentDistrib (ξ n k) (ξ 0 0) μ μ)
+    (hsupp : ∀ n k ω, ξ n k ω = 0 ∨ ξ n k ω = 2) :
+    (∀ᵐ ω ∂μ, ∃ n, generationSize ξ n ω = 0) ↔ ∫ ω, (ξ 0 0 ω : ℝ) ∂μ ≤ 1 := by
   sorry
 
 /-- **The theorem that explains the first executable cascade.** With a fixed momentum-fraction
@@ -435,6 +514,11 @@ theorem shower_singleInclusive_isDGLAP {V Flavor Colour : Type*} [Fintype Flavor
     [MeasurableSpace V] [MeasurableSpace Flavor] [MeasurableSpace Colour]
     [MeasurableSpace (Config V Flavor Colour)]
     (S : ShowerSemigroup V Flavor Colour) (P : SplittingKernel Flavor) (αs : RunningCoupling)
+    (tCut : ℝ)
+    -- the shower's per-flavour kernel is the DGLAP kernel summed over daughters, times the
+    -- coupling at the scale and `1/t`: the leading-logarithmic shower probability
+    (hgen : S.IsGeneratedBy
+      (fun i z t => (∑ j, P j i z t) * αs t / (2 * Real.pi) / t) tCut)
     (xOf : V → ℝ) (hx : Measurable xOf) (T : ℝ)
     (D : Flavor → EpsilonEridani.Particles.Parton.PDF.Pdf Flavor)
     (c₀ : Flavor → Config V Flavor Colour) (hc₀ : ∀ i, (c₀ i).n = 1 ∧ (c₀ i).flavour 0 = i)
@@ -544,13 +628,16 @@ noncomputable def stringStep (a b : ℝ) (mHadron : ℝ) :
     ProbabilityTheory.Kernel (ℝ × List ℝ) (ℝ × List ℝ) :=
   sorry
 
-/-- The remaining invariant mass is a supermartingale bounded below, so the string chain
-terminates almost surely. Layer 4.1. `trajLaw` is the trajectory measure of the chain from a
-string of mass `W`; `stopIdx` the first index at which the remaining mass is below threshold. -/
+/-- The string chain terminates almost surely: each step either lowers the remaining mass by at
+least one hadron mass or crosses the threshold, so from mass `W` at most `⌈W / mHadron⌉` steps
+occur. Stated against the chain's own kernel through `IsChainOf`, so that the conclusion is
+about this chain and not about an arbitrary trajectory measure. Layer 4.1. -/
 theorem stringChain_terminates (a b mHadron W threshold : ℝ) (hW : 0 < W) (hthr : 0 < threshold)
     (trajLaw : Measure (ℕ → ℝ × List ℝ)) [IsProbabilityMeasure trajLaw]
-    (stopIdx : (ℕ → ℝ × List ℝ) → ℕ∞) (hstop : Measurable stopIdx) :
-    ∀ᵐ τ ∂trajLaw, stopIdx τ < ⊤ := by
+    (hchain : IsChainOf trajLaw (stringStep a b mHadron) (W, []))
+    (hdecr : ∀ s, ∀ᵐ s' ∂(stringStep a b mHadron s), s'.1 ≤ s.1 - mHadron ∨ s'.1 < threshold)
+    (hm : 0 < mHadron) :
+    ∀ᵐ τ ∂trajLaw, ∃ n, (τ n).1 < threshold := by
   sorry
 
 /-- The single-hadron marginal of a hadronisation measure: the expected number of hadrons with
@@ -625,7 +712,7 @@ theorem subtractiveMatching_unitary (B : ℝ) (R K : ℝ → ℝ) (T tCut : ℝ)
 
 /-- Negative weights in the subtractive matching occur exactly where the shower overestimates
 the real emission, and their fraction is the integral of the positive part of `B K - R`.
-Layer 5.2; connects to `negativeWeight_variance_bound`. -/
+Layer 5.2; connects to `essFraction_eq_of_unitWeights`. -/
 theorem subtractiveMatching_negativeFraction (B : ℝ) (R K : ℝ → ℝ) (T tCut : ℝ) :
     ∫ t in tCut..T, max (B * K t - R t) 0
       = ∫ t in tCut..T, max (-(subtractiveMatching B R K T tCut).firstEmission t
