@@ -127,7 +127,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: eic/EpsilonEridaniProgress/.github/workflows/merge.yml@53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
+    uses: eic/EpsilonEridaniProgress/.github/workflows/merge.yml@781fc2670f231205f518a3e4796c166618ee078a
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
       progress_ref: 53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
