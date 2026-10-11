@@ -26,7 +26,7 @@ jobs:
     # Same full SHA as progress-merge.yml uses; bump both together.
     uses: eic/EpsilonEridaniProgress/.github/workflows/announce.yml@781fc2670f231205f518a3e4796c166618ee078a
     with:
-      progress_ref: 53ca0206acd8e97c5e28b57ad04458f5f0a3f4d1
+      progress_ref: 781fc2670f231205f518a3e4796c166618ee078a
       channel: EpsilonEridani
       topic: Progress logs
     secrets:
