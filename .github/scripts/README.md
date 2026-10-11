@@ -51,3 +51,23 @@ list waives every rule for the listed actor. One-time setup by an org admin:
 
 If setup is incomplete the workflow still runs and computes the fix, but the
 final `git push` fails, which is a visible signal rather than a silent miss.
+
+## `check_progress_pins.py`
+
+`progress-merge.yml` and `progress-announce.yml` call reusable workflows in
+EpsilonEridaniProgress, pinned by full SHA in their `uses:` lines. Dependabot bumps
+those lines and nothing else, and both callers run from the base branch, so a bump
+that breaks a call would only fail after it merged (as #37/#38 did: `merge.yml`
+renamed `app_id` to `client_id`). Two things prevent that:
+
+- `progress_ref`, which must name the same commit as `uses:`, is never written down:
+  each caller reads it from its own `uses:` line at run time with
+  [`.github/actions/progress-pin`](../actions/progress-pin/action.yml), from the
+  trusted (`github.workflow_sha`) copy of the workflow. Dependabot bumps both
+  workflows in one group.
+- `python3 .github/scripts/check_progress_pins.py` checks every call against the
+  called workflow at its pinned commit: no input or secret it does not declare, none
+  it requires missing, no literal SHA in `progress_ref`, one pin across both files.
+  The [`progress-pins`](../workflows/progress-pins.yml) workflow runs it, with
+  `test_check_progress_pins.py`, on `pull_request`, so a Dependabot bump's own pull
+  request shows the break. Needs PyYAML.
