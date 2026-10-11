@@ -14,7 +14,7 @@ on:
       # Exactly where a generated report can land: one area directory under either parent. `**` would
       # match across slashes, so a nested or root-level PROGRESS.md written by hand would trigger an
       # announcement attempt for something the gate would never have accepted.
-      - 'EpsilonEridaniRoadmap/*/PROGRESS.md'
+      - 'EpsilonEridaniRoadmaps/*/PROGRESS.md'
       - 'Completed/*/PROGRESS.md'
   workflow_dispatch:
 
