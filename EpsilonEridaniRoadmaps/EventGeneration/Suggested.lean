@@ -167,7 +167,7 @@ theorem acceptReject_law (f g : ℝ → ℝ) (c : ℝ) (hc : 0 < c)
     let μ := (volume.withDensity fun x => ENNReal.ofReal (g x)).prod unif
     let acc : Set (ℝ × ℝ) := {p | p.2 ≤ f p.1 / (c * g p.1)}
     (μ.restrict acc).map Prod.fst = (ENNReal.ofReal (∫ x, f x / c)) •
-      ((∫ x, f x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (f x)) := by
+      (ENNReal.ofReal (∫ x, f x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (f x)) := by
   sorry
 
 /-- The acceptance probability is `∫ f / c`. Layer 1.2. -/
@@ -189,9 +189,9 @@ theorem acceptReject_law_of_violation (f g : ℝ → ℝ) (c : ℝ) (hc : 0 < c)
     let acc : Set (ℝ × ℝ) := {p | p.2 ≤ f p.1 / (c * g p.1)}
     let m : ℝ → ℝ := fun x => min (f x) (c * g x)
     (μ.restrict acc).map Prod.fst = (ENNReal.ofReal ((∫ x, m x) / c)) •
-      ((∫ x, m x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (m x))
-    ∧ ((∫ x, m x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (m x))
-        ≠ (∫ x, f x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (f x) := by
+      (ENNReal.ofReal (∫ x, m x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (m x))
+    ∧ (ENNReal.ofReal (∫ x, m x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (m x))
+        ≠ ENNReal.ofReal (∫ x, f x)⁻¹ • volume.withDensity fun x => ENNReal.ofReal (f x) := by
   sorry
 
 /-- Importance sampling: the weighted pushforward of the proposal law is the target. Layer 1.3.
@@ -509,7 +509,7 @@ with the leading-order kernels and coupling. `D` is carried as a `Pdf Flavor` in
 initial flavour, and the hypothesis that it is the intensity measure of the process is
 `hintensity`, stated against the semigroup. Layer 3.1; Convention 8 is the proof strategy, which
 is uniqueness in `TauCeti.Analysis.Semigroups.CauchyProblem.Uniqueness`. -/
-theorem shower_singleInclusive_isDGLAP {V Flavor Colour : Type*} [Fintype Flavor]
+theorem shower_singleInclusive_isDGLAP {V Colour : Type*} {Flavor : Type} [Fintype Flavor]
     [DecidableEq Flavor]
     [MeasurableSpace V] [MeasurableSpace Flavor] [MeasurableSpace Colour]
     [MeasurableSpace (Config V Flavor Colour)]
@@ -521,7 +521,7 @@ theorem shower_singleInclusive_isDGLAP {V Flavor Colour : Type*} [Fintype Flavor
       (fun i z t => (∑ j, P j i z t) * αs t / (2 * Real.pi) / t) tCut)
     (xOf : V → ℝ) (hx : Measurable xOf) (T : ℝ)
     (D : Flavor → EpsilonEridani.Particles.Parton.PDF.Pdf Flavor)
-    (c₀ : Flavor → Config V Flavor Colour) (hc₀ : ∀ i, (c₀ i).n = 1 ∧ (c₀ i).flavour 0 = i)
+    (c₀ : Flavor → Config V Flavor Colour) (hc₀ : ∀ i, (c₀ i).n = 1 ∧ ∀ k, (c₀ i).flavour k = i)
     (hintensity : ∀ i j x t, t ≤ T →
       D i j x t = ∫ c', (∑ k, if c'.flavour k = j ∧ xOf (c'.p k) ≤ x then (1 : ℝ) else 0)
         ∂(S.U T (T - t) (c₀ i))) :
@@ -619,6 +619,12 @@ theorem leftRightSymmetric_unique (f : ℝ → ℝ → ℝ) (b : ℝ)
     (hsym : LeftRightSymmetric f lundArea b) :
     ∃ a : ℝ, ∃ N : ℝ → ℝ, ∀ m z, 0 < z → z < 1 → f m z = N m * lundSymmetric a b m z := by
   sorry
+
+/-- Finite lists of reals carry the σ-algebra of the disjoint union `Σ n, Fin n → ℝ`: a set of
+lists is measurable when each of its length slices is Borel in `ℝⁿ`. Mathlib has no instance on
+`List`; this is the standard one, and it is what the hadron lists of Layer 4 need. -/
+instance : MeasurableSpace (List ℝ) :=
+  MeasurableSpace.comap (fun l : List ℝ => (⟨l.length, l.get⟩ : Σ n, Fin n → ℝ)) inferInstance
 
 /-- The string fragmentation chain: state is the remaining string's invariant mass together
 with the hadrons produced so far. One step consumes a fraction of the remaining light-cone
