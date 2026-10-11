@@ -21,6 +21,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Inclusive structure functions of the proton and neutron](EpsilonEridaniRoadmaps/InclusiveStructureFunctions/README.md)
 - [Jets, event shapes, and the strong coupling](EpsilonEridaniRoadmaps/JetsAndEventShapes/README.md)
 - [Light nuclei, short-range correlations, and the nuclear force](EpsilonEridaniRoadmaps/LightNuclei/README.md)
+- [Monte Carlo event generation as stochastic processes](EpsilonEridaniRoadmaps/EventGeneration/README.md)
 - [Multi-parton correlations and higher twist](EpsilonEridaniRoadmaps/MultiPartonCorrelations/README.md)
 - [Nuclear parton distributions](EpsilonEridaniRoadmaps/NuclearPartonDistributions/README.md)
 - [Parton propagation in nuclear matter and collective effects](EpsilonEridaniRoadmaps/NuclearMedium/README.md)

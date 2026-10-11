@@ -21,6 +21,7 @@ body:
         - CollinearEvolution
         - Diffraction
         - ElectroweakAndBSM
+        - EventGeneration
         - GeneralizedPartonDistributions
         - HadronMassAndEnergyMomentumTensor
         - Hadronization
