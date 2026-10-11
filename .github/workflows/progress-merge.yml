@@ -47,7 +47,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pr: ${{ steps.pick.outputs.pr }}
+      progress_ref: ${{ steps.progress-pin.outputs.sha }}
     steps:
+      # The trusted copy of this workflow file (the commit this run came from: the base branch for
+      # `pull_request_target`, the default branch otherwise), whose `uses:` pin below is the
+      # EpsilonEridaniProgress commit `progress_ref` must name. Never the pull request's content.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.workflow_sha }}
+          sparse-checkout: .github
+          persist-credentials: false
+      - id: progress-pin
+        uses: ./.github/actions/progress-pin
+        with:
+          workflow: progress-merge.yml
       - name: Decide which pull request to consider
         id: pick
         env:
@@ -121,7 +134,8 @@ jobs:
     if: needs.resolve.outputs.pr != ''
     # Pinned to a full EpsilonEridaniProgress SHA. `progress_ref` must be the SAME SHA: it selects the
     # validator code checked out inside, and a mismatch would validate with different rules than the
-    # ones reviewed here.
+    # ones reviewed here. So it is not written here: `resolve` reads it from this `uses:` line at run
+    # time (.github/actions/progress-pin), and a Dependabot bump of the line is complete on its own.
     # `write` here and nowhere else: the called workflow narrows it again to the one job that
     # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
     permissions:
@@ -130,7 +144,7 @@ jobs:
     uses: eic/EpsilonEridaniProgress/.github/workflows/merge.yml@781fc2670f231205f518a3e4796c166618ee078a
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: 781fc2670f231205f518a3e4796c166618ee078a
+      progress_ref: ${{ needs.resolve.outputs.progress_ref }}
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See

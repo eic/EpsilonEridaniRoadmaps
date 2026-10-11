@@ -9,3 +9,11 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      # Bump both EpsilonEridaniProgress reusable workflows in one PR, so progress-merge.yml and
+      # progress-announce.yml move to the same commit together. `progress_ref` needs no edit: it is
+      # read from the `uses:` lines at run time (.github/actions/progress-pin), and
+      # check_progress_pins.py checks the calls against the bumped workflows' inputs.
+      epsiloneridani-progress:
+        patterns:
+          - "eic/EpsilonEridaniProgress/*"
