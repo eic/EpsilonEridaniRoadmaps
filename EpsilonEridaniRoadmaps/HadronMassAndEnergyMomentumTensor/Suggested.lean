@@ -33,6 +33,8 @@ content of Layer 0 and the factorisation content of Layer 5 attach to the form-f
 
 namespace EpsilonEridaniRoadmaps.HadronMassAndEnergyMomentumTensor
 
+noncomputable section
+
 open MeasureTheory
 
 /-! ## Layer 0: the operator, and the part label it carries -/
@@ -377,5 +379,7 @@ theorem gluon_dTerm_from_threshold_slope (T : Target) (S : GFFSet) (amp : ℝ �
 in a form `LatticeBridge` can apply. -/
 def SumRulesHold (T : Target) (S : GFFSet) : Prop :=
   (S.total).A 0 = 1 ∧ ((S.total).A 0 + (S.total).B 0) = 1 ∧ (S.total).Cbar 0 = 0
+
+end
 
 end EpsilonEridaniRoadmaps.HadronMassAndEnergyMomentumTensor
