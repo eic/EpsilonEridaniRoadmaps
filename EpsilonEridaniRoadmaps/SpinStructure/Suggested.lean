@@ -26,6 +26,7 @@ Every unproved statement below is `sorry`. Nothing here is claimed to be proved,
 namespace EpsilonEridaniRoadmaps.SpinStructure
 
 open EpsilonEridani
+open scoped ComplexOrder
 
 /-! ## Layer 0: the antisymmetric hadronic tensor and the polarised asymmetries -/
 

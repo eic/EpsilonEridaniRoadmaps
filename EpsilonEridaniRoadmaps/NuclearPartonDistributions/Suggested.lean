@@ -32,6 +32,8 @@ support above unit momentum fraction.
 
 namespace EpsilonEridaniRoadmaps.NuclearPartonDistributions
 
+noncomputable section
+
 open MeasureTheory
 
 /-! ## Layer 0: nuclei, densities and the modification ratio -/
@@ -438,7 +440,7 @@ theorem neutral_current_blind [Fintype ι] (n : ℕ) (T : ForwardMap ι n) (Q2 :
 /-- The gluon enters inclusive nuclear data only through the scale derivative of the structure
 function, so the constraint on it degrades to nothing as the scale lever arm shrinks. The sharpest
 statement the roadmap makes about what a measurement can deliver. -/
-theorem gluon_only_through_evolution [Fintype ι] (n : ℕ) (T : ForwardMap ι n)
+theorem gluon_only_through_evolution [Fintype ι] [DecidableEq ι] (n : ℕ) (T : ForwardMap ι n)
     (gluon : ι) (Q2 : ℝ)
     (hLO : ∀ f k, T.predict f k =
       Finset.univ.sum (fun i : ι => if i = gluon then 0 else f.d i ((k.val : ℝ)) Q2)) :
@@ -524,5 +526,7 @@ theorem rescattering_term_scaling (radius : Nucleus → ℝ) (r0 : ℝ)
     ∀ n : ℕ, ∃ c : ℝ, ∀ nuc : Nucleus,
       term n nuc = c * nuc.mass ^ (((n : ℝ) + 2) / 3) := by
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.NuclearPartonDistributions

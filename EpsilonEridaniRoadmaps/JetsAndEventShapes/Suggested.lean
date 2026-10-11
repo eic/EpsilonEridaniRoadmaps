@@ -343,6 +343,7 @@ def netFlavour {Fl : Type} [AddCommGroup Fl] (s : FlavouredFinalState Fl V) : Fl
 theorem netFlavour_addSoft {Fl : Type} [AddCommGroup Fl] (s : FlavouredFinalState Fl V) (p : V) :
     netFlavour (⟨(0, p) ::ₘ s.constituents⟩ : FlavouredFinalState Fl V) = netFlavour s := sorry
 
+open scoped Classical in
 /-- The flavour-`k_T` pair distance: the generalised distance, with the minimum of the energies
 replaced by the maximum when exactly one member of the pair carries flavour. That replacement is
 the whole mechanism by which the algorithm becomes flavour safe. -/

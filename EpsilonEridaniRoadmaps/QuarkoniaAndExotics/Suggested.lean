@@ -30,6 +30,10 @@ contributor to prove.
 
 namespace EpsilonEridaniRoadmaps.QuarkoniaAndExotics
 
+noncomputable section
+
+open scoped Matrix ComplexOrder
+
 /-! ## Layer 0: the scale hierarchy and the velocity expansion -/
 
 /-- The dynamical scales of a heavy quark-antiquark pair: the heavy quark mass, the typical
@@ -363,5 +367,7 @@ a tautology and carried none of this. -/
 theorem fourQuark_singlet_multiplicity :
     (Matrix.of ![![(9 : ℝ), 3], ![3, 9]]).det ≠ 0 := by
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.QuarkoniaAndExotics

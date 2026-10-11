@@ -4,6 +4,7 @@ import EpsilonEridani.Particles.Parton.TMD.Basic
 import EpsilonEridani.Particles.Parton.TMD.PowerCorrections
 import EpsilonEridani.QFT.Factorization.Convolution.Basic
 import EpsilonEridani.QFT.Factorization.Convolution.Collinear
+import EpsilonEridani.QFT.Factorization.Evolution.Basic
 import EpsilonEridani.QFT.Factorization.Evolution.Reciprocity
 
 /-!
@@ -28,6 +29,8 @@ Unproved statements are `sorry`, never a `Prop`-valued field with a placeholder 
 -/
 
 namespace EpsilonEridaniRoadmaps.Hadronization
+
+noncomputable section
 
 open EpsilonEridani
 
@@ -241,5 +244,7 @@ theorem approximatesToOrder_fragmentationEventShapeMean
     Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder
       (fragmentationEventShapeMean D weight) K.leadingPower 1 :=
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.Hadronization

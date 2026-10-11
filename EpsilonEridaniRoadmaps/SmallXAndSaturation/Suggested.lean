@@ -22,6 +22,8 @@ Every `sorry` below is a target of the roadmap, not an admitted assumption.
 
 namespace EpsilonEridaniRoadmaps.SmallXAndSaturation
 
+noncomputable section
+
 open scoped Matrix
 
 /-! ## Layer 0: transverse geometry, Wilson lines, and the dipole amplitude -/
@@ -342,5 +344,7 @@ Layer 6.1. -/
 theorem nuclearRapidityShift_pos {A αbar : ℝ} (hA : 1 < A) (hαbar : 0 < αbar) :
     0 < nuclearRapidityShift A αbar := by
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.SmallXAndSaturation

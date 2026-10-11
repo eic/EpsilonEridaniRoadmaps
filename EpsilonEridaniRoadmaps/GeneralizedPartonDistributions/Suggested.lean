@@ -27,6 +27,8 @@ would rest on one, the statement appears here as a `sorry`-ed target rather than
 
 namespace EpsilonEridaniRoadmaps.GeneralizedPartonDistributions
 
+noncomputable section
+
 open scoped Real
 
 /-! ## Layer 0: off-forward correlators and the distribution set -/
@@ -311,12 +313,11 @@ noncomputable def forwardMapLO (S : AccessibleSet) (t : ℝ)
     (H : ℝ → ℝ → ℝ → ℝ) : ℝ → ℂ :=
   fun xi => cffLO H xi t
 
-/-- Compactness of the forward map on the weighted space, via a Hilbert–Schmidt estimate on the
+/- Compactness of the forward map on the weighted space, via a Hilbert–Schmidt estimate on the
 principal-value kernel, is the technical core of Layer 5.1; everything in Layer 5.6 follows from
 it. It is not given a signature here, because stating it requires the weighted `L²` space and the
 operator-space instances to be fixed first, and a signature that elides them would assert less than
 the roadmap asks for. What is stated here is the consequence the roadmap actually uses. -/
-
 
 /-- A shadow distribution: a non-zero distribution satisfying support, polynomiality and the
 discrete symmetries, whose leading-order Compton form factor vanishes on the whole accessible set.
@@ -369,5 +370,7 @@ theorem forwardMapLO_inverse_unbounded (S : AccessibleSet) (t : ℝ) :
           S.lo ≤ xi → xi ≤ S.hi → ‖cffLO (H n) xi t‖ < ε) ∧
       (∀ n : ℕ, 1 ≤ |H n x₀ xi₀ t|) := by
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.GeneralizedPartonDistributions

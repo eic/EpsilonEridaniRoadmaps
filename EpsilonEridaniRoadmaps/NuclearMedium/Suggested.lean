@@ -63,6 +63,9 @@ def vacuumMedium : MediumProfile where
   density := fun _ => 0
   massNumber := 0
   density_nonneg := fun _ => le_refl 0
+  density_measurable := measurable_const
+  density_integrable := integrable_zero _
+  density_normalised := by simp
 
 /-- Geometric path length from a production point `x` along a unit direction `v` to the boundary
 of the support of the density (README 0.2). -/

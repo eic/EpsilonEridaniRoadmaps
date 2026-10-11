@@ -34,6 +34,8 @@ theorem; no signature below has been weakened to make it closable.
 
 namespace EpsilonEridaniRoadmaps.CollinearEvolution
 
+noncomputable section
+
 /-! ## Layer 0: the convolution algebra, plus distributions, harmonic sums -/
 
 /-- A collinear density: a real function of the momentum fraction, to be used together with the
@@ -407,5 +409,7 @@ without a scheme label is therefore incomplete. -/
 theorem trace_nloShift (c : ColourData) (S : SchemeChange) (n : ℕ) :
     Matrix.trace (nloShift c S n) = -(2 * beta0 c) * Matrix.trace (S.z1 n) := by
   sorry
+
+end
 
 end EpsilonEridaniRoadmaps.CollinearEvolution

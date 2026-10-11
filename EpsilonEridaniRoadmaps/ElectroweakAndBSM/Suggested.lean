@@ -28,6 +28,8 @@ predicate with real content rather than as a theorem whose hypotheses assert not
 
 namespace EpsilonEridaniRoadmaps.ElectroweakAndBSM
 
+noncomputable section
+
 /-! ## Layer 0: gauge structure and the electroweak couplings -/
 
 /-- Chirality of a fermion field. -/
@@ -467,5 +469,7 @@ The function definitions and their rapidity evolution belong to
 so that the cross-field test exists in one place as a falsifiable equality. -/
 def SignReversal (fromSIDIS fromAnnihilation : KinPoint → ℝ) : Prop :=
   ∀ k, fromAnnihilation k = -(fromSIDIS k)
+
+end
 
 end EpsilonEridaniRoadmaps.ElectroweakAndBSM

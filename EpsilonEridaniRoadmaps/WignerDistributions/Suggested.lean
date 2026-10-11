@@ -1,4 +1,5 @@
 import EpsilonEridani
+import TauCeti.Analysis.Bochner.BochnerTheorem
 
 /-!
 # Wigner distributions and orbital angular momentum: representative target signatures
@@ -35,6 +36,7 @@ hypothesis.
 namespace EpsilonEridaniRoadmaps.WignerDistributions
 
 open EpsilonEridani.Particles.Parton
+open scoped Matrix
 
 variable {Flavor : Type}
 
@@ -131,6 +133,9 @@ def IsTimeReversalCovariant (W : QuarkCorrelator Flavor) (Îµ : DiracStructure â†
 
 /-! ## Layer 1: generalized TMDs at leading twist -/
 
+-- Mathlib's `deriving Fintype` for enumerations needs this option at the current pin; its own
+-- test (`MathlibTest/DeriveFintype.lean`) sets it the same way.
+set_option backward.isDefEq.respectTransparency false in
 /-- The leading-twist amplitude labels in the classification of Meissner, Metz and Schlegel
 (arXiv:0906.5323): four in the vector sector, four in the axial sector, eight in the tensor
 sector. That this list is complete is the theorem `card_sector`; the names are bookkeeping, fixed

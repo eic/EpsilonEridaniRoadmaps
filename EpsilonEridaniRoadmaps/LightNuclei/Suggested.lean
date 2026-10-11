@@ -25,6 +25,8 @@ and an orthogonality statement that the upstream Hermite function family takes.
 
 namespace EpsilonEridaniRoadmaps.LightNuclei
 
+open scoped ComplexOrder
+
 /-! ## Layer 0: spherical Bessel functions, Legendre polynomials, and partial waves -/
 
 /-- The spherical Bessel function of the first kind of order `l`, on the nonnegative half-line.
