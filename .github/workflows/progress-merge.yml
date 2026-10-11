@@ -5,8 +5,8 @@ name: progress-merge
 # All the validation, and the merge itself, live in a SHA-pinned reusable workflow in
 # EpsilonEridaniProgress -- the same discipline EpsilonEridani uses for EpsilonEridaniReview, and for the same reason: an
 # unpinned `@main` would let an upstream change alter what is allowed to merge here without review.
-# The pin must be bumped deliberately, in step with the `progress_ref` input and with the version the
-# worker runs (see EpsilonEridaniProgress' README).
+# The pin must be bumped deliberately, in step with the version the worker runs (see
+# EpsilonEridaniProgress' README); `progress_ref` follows it on its own (read from the pin at run time).
 #
 # `pull_request_target` rather than `pull_request` so the App secrets are available for the events we
 # care about. That is safe here only because the called workflow never checks out or executes pull
