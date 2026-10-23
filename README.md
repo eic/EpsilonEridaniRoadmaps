@@ -127,13 +127,13 @@ Two things about this list are easy to get wrong, and both have already caused w
 duplicated here:
 
 - **Physlib is not optional background.** It is a declared dependency of `EpsilonEridani` and is
-  imported by 24 of its 143 modules. Lorentz tensor contraction, the Minkowski product, the
+  imported by 39 of its 197 modules. Lorentz tensor contraction, the Minkowski product, the
   Levi-Civita tensor and the gamma matrices all live there, and a hadronic-tensor decomposition or
   a Dirac trace should consume them rather than restate them.
-- **TauCeti is not yet used by `EpsilonEridani` at all** — zero of its modules import it — so a
-  TauCeti citation is a statement about where the mathematics *should* come from, not a record of
-  an existing import. That is legitimate, and it is a different kind of claim from a Physlib or
-  Mathlib citation; say which you mean.
+- **TauCeti is barely used by `EpsilonEridani`** — one of its 197 modules imports it — so a
+  TauCeti citation is usually a statement about where the mathematics *should* come from, not a
+  record of an existing import. That is legitimate, and it is a different kind of claim from a
+  Physlib or Mathlib citation; say which you mean.
 
 Every upstream module a roadmap cites must exist at the pinned revision. Check it rather than
 writing from memory: a citation that does not resolve is a defect a reviewer will find, and the
