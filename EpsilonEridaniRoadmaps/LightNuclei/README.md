@@ -211,9 +211,9 @@ From EpsilonEridani:
 - `EpsilonEridani.Relativity.Tensors.RealTensor.Metrics.BasicExtensions` and
   `EpsilonEridani.Relativity.Tensors.LeviCivita.ContractionsExtensions` — the metric and the
   totally antisymmetric tensor, needed for the spin-one tensor decomposition.
-- `EpsilonEridani.Mathematics.KroneckerDelta.BasicExtensions` and
-  `EpsilonEridani.Mathematics.DataStructures.Matrix.PosSemidef` — index algebra, and positive
-  semidefiniteness for the spin density matrix of a spin-one target.
+- `Physlib.Mathematics.KroneckerDelta.Basic` and
+  `EpsilonEridani.Mathematics.DataStructures.Matrix.PosSemidef` — the Kronecker delta for index
+  algebra, and positive semidefiniteness for the spin density matrix of a spin-one target.
 - `EpsilonEridani.Mathematics.Distribution.BasicExtensions` — distributional vocabulary for the
   momentum distribution, which is a measure and not a function in general.
 - `EpsilonEridani.QFT.QCD.SU2Generators` and `EpsilonEridani.Mathematics.LieAlgebra.SpecialUnitary`
