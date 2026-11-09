@@ -1,11 +1,18 @@
 name: progress-announce
 
-# Announce a newly-merged progress section in Zulip (EpsilonEridani > Progress logs).
+# Announce a newly-merged progress section in Mattermost and/or Zulip.
 #
 # Triggered by the push to `main` rather than chained onto the merge job, so that the App token that
-# can write here and the Zulip credentials never share a job, and so a failed announcement can be
-# re-run without re-merging anything. The post is idempotent: each section carries a stable id and
-# posting searches the topic for it first.
+# can write here and the chat credentials never share a job, and so a failed announcement can be
+# re-run without re-merging anything. Both posts are idempotent: each section carries a stable id and
+# posting searches the channel (Zulip: the topic) for it first.
+#
+# Each service is used only when it is configured, and the run fails if neither is:
+#   * Mattermost: variables MATTERMOST_URL and MATTERMOST_CHANNEL_ID, secret MATTERMOST_TOKEN.
+#     Posted by .github/scripts/announce_mattermost.py, which reuses the pinned announcer's
+#     section parsing and rendering. Setup is in .github/scripts/README.md.
+#   * Zulip (EpsilonEridani > Progress logs): secrets ZULIP_EMAIL, ZULIP_API_KEY, ZULIP_SITE.
+#     Posted by the EpsilonEridaniProgress reusable workflow, which fails when they are unset.
 
 on:
   push:
@@ -17,6 +24,14 @@ on:
       - 'EpsilonEridaniRoadmaps/*/PROGRESS.md'
       - 'Completed/*/PROGRESS.md'
   workflow_dispatch:
+    inputs:
+      commit:
+        description: >-
+          Commit on main whose PROGRESS.md additions to announce (default: the tip). Mattermost
+          only; the Zulip job always announces the tip. Re-running an old run would replay that
+          run's workflow file, so this is how to announce a section after this workflow changed.
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -29,7 +44,25 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.progress-pin.outputs.sha }}
+      zulip: ${{ steps.services.outputs.zulip }}
+      mattermost: ${{ steps.services.outputs.mattermost }}
     steps:
+      # Job-level `if:` cannot read `secrets`, so which services are configured is decided here,
+      # and only that boolean leaves the step.
+      - id: services
+        env:
+          ZULIP: ${{ secrets.ZULIP_API_KEY != '' }}
+          MATTERMOST: ${{ vars.MATTERMOST_URL != '' }}
+        run: |
+          set -euo pipefail
+          echo "zulip=$ZULIP" >> "$GITHUB_OUTPUT"
+          echo "mattermost=$MATTERMOST" >> "$GITHUB_OUTPUT"
+          if [ "$ZULIP" != true ] && [ "$MATTERMOST" != true ]; then
+            echo "::error::neither Mattermost (vars.MATTERMOST_URL) nor Zulip (secrets.ZULIP_API_KEY) is configured; nothing would be announced"
+            exit 1
+          fi
+          echo "announcing to: $([ "$MATTERMOST" = true ] && echo Mattermost) $([ "$ZULIP" = true ] && echo Zulip)"
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.workflow_sha }}
@@ -42,6 +75,7 @@ jobs:
 
   announce:
     needs: pin
+    if: needs.pin.outputs.zulip == 'true'
     # Same full SHA as progress-merge.yml uses; Dependabot bumps both together (one group).
     uses: eic/EpsilonEridaniProgress/.github/workflows/announce.yml@781fc2670f231205f518a3e4796c166618ee078a
     with:
@@ -52,3 +86,89 @@ jobs:
       ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }}
       ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
       ZULIP_SITE: ${{ secrets.ZULIP_SITE }}
+
+  mattermost:
+    needs: pin
+    if: needs.pin.outputs.mattermost == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Keyed by commit, as in the reusable workflow: a global group would drop the middle one of three
+    # quick merges, each a different section. Posting is idempotent, so concurrent runs are safe.
+    concurrency:
+      group: progress-announce-mattermost-${{ inputs.commit || github.sha }}
+      cancel-in-progress: false
+    steps:
+      # The posting script, from the trusted copy of this workflow's commit.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.workflow_sha }}
+          sparse-checkout: .github/scripts
+          path: self
+          persist-credentials: false
+
+      - name: Check out the announcer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: eic/EpsilonEridaniProgress
+          ref: ${{ needs.pin.outputs.sha }}
+          path: announcer
+          persist-credentials: false
+
+      # Two commits of history are enough: the section to announce is exactly what this push added
+      # to a PROGRESS.md file.
+      - name: Check out the roadmap at this commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.commit || github.sha }}
+          fetch-depth: 2
+          path: roadmap
+          persist-credentials: false
+
+      # Same extraction as the reusable workflow's: the added text is the new file minus the old
+      # one, which the merge gate guarantees is a pure append.
+      - name: Extract the appended section
+        id: extract
+        working-directory: roadmap
+        run: |
+          set -euo pipefail
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD -- '*/PROGRESS.md' || true)
+          if [ "${#changed[@]}" -eq 0 ]; then
+            echo "no PROGRESS.md changed in this push; nothing to announce"
+            echo "found=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mkdir -p ../sections
+          i=0
+          for path in "${changed[@]}"; do
+            git show "HEAD^:$path" > "$RUNNER_TEMP/old.md" 2>/dev/null || : > "$RUNNER_TEMP/old.md"
+            parent="${path%%/*}"
+            python3 - "$path" "$i" "$parent" "$RUNNER_TEMP/old.md" <<'PY'
+          import pathlib, sys
+          path, idx, parent, old_path = sys.argv[1:5]
+          old = pathlib.Path(old_path).read_text(encoding="utf-8")
+          new = pathlib.Path(path).read_text(encoding="utf-8")
+          if not new.startswith(old):
+              raise SystemExit(f"{path} is not an append; refusing to announce")
+          added = new[len(old):]
+          out = pathlib.Path("../sections") / parent / f"{idx}.md"
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(added, encoding="utf-8")
+          print(f"extracted {len(added)} bytes from {path}")
+          PY
+            i=$((i+1))
+          done
+          echo "found=$i" >> "$GITHUB_OUTPUT"
+
+      - name: Post to Mattermost
+        if: steps.extract.outputs.found != '0'
+        env:
+          MATTERMOST_URL: ${{ vars.MATTERMOST_URL }}
+          MATTERMOST_CHANNEL_ID: ${{ vars.MATTERMOST_CHANNEL_ID }}
+          MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' f; do
+            parent=$(basename "$(dirname "$f")")
+            python3 self/.github/scripts/announce_mattermost.py \
+              --announcer announcer --section "$f" --roadmap-parent "$parent"
+          done < <(find sections -type f -name '*.md' -print0)
