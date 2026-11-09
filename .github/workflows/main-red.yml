@@ -1,13 +1,16 @@
 name: main-red
 
-# Tell the EpsilonEridani Zulip when `main` stops building, and when it recovers.
+# Tell the EpsilonEridani Mattermost channel and/or Zulip topic when `main` stops building, and when
+# it recovers. Each service is used only when configured (Mattermost: variable MATTERMOST_URL, secrets
+# MATTERMOST_BOT_TOKEN and MATTERMOST_CHANNEL_ID, the names EpsilonEridani uses; Zulip: secrets
+# ZULIP_EMAIL, ZULIP_API_KEY, ZULIP_SITE).
 #
 # `main` went red on 2026-09-14 and stayed red for three days because nothing said so: the failing
 # run was recorded and nobody was watching the Actions tab. Prevention alone cannot close that gap,
 # since a Mathlib or EpsilonEridani pin bump can redden `main` with no pull request at fault, so the
 # missing piece is noticing.
 #
-# This runs on `workflow_run` rather than as a job inside CI so that the Zulip credentials never
+# This runs on `workflow_run` rather than as a job inside CI so that the chat credentials never
 # share a job with the build, matching the separation progress-announce.yml keeps.
 #
 # It posts only on the *edge*, and it decides what the edge is by reading back the last message it
@@ -16,11 +19,13 @@ name: main-red
 # the history at all, and an edge derived from runs would stay silent after a red run is re-run
 # green. Overlapping pushes reorder for the same kind of reason. The topic is the only record of
 # what was actually announced, so it is the thing to compare against, and reading it back makes the
-# notifier self-correcting rather than dependent on the API's ordering.
+# notifier self-correcting rather than dependent on the API's ordering. Each service is its own
+# record: Zulip's is the last message in the topic, Mattermost's (which has no topics) the bot's last
+# post in the channel that carries a `main_build` prop.
 #
-# Zulip is the only channel here. Opening an issue as well would need the App token, because the org
+# Chat is the only channel here. Opening an issue as well would need the App token, because the org
 # disables write `GITHUB_TOKEN`, and that would put repository-write credentials in the same job as
-# the Zulip secrets — which is the arrangement the comment above exists to avoid.
+# the chat secrets — which is the arrangement the comment above exists to avoid.
 
 on:
   workflow_run:
@@ -31,7 +36,7 @@ on:
 permissions:
   contents: read
 
-# Serialise, so two pushes completing together cannot both read the topic before either writes.
+# Serialise, so two pushes completing together cannot both read the state before either writes.
 concurrency:
   group: main-red
   cancel-in-progress: false
@@ -43,37 +48,47 @@ jobs:
     # candidate rather than the branch.
     if: ${{ github.event.workflow_run.event == 'push' }}
     runs-on: ubuntu-latest
+    env:
+      SHA: ${{ github.event.workflow_run.head_sha }}
+      URL: ${{ github.event.workflow_run.html_url }}
+      # Through env, never interpolated into a script: a commit message is attacker-influenced, and
+      # interpolation would make it shell source.
+      TITLE: ${{ github.event.workflow_run.head_commit.message }}
     steps:
-      - name: Announce a change of state
+      - name: Classify the CI run
+        id: state
+        env:
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
+          # `startup_failure` counts as red: a CI run that cannot start is exactly a case where
+          # `main` has not been validated, and treating it as a non-event leaves the record green.
+          # `cancelled`, `skipped` and `neutral` really are non-verdicts.
+          case "$CONCLUSION" in
+            success) now=green ;;
+            failure|timed_out|startup_failure) now=red ;;
+            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"; now= ;;
+          esac
+          echo "now=$now" >> "$GITHUB_OUTPUT"
+
+      - name: Announce a change of state in Zulip
+        if: steps.state.outputs.now != ''
         env:
           ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }}
           ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
           ZULIP_SITE: ${{ secrets.ZULIP_SITE }}
-          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
-          SHA: ${{ github.event.workflow_run.head_sha }}
-          URL: ${{ github.event.workflow_run.html_url }}
-          # Through env, never interpolated into the script: a commit message is
-          # attacker-influenced, and interpolation would make it shell source.
-          TITLE: ${{ github.event.workflow_run.head_commit.message }}
+          NOW: ${{ steps.state.outputs.now }}
           CHANNEL: EpsilonEridani
           TOPIC: main build
         run: |
           set -euo pipefail
 
           if [ -z "${ZULIP_SITE:-}" ]; then
-            echo "::warning::Zulip is not configured; skipping"
+            echo "::notice::Zulip is not configured; skipping"
             exit 0
           fi
-
-          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
-          # `startup_failure` counts as red: a CI run that cannot start is exactly a case where
-          # `main` has not been validated, and treating it as a non-event leaves the topic green.
-          # `cancelled`, `skipped` and `neutral` really are non-verdicts.
-          case "$CONCLUSION" in
-            success) now=green ;;
-            failure|timed_out|startup_failure) now=red ;;
-            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"; exit 0 ;;
-          esac
+          now="$NOW"
 
           # The last thing we said in this topic. `apply_markdown=false` returns what was posted
           # rather than rendered HTML, so the marker below survives the round trip.
@@ -128,3 +143,71 @@ jobs:
             --data-urlencode "content=$content")
           cat /tmp/zulip.out
           [ "$code" = "200" ]
+
+      - name: Announce a change of state in Mattermost
+        if: steps.state.outputs.now != ''
+        env:
+          MATTERMOST_URL: ${{ vars.MATTERMOST_URL }}
+          MATTERMOST_BOT_TOKEN: ${{ secrets.MATTERMOST_BOT_TOKEN }}
+          MATTERMOST_CHANNEL_ID: ${{ secrets.MATTERMOST_CHANNEL_ID }}
+          NOW: ${{ steps.state.outputs.now }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${MATTERMOST_URL:-}" ] || [ -z "${MATTERMOST_BOT_TOKEN:-}" ] \
+              || [ -z "${MATTERMOST_CHANNEL_ID:-}" ]; then
+            echo "::warning::Mattermost is not configured; skipping"
+            exit 0
+          fi
+          now="$NOW"
+          api="${MATTERMOST_URL%/}/api/v4"
+          channel=$(printf '%s' "$MATTERMOST_CHANNEL_ID" | tr -d '[:space:]')
+          # The token goes in a header file, not on the command line, so it is not in `ps` output.
+          hdr="$RUNNER_TEMP/mm-auth"
+          printf 'Authorization: Bearer %s\n' "$(printf '%s' "$MATTERMOST_BOT_TOKEN" | tr -d '[:space:]')" > "$hdr"
+          get() {
+            curl -sS --fail-with-body --retry 3 --retry-all-errors --max-time 30 -H "@$hdr" "$api$1"
+          }
+
+          # Also a health check: a broken token or a bot outside the channel fails here on every
+          # run, green or red, rather than only when an alert is due.
+          me=$(get /users/me | jq -r .id)
+          get "/channels/$channel/members/me" > /dev/null
+
+          # The last state this bot announced: its newest post carrying a `main_build` prop, among
+          # the channel's newest 1000 posts. None found reads as green, as an empty Zulip topic does.
+          was=green
+          for page in 0 1 2 3 4; do
+            got=$(get "/channels/$channel/posts?page=$page&per_page=200")
+            state=$(jq -r --arg me "$me" \
+              '[.order[] as $id | .posts[$id] | select(.user_id == $me and .props.main_build != null)]
+               | first | .props.main_build // empty' <<<"$got")
+            if [ -n "$state" ]; then was=$state; break; fi
+            [ "$(jq '.order | length' <<<"$got")" -lt 200 ] && break
+          done
+
+          if [ "$now" = "$was" ]; then
+            echo "::notice::main was $was and is $now; staying quiet"
+            exit 0
+          fi
+
+          short="${SHA:0:9}"
+          # Inline code, backticks stripped so the span cannot be closed early, and a zero-width
+          # space after every `@`: the squash title is attacker-influenced and must not ping anyone.
+          subject=$(printf '%s' "$TITLE" | head -1 | tr -d '`' | sed 's/@/@\xe2\x80\x8b/g')
+          if [ "$now" = red ]; then
+            message=$(printf '%s\n\n%s' \
+              ":x: **\`main\` is red.** [\`$short\`]($URL) — \`$subject\`" \
+              "New merge candidates that do not fix this are expected to fail their \`build\` check.")
+          else
+            message=":white_check_mark: **\`main\` is green again.** [\`$short\`]($URL) — \`$subject\`"
+          fi
+          body=$(jq -n --arg c "$channel" --arg m "$message" --arg s "$now" \
+            '{channel_id: $c, message: $m, props: {main_build: $s}}')
+
+          # As for Zulip, the read above is the idempotency check, so retrying the post is safe.
+          code=$(curl -sS --retry 3 --retry-all-errors --max-time 30 -H "@$hdr" \
+            -H 'Content-Type: application/json' -o "$RUNNER_TEMP/mattermost.out" -w '%{http_code}' \
+            -X POST "$api/posts" --data-binary "$body")
+          jq '{id, create_at}' "$RUNNER_TEMP/mattermost.out" 2>/dev/null || cat "$RUNNER_TEMP/mattermost.out"
+          [ "$code" = "201" ]
