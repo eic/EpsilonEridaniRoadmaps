@@ -173,7 +173,7 @@ corrections and the target-mass corrections.
     both wasted work and a divergence from upstream's vocabulary.
 11. **Flavour is explicit data.** Quark flavour is a parameter of every correlator, and a sum rule
     that sums over flavour does so over the explicit flavour type, with the flavour Kronecker
-    deltas of `EpsilonEridani.Mathematics.KroneckerDelta.BasicExtensions`. *Trap:* the double
+    delta `δ[a, b]` of `Physlib.Mathematics.KroneckerDelta.Basic`. *Trap:* the double
     parton number sum rule has a `δ_{a₁ ā₂} − δ_{a₁ a₂}` structure that is invisible if flavour is
     implicit, and the sum rule is false without it.
 12. **Unproved statements are named in prose, never encoded as fields.** No structure in this
@@ -1279,7 +1279,7 @@ is enhanced by the nuclear geometry; the geometric enhancement belongs there and
 of 6.5 is stated here in a form that roadmap can specialise. Upstream:
 `EpsilonEridani.Mathematics.OrderedSimplexIntegral`,
 `EpsilonEridani.Mathematics.DataStructures.Matrix.PosSemidef`,
-`EpsilonEridani.Mathematics.KroneckerDelta.BasicExtensions`,
+`Physlib.Mathematics.KroneckerDelta.Basic`,
 `EpsilonEridani.QFT.QCD.RepresentationColor`, `EpsilonEridani.Mathematics.LieAlgebra.Casimir`,
 `EpsilonEridani.Particles.Parton.PDF.Positivity` and `.MsbarPositivity`,
 `EpsilonEridani.QFT.Factorization.Convolution.Collinear`,
