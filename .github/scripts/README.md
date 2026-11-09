@@ -104,7 +104,7 @@ announcer, so a Dependabot bump that breaks the import fails on its own pull req
 
 To announce a section that was missed (e.g. one merged before Mattermost was set up),
 start `progress-announce` by hand with `commit` set to the commit that appended it:
-`gh workflow run progress-announce.yml -f commit=<sha>`. Re-running the old run would
+`gh workflow run progress-announce.yml -f commit=<full 40-hex sha>`. Re-running the old run would
 not work: a re-run replays that run's own copy of the workflow.
 A dry run that prints the message without posting:
 `python3 .github/scripts/announce_mattermost.py --announcer <EpsilonEridaniProgress checkout> --section <file> --dry-run`.

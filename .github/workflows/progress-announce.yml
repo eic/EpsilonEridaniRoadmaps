@@ -28,7 +28,8 @@ on:
     inputs:
       commit:
         description: >-
-          Commit on main whose PROGRESS.md additions to announce (default: the tip). Mattermost
+          Full 40-hex SHA of the commit whose PROGRESS.md additions to announce (default: the
+          tip). Mattermost
           only; the Zulip job always announces the tip. Re-running an old run would replay that
           run's workflow file, so this is how to announce a section after this workflow changed.
         required: false
@@ -99,6 +100,17 @@ jobs:
       group: progress-announce-mattermost-${{ inputs.commit || github.sha }}
       cancel-in-progress: false
     steps:
+      # actions/checkout cannot fetch an abbreviated SHA, so reject one with a clear message.
+      - name: Check the commit input
+        if: inputs.commit != ''
+        env:
+          COMMIT: ${{ inputs.commit }}
+        run: |
+          if ! [[ "$COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::commit must be a full 40-hex SHA, got '$COMMIT'"
+            exit 1
+          fi
+
       # The posting script, from the trusted copy of this workflow's commit.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
