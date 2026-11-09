@@ -8,7 +8,8 @@ name: progress-announce
 # posting searches the channel (Zulip: the topic) for it first.
 #
 # Each service is used only when it is configured, and the run fails if neither is:
-#   * Mattermost: variables MATTERMOST_URL and MATTERMOST_CHANNEL_ID, secret MATTERMOST_TOKEN.
+#   * Mattermost: variable MATTERMOST_URL, secrets MATTERMOST_BOT_TOKEN and MATTERMOST_CHANNEL_ID
+#     (the same names EpsilonEridani's Mattermost workflows use).
 #     Posted by .github/scripts/announce_mattermost.py, which reuses the pinned announcer's
 #     section parsing and rendering. Setup is in .github/scripts/README.md.
 #   * Zulip (EpsilonEridani > Progress logs): secrets ZULIP_EMAIL, ZULIP_API_KEY, ZULIP_SITE.
@@ -52,13 +53,13 @@ jobs:
       - id: services
         env:
           ZULIP: ${{ secrets.ZULIP_API_KEY != '' }}
-          MATTERMOST: ${{ vars.MATTERMOST_URL != '' }}
+          MATTERMOST: ${{ vars.MATTERMOST_URL != '' && secrets.MATTERMOST_BOT_TOKEN != '' && secrets.MATTERMOST_CHANNEL_ID != '' }}
         run: |
           set -euo pipefail
           echo "zulip=$ZULIP" >> "$GITHUB_OUTPUT"
           echo "mattermost=$MATTERMOST" >> "$GITHUB_OUTPUT"
           if [ "$ZULIP" != true ] && [ "$MATTERMOST" != true ]; then
-            echo "::error::neither Mattermost (vars.MATTERMOST_URL) nor Zulip (secrets.ZULIP_API_KEY) is configured; nothing would be announced"
+            echo "::error::neither Mattermost (vars.MATTERMOST_URL, secrets.MATTERMOST_BOT_TOKEN, secrets.MATTERMOST_CHANNEL_ID) nor Zulip (secrets.ZULIP_API_KEY) is configured; nothing would be announced"
             exit 1
           fi
           echo "announcing to: $([ "$MATTERMOST" = true ] && echo Mattermost) $([ "$ZULIP" = true ] && echo Zulip)"
@@ -163,8 +164,8 @@ jobs:
         if: steps.extract.outputs.found != '0'
         env:
           MATTERMOST_URL: ${{ vars.MATTERMOST_URL }}
-          MATTERMOST_CHANNEL_ID: ${{ vars.MATTERMOST_CHANNEL_ID }}
-          MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+          MATTERMOST_BOT_TOKEN: ${{ secrets.MATTERMOST_BOT_TOKEN }}
+          MATTERMOST_CHANNEL_ID: ${{ secrets.MATTERMOST_CHANNEL_ID }}
         run: |
           set -euo pipefail
           while IFS= read -r -d '' f; do

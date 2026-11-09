@@ -96,10 +96,11 @@ announcer, so a Dependabot bump that breaks the import fails on its own pull req
 2. Add the bot to the team and to the channel it should post in.
 3. Find the channel id (channel name -> *View Info*, or
    `GET /api/v4/teams/name/<team>/channels/name/<channel>`).
-4. Store the settings on this repository:
+4. Store the settings on this repository, under the same names EpsilonEridani uses
+   (the bot and channel can be the same ones):
    - `gh variable set MATTERMOST_URL --body https://<server>` (no trailing `/api/v4`)
-   - `gh variable set MATTERMOST_CHANNEL_ID --body <channel-id>`
-   - `gh secret set MATTERMOST_TOKEN` (paste the bot token)
+   - `gh secret set MATTERMOST_BOT_TOKEN` (paste the bot token)
+   - `gh secret set MATTERMOST_CHANNEL_ID` (paste the channel id)
 
 To announce a section that was missed (e.g. one merged before Mattermost was set up),
 start `progress-announce` by hand with `commit` set to the commit that appended it:

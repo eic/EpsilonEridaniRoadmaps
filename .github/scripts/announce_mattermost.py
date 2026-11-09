@@ -20,8 +20,8 @@ Usage:
     announce_mattermost.py --announcer DIR --section FILE [--roadmap-parent P] [--dry-run]
 
 Settings come from the environment: `MATTERMOST_URL` (the server, e.g. https://chat.example.org),
-`MATTERMOST_TOKEN` (a bot access token) and `MATTERMOST_CHANNEL_ID` (the channel's id, not its
-name). Stdlib only.
+`MATTERMOST_BOT_TOKEN` (a bot access token) and `MATTERMOST_CHANNEL_ID` (the channel's id, not its
+name), the names EpsilonEridani's Mattermost workflows use. Stdlib only.
 """
 
 from __future__ import annotations
@@ -160,9 +160,9 @@ def from_env() -> tuple[Mattermost, str]:
     """A client and channel id from the environment. Values are stripped: a trailing newline in a
     GitHub secret or variable is the most common way this kind of setting breaks."""
     url = (os.environ.get("MATTERMOST_URL") or "").strip()
-    token = (os.environ.get("MATTERMOST_TOKEN") or "").strip()
+    token = (os.environ.get("MATTERMOST_BOT_TOKEN") or "").strip()
     channel = (os.environ.get("MATTERMOST_CHANNEL_ID") or "").strip()
-    missing = [n for n, v in (("MATTERMOST_URL", url), ("MATTERMOST_TOKEN", token),
+    missing = [n for n, v in (("MATTERMOST_URL", url), ("MATTERMOST_BOT_TOKEN", token),
                               ("MATTERMOST_CHANNEL_ID", channel)) if not v]
     if missing:
         raise ConfigError(f"{' / '.join(missing)} not set")
