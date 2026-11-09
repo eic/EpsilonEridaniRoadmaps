@@ -76,7 +76,8 @@ class WithAnnouncer(unittest.TestCase):
         self.assertIn("and a second line", msg)  # source wrapping is undone
         self.assertNotIn("@all", msg)  # mentions are defused
         self.assertIn("EpsilonEridaniRoadmaps/blob/main/EpsilonEridaniRoadmaps/Demo/STATUS.md", msg)
-        self.assertTrue(msg.rstrip().endswith(f"{self.announce.ID_PREFIX}{sid}"))
+        self.assertNotIn(self.announce.ID_PREFIX, msg)  # the id lives in props instead
+        self.assertTrue(msg.endswith("STATUS.md)"))
 
     def test_posts_once_then_is_idempotent(self):
         client = FakeClient([{"id": "old", "message": "unrelated", "props": {}}])
@@ -86,11 +87,10 @@ class WithAnnouncer(unittest.TestCase):
         self.assertEqual(len(client.sent), 1)
         self.assertEqual(client.sent[0][2], "Demo-1111111-2222222")
 
-    def test_a_post_matched_by_its_visible_id_alone_counts(self):
-        sid = "Demo-1111111-2222222"
-        client = FakeClient([{"id": "x", "message": f"...\n{self.announce.ID_PREFIX}{sid}"}])
+    def test_a_post_with_another_sections_id_does_not_count(self):
+        client = FakeClient([{"id": "x", "message": "m", "props": {am.PROP_KEY: "Demo-1-2"}}])
         am.run(self.announce, self.path, "EpsilonEridaniRoadmaps", client=client, channel_id="c")
-        self.assertEqual(client.sent, [])
+        self.assertEqual(len(client.sent), 1)
 
     def test_missing_settings_are_a_config_error(self):
         env = {k: os.environ.pop(k) for k in list(os.environ) if k.startswith("MATTERMOST_")}

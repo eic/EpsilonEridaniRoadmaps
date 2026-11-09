@@ -7,9 +7,9 @@ that do not depend on the chat service: splitting the appended text into header 
 stable section id, and the rendered message. Only the transport is new.
 
 Idempotency follows the Zulip announcer: each section has a stable id, and posting first looks for
-it among the channel's recent posts. Mattermost posts can carry hidden metadata, so the id is
-stored in the post's `props` as well as in the visible last line of the message; either one counts
-as a match. A failed run can therefore be re-run without double-posting.
+it among the channel's recent posts. Unlike Zulip, Mattermost posts carry hidden metadata, so the
+id is stored only in the post's `props`, and the visible `progress-log-id:` line the Zulip message
+ends with is dropped. A failed run can therefore be re-run without double-posting.
 
 Failures are split the same way as in the Zulip client: a configuration break (missing settings,
 401, a 403 that Mattermost itself answered, a bot that is not a channel member) is a `ConfigError`;
@@ -79,8 +79,11 @@ def load_announcer(directory: str):
 def build(announce, text: str, roadmap_parent: str) -> tuple[str, str]:
     """`(section id, Mattermost message)` for the appended text of a PROGRESS.md update."""
     header, prose = announce.split_section(text)
-    message = announce.render_message(header, prose, roadmap_parent=roadmap_parent)
-    return announce.section_id(header), linkify(message)
+    sid = announce.section_id(header)
+    message = announce.render_message(header, prose, roadmap_parent=roadmap_parent).rstrip()
+    # The visible id line is Zulip's dedup key; here `props` carries it instead.
+    message = message.removesuffix(f"{announce.ID_PREFIX}{sid}").rstrip()
+    return sid, linkify(message)
 
 
 class Mattermost:
@@ -148,10 +151,9 @@ class Mattermost:
         return self._call("POST", "/posts", post)["id"]
 
 
-def already_posted(client, channel_id: str, sid: str, id_prefix: str):
-    needle = f"{id_prefix}{sid}"
+def already_posted(client, channel_id: str, sid: str):
     for post in client.recent_posts(channel_id):
-        if (post.get("props") or {}).get(PROP_KEY) == sid or needle in (post.get("message") or ""):
+        if (post.get("props") or {}).get(PROP_KEY) == sid:
             return post
     return None
 
@@ -182,7 +184,7 @@ def run(announce, section_file: str, roadmap_parent: str, dry_run: bool = False,
         client, channel_id = from_env()
     client.check(channel_id)
 
-    existing = already_posted(client, channel_id, sid, announce.ID_PREFIX)
+    existing = already_posted(client, channel_id, sid)
     if existing is not None:
         print(f"already announced as post {existing['id']}; nothing to do")
         return 0

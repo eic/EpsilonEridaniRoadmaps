@@ -81,10 +81,11 @@ the run fails if neither is.
 
 The script imports `split_section`, `section_id`, `render_message` and `ID_PREFIX`
 from `progress.announce` at the pinned EpsilonEridaniProgress commit, so the message
-matches the Zulip one; it adds only the Mattermost transport and turns
+matches the Zulip one except for the visible `progress-log-id:` line, which it drops;
+it adds only the Mattermost transport and turns
 `EpsilonEridani#NNN` / `mathlib4#NNN` / `physlib#NNN` into links (Zulip does that with
 server-side linkifiers). Posting is idempotent: the section id is stored in the post's
-`props.progress_log_id` and in its last line, and the channel's last 1000 posts are
+hidden `props.progress_log_id`, and the channel's last 1000 posts are
 checked for it first, so a failed run can be re-run. `test_announce_mattermost.py`
 runs in [`progress-pins`](../workflows/progress-pins.yml) against the pinned
 announcer, so a Dependabot bump that breaks the import fails on its own pull request.
