@@ -182,6 +182,8 @@ def run(announce, section_file: str, roadmap_parent: str, dry_run: bool = False,
 
     if client is None:
         client, channel_id = from_env()
+    elif not channel_id:
+        raise ValueError("an injected client needs a channel_id")
     client.check(channel_id)
 
     existing = already_posted(client, channel_id, sid)

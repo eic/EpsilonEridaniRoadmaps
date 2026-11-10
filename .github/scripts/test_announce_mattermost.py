@@ -92,6 +92,10 @@ class WithAnnouncer(unittest.TestCase):
         am.run(self.announce, self.path, "EpsilonEridaniRoadmaps", client=client, channel_id="c")
         self.assertEqual(len(client.sent), 1)
 
+    def test_an_injected_client_without_a_channel_is_refused(self):
+        with self.assertRaises(ValueError):
+            am.run(self.announce, self.path, "EpsilonEridaniRoadmaps", client=FakeClient())
+
     def test_missing_settings_are_a_config_error(self):
         env = {k: os.environ.pop(k) for k in list(os.environ) if k.startswith("MATTERMOST_")}
         self.addCleanup(os.environ.update, env)
