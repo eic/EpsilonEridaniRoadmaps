@@ -53,9 +53,10 @@ Each roadmap directory may carry two files that are **written by machine, not by
   by the EpsilonEridani commit it describes. It is updated asynchronously from the work it reports, so it
   is never authoritative about the current tip.
 - `PROGRESS.md` — an append-only log, one section per window of merged pull requests. Each new
-  section is normally announced in the **EpsilonEridani > Progress logs** Zulip topic with links to both
-  the full log and current `STATUS.md`; announcing is a separate step from merging, so it can fail
-  without holding the report back.
+  section is normally announced in the EpsilonEridani Mattermost channel (and, where configured, the
+  **EpsilonEridani > Progress logs** Zulip topic) with links to both the full log and current
+  `STATUS.md`; announcing is a separate step from merging, so it can fail without holding the report
+  back.
 
 Both are produced by [EpsilonEridaniProgress](https://github.com/eic/EpsilonEridaniProgress). A pull
 request carrying them can merge without human review, but only when an automated gate accepts it;

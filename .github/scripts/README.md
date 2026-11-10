@@ -72,6 +72,44 @@ renamed `app_id` to `client_id`). Two things prevent that:
   `test_check_progress_pins.py`, on `pull_request`, so a Dependabot bump's own pull
   request shows the break. Needs PyYAML.
 
+## `announce_mattermost.py`
+
+[`progress-announce`](../workflows/progress-announce.yml) posts each newly-merged
+`PROGRESS.md` section to Mattermost with this script, and to Zulip through the
+EpsilonEridaniProgress reusable workflow. Each service runs only when configured;
+the run fails if neither is.
+
+The script imports `split_section`, `section_id`, `render_message` and `ID_PREFIX`
+from `progress.announce` at the pinned EpsilonEridaniProgress commit, so the message
+matches the Zulip one except for the visible `progress-log-id:` line, which it drops;
+it adds only the Mattermost transport and turns
+`EpsilonEridani#NNN` / `mathlib4#NNN` / `physlib#NNN` into links (Zulip does that with
+server-side linkifiers). Posting is idempotent: the section id is stored in the post's
+hidden `props.progress_log_id`, and the channel's last 1000 posts are
+checked for it first, so a failed run can be re-run. `test_announce_mattermost.py`
+runs in [`progress-pins`](../workflows/progress-pins.yml) against the pinned
+announcer, so a Dependabot bump that breaks the import fails on its own pull request.
+
+### One-time setup
+
+1. In Mattermost (System Console -> Integrations -> Bot Accounts, enabled), create a
+   bot account and an access token for it.
+2. Add the bot to the team and to the channel it should post in.
+3. Find the channel id (channel name -> *View Info*, or
+   `GET /api/v4/teams/name/<team>/channels/name/<channel>`).
+4. Store the settings on this repository, under the same names EpsilonEridani uses
+   (the bot and channel can be the same ones):
+   - `gh variable set MATTERMOST_URL --body https://<server>` (no trailing `/api/v4`)
+   - `gh secret set MATTERMOST_BOT_TOKEN` (paste the bot token)
+   - `gh secret set MATTERMOST_CHANNEL_ID` (paste the channel id)
+
+To announce a section that was missed (e.g. one merged before Mattermost was set up),
+start `progress-announce` by hand with `commit` set to the commit that appended it:
+`gh workflow run progress-announce.yml -f commit=<full 40-hex sha>`. Re-running the old run would
+not work: a re-run replays that run's own copy of the workflow.
+A dry run that prints the message without posting:
+`python3 .github/scripts/announce_mattermost.py --announcer <EpsilonEridaniProgress checkout> --section <file> --dry-run`.
+
 ## `dependency_builds.py`
 
 Ported from EpsilonEridani's `scripts/dependency_builds.py`, with an added
