@@ -59,15 +59,26 @@ jobs:
       - name: Test the dependency-build archiver
         run: python3 .github/scripts/test_dependency_builds.py
 
+      # The key is computed in its own step so that `main` can still save a snapshot when the
+      # restore itself errors (its outputs are then unset).
+      - name: Compute the dependency-build cache key
+        id: dependency_builds_key
+        env:
+          PREFIX: dependency-builds-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-
+          MANIFEST: ${{ hashFiles('lake-manifest.json') }}
+        run: |
+          echo "prefix=$PREFIX" >> "$GITHUB_OUTPUT"
+          echo "key=$PREFIX$MANIFEST" >> "$GITHUB_OUTPUT"
+
       - name: Restore dependency builds
         id: dependency_builds_restore
         continue-on-error: true
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ runner.temp }}/dependency-builds.tar
-          key: dependency-builds-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          key: ${{ steps.dependency_builds_key.outputs.key }}
           restore-keys: |
-            dependency-builds-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-
+            ${{ steps.dependency_builds_key.outputs.prefix }}
 
       - name: Unpack dependency builds
         if: ${{ steps.dependency_builds_restore.outputs.cache-matched-key != '' }}
@@ -172,12 +183,12 @@ jobs:
         run: python3 .github/scripts/dependency_builds.py --exclude EpsilonEridani pack . "$ARCHIVE"
 
       - name: Save dependency builds
-        if: ${{ github.event_name == 'push' && steps.dependency_builds_pack.outcome == 'success' && steps.dependency_builds_restore.outputs.cache-primary-key != '' }}
+        if: ${{ github.event_name == 'push' && steps.dependency_builds_pack.outcome == 'success' }}
         continue-on-error: true
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ runner.temp }}/dependency-builds.tar
-          key: ${{ steps.dependency_builds_restore.outputs.cache-primary-key }}
+          key: ${{ steps.dependency_builds_key.outputs.key }}
 
       # Keep degradation visible without turning a cache-service outage into a correctness failure.
       - name: Report EpsilonEridani cache use

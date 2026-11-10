@@ -55,6 +55,18 @@ def covered_packages(project: pathlib.Path, exclude=()) -> list[str]:
     return sorted(names - {"mathlib"} - mathlib_deps - set(exclude))
 
 
+def _refuse_links(info: tarfile.TarInfo) -> tarfile.TarInfo:
+    """`tar.add` filter: refuse what `unpack` would refuse, while the archive is being written.
+
+    A symbolic link is archived as itself (`tar.add` does not dereference), and a file whose inode
+    was already archived becomes a hard-link member. `unpack` refuses both, so an archive holding
+    either would be saved but never usable.
+    """
+    if info.issym() or info.islnk():
+        raise SystemExit(f"refusing to archive a link: {info.name}")
+    return info
+
+
 def pack(project: pathlib.Path, archive: pathlib.Path, exclude=()) -> list[str]:
     """Archive each covered package's `.lake/build`; return the packages included."""
     packages_dir = project / ".lake" / "packages"
@@ -62,12 +74,15 @@ def pack(project: pathlib.Path, archive: pathlib.Path, exclude=()) -> list[str]:
     with tarfile.open(archive, "w") as tar:
         for name in covered_packages(project, exclude):
             build = packages_dir / name / pathlib.Path(*BUILD)
+            # `is_dir` follows links, so check the path itself (and its parents inside the
+            # checkout) first: a linked build directory could point outside the checkout.
+            for path in (packages_dir / name, build.parent, build):
+                if path.is_symlink():
+                    raise SystemExit(f"refusing to archive through a symlink: {path}")
             if not build.is_dir():
                 continue
-            for path in sorted(build.rglob("*")):
-                if path.is_symlink():
-                    raise SystemExit(f"refusing to archive a symlink: {path}")
-            tar.add(build, arcname=f"{name}/{'/'.join(BUILD)}", recursive=True)
+            tar.add(build, arcname=f"{name}/{'/'.join(BUILD)}", recursive=True,
+                    filter=_refuse_links)
             included.append(name)
     return included
 

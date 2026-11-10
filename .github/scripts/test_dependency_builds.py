@@ -113,6 +113,26 @@ class RoundTripTest(unittest.TestCase):
                 db.pack(source.root, pathlib.Path(src) / "deps.tar")
 
 
+class LinkRefusalTest(unittest.TestCase):
+    def test_pack_refuses_a_symlinked_build_directory(self):
+        with tempfile.TemporaryDirectory() as src, tempfile.TemporaryDirectory() as elsewhere:
+            source = Project(pathlib.Path(src))
+            (pathlib.Path(elsewhere) / "secret").write_text("outside the checkout")
+            build_parent = source.root / ".lake/packages/Physlib/.lake"
+            build_parent.mkdir(parents=True)
+            (build_parent / "build").symlink_to(elsewhere, target_is_directory=True)
+            with self.assertRaises(SystemExit):
+                db.pack(source.root, pathlib.Path(src) / "deps.tar")
+
+    def test_pack_refuses_a_hard_link(self):
+        with tempfile.TemporaryDirectory() as src:
+            source = Project(pathlib.Path(src))
+            target = source.build_file("Physlib", "lib/lean/A.olean")
+            (target.parent / "B.olean").hardlink_to(target)
+            with self.assertRaises(SystemExit):
+                db.pack(source.root, pathlib.Path(src) / "deps.tar")
+
+
 def archive_with(tmp: pathlib.Path, members) -> pathlib.Path:
     """Build an archive from `(TarInfo, bytes-or-None)` pairs."""
     path = tmp / "evil.tar"
