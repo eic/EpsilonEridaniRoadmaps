@@ -160,10 +160,16 @@ jobs:
             exit 0
           fi
           now="$NOW"
-          api="${MATTERMOST_URL%/}/api/v4"
+          # Whitespace is stripped from all three: a trailing newline in a secret or variable is the
+          # most common way such settings break.
+          url=$(printf '%s' "$MATTERMOST_URL" | tr -d '[:space:]')
+          api="${url%/}/api/v4"
           channel=$(printf '%s' "$MATTERMOST_CHANNEL_ID" | tr -d '[:space:]')
           # The token goes in a header file, not on the command line, so it is not in `ps` output.
-          hdr="$RUNNER_TEMP/mm-auth"
+          # Owner-only, and removed when the step exits.
+          umask 077
+          hdr=$(mktemp "$RUNNER_TEMP/mm-auth.XXXXXX")
+          trap 'rm -f "$hdr"' EXIT
           printf 'Authorization: Bearer %s\n' "$(printf '%s' "$MATTERMOST_BOT_TOKEN" | tr -d '[:space:]')" > "$hdr"
           get() {
             curl -sS --fail-with-body --retry 3 --retry-all-errors --max-time 30 -H "@$hdr" "$api$1"
