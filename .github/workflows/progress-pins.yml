@@ -6,6 +6,8 @@ name: progress-pins
 # Those callers run from the base branch, so a Dependabot bump that breaks a call (a renamed or new
 # required input) would otherwise only fail after it merged. This runs on `pull_request`, i.e. on
 # the pull request's own copy of the files, so the bump's own pull request shows the break.
+# It also runs the Mattermost announcer's tests against the pinned EpsilonEridaniProgress, since
+# that script imports `progress.announce` from it.
 # Read-only, no secrets: it fetches the public called workflows and parses YAML.
 
 on:
@@ -14,6 +16,7 @@ on:
       - ".github/workflows/progress-*.yml"
       - ".github/actions/progress-pin/**"
       - ".github/scripts/*progress_pins*.py"
+      - ".github/scripts/*announce_mattermost*.py"
       - ".github/dependabot.yml"
   push:
     branches: [main]
@@ -21,6 +24,7 @@ on:
       - ".github/workflows/progress-*.yml"
       - ".github/actions/progress-pin/**"
       - ".github/scripts/*progress_pins*.py"
+      - ".github/scripts/*announce_mattermost*.py"
   workflow_dispatch:
 
 permissions:
@@ -42,3 +46,21 @@ jobs:
           "$RUNNER_TEMP/venv/bin/pip" install --quiet PyYAML==6.0.2
           "$RUNNER_TEMP/venv/bin/python" .github/scripts/test_check_progress_pins.py
           "$RUNNER_TEMP/venv/bin/python" .github/scripts/check_progress_pins.py
+
+      - id: progress-pin
+        uses: ./.github/actions/progress-pin
+        with:
+          workflow: progress-announce.yml
+
+      - name: Check out the pinned announcer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: eic/EpsilonEridaniProgress
+          ref: ${{ steps.progress-pin.outputs.sha }}
+          path: announcer
+          persist-credentials: false
+
+      - name: Test the Mattermost announcer
+        env:
+          ANNOUNCER: announcer
+        run: python3 .github/scripts/test_announce_mattermost.py
