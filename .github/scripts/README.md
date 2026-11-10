@@ -109,3 +109,22 @@ start `progress-announce` by hand with `commit` set to the commit that appended 
 not work: a re-run replays that run's own copy of the workflow.
 A dry run that prints the message without posting:
 `python3 .github/scripts/announce_mattermost.py --announcer <EpsilonEridaniProgress checkout> --section <file> --dry-run`.
+
+## `dependency_builds.py`
+
+Ported from EpsilonEridani's `scripts/dependency_builds.py`, with an added
+`--exclude NAME` option. Mathlib's `lake exe cache get` restores only Mathlib and its
+own dependencies, so without this [`ci`](../workflows/ci.yml) compiled Physlib and
+TauCeti from source on every run. EpsilonEridani is excluded because its outputs come
+from its own Lake artifact cache.
+
+- A push to `main` packs the covered packages' `.lake/build` trees into one archive
+  after a successful build, and saves it to the Actions cache. The key is the
+  toolchain plus `lake-manifest.json`.
+- Pull requests and the merge queue only restore it. They take the exact key, or the
+  newest entry for the same toolchain after a pin bump.
+- `unpack` validates every member before extracting any: regular files and
+  directories under `<package>/.lake/build/` only.
+- Lake still checks each module's trace, so a stale output is rebuilt, not trusted.
+
+Tests: `python3 .github/scripts/test_dependency_builds.py`, which `ci` also runs.
