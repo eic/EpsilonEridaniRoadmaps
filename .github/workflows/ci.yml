@@ -50,19 +50,20 @@ jobs:
       # Fetch EpsilonEridani's cache map from its public Lake service. Artifacts stay lazy: the build
       # downloads only the EpsilonEridani modules it actually imports. This is distinct from Mathlib's
       # cache above, and avoids making every package in the workspace cache-writable.
+      #
+      # The endpoints are anonymous, read-only and not secret (EpsilonEridani's
+      # docs/cache-infrastructure.md, and the defaults of its scripts/lake-cache-get.sh), so they are
+      # written here as defaults. The repository variables only override them. Without the
+      # defaults, a repository that lacks the variables silently rebuilt all of EpsilonEridani
+      # from source on every run.
       - name: Fetch EpsilonEridani cache map
         id: epsiloneridani_cache
         shell: bash
         env:
-          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC }}
-          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC }}
+          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC || 'https://s3-central.nrp-nautilus.io/epsiloneridani-cache/artifacts' }}
+          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC || 'https://s3-central.nrp-nautilus.io/epsiloneridani-cache/revisions' }}
         run: |
           set -euo pipefail
-          if [ -z "$PUBLIC_ARTIFACT_ENDPOINT" ] || [ -z "$PUBLIC_REVISION_ENDPOINT" ]; then
-            echo "::warning::EpsilonEridani artifact cache endpoints are not configured; building from source"
-            echo "enabled=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
 
           config="$RUNNER_TEMP/epsiloneridani-lake-cache.toml"
           cache_dir="$GITHUB_WORKSPACE/.lake/cache"
