@@ -22,10 +22,13 @@ body:
         - Diffraction
         - ElectroweakAndBSM
         - EventGeneration
+        - FactorizationTheorems
+        - FeynmanIntegrals
         - GeneralizedPartonDistributions
         - HadronMassAndEnergyMomentumTensor
         - Hadronization
         - InclusiveStructureFunctions
+        - InfraredStructure
         - JetsAndEventShapes
         - LatticeBridge
         - LightNuclei
@@ -36,6 +39,7 @@ body:
         - Photoproduction
         - QuarkoniaAndExotics
         - RadiativeCorrections
+        - Renormalization
         - SmallXAndSaturation
         - SpinStructure
         - TransverseMomentumDistributions
