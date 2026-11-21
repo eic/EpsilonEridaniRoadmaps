@@ -1,4 +1,6 @@
-import EpsilonEridani
+import Mathlib
+import EpsilonEridani.QFT.PerturbationTheory.DimensionalRegularization.Basic
+import EpsilonEridani.QFT.PerturbationTheory.DimensionalRegularization.OneLoopScalars
 
 /-!
 # Feynman graphs and Feynman integrals: representative target signatures
@@ -72,9 +74,11 @@ Layer 0.2. -/
 def JoinedBy (G : FeynmanGraph V E L) (T : Set E) : V → V → Prop :=
   Relation.ReflTransGen (fun x y : V => ∃ e : E, e ∈ T ∧ G.graph.IsLink e x y)
 
-/-- Connectedness of a Feynman graph. Layer 0.2. -/
+/-- Connectedness of a Feynman graph: it has a vertex, and any two vertices are joined. The
+graph with no vertices is not connected; without that clause the spanning-tree and Symanzik
+statements below would be false for it. Layer 0.2. -/
 def IsConnected (G : FeynmanGraph V E L) : Prop :=
-  ∀ x y : V, G.JoinedBy Set.univ x y
+  Nonempty V ∧ ∀ x y : V, G.JoinedBy Set.univ x y
 
 /-- One-particle irreducibility: connected and without a bridge. External legs do not enter.
 Layer 0.5. -/

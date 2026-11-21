@@ -1,4 +1,11 @@
-import EpsilonEridani
+import Mathlib
+import EpsilonEridani.Mathematics.Distribution.PlusFunctional
+import EpsilonEridani.Particles.Parton.PDF.Basic
+import EpsilonEridani.Particles.Parton.TMD.PowerCorrections
+import EpsilonEridani.QFT.Factorization.Convolution.Basic
+import EpsilonEridani.QFT.Factorization.DIS.HardKernel
+import EpsilonEridani.QFT.Factorization.DIS.LO
+import EpsilonEridani.QFT.Factorization.Scales.Basic
 
 /-!
 # Factorisation theorems to all orders in perturbation theory: representative target signatures
@@ -52,11 +59,10 @@ def CoefficientFunctional.ofRegular (K : ℝ → ℝ) : CoefficientFunctional :=
 def CoefficientFunctional.deltaAtOne (c : ℝ) : CoefficientFunctional :=
   fun φ => c * φ 1
 
-/-- The coefficient functional `[K]₊` of a kernel singular at `z = 1`: the pairing
-`∫₀¹ K z (φ z - φ 1) dz`, which is the body of the existing `plusFunctional` of
-`EpsilonEridani.Mathematics.Distribution.PlusFunctional` (Layer 0.2). -/
+/-- The coefficient functional `[K]₊` of a kernel singular at `z = 1`, built on the existing
+`EpsilonEridani.plusFunctional` (Layer 0.2). -/
 def CoefficientFunctional.plus (K : ℝ → ℝ) : CoefficientFunctional :=
-  fun φ => intervalIntegral (fun z : ℝ => K z * (φ z - φ 1)) 0 1 MeasureTheory.volume
+  fun φ => EpsilonEridani.plusFunctional K φ
 
 /-- The test function `z ↦ f (x / z) / z` on `[x, ∞)`, extended by zero, against which a
 coefficient functional is paired to form the collinear convolution at `x` (Layer 0.2). -/
@@ -91,9 +97,12 @@ theorem deltaAtOne_not_regular (c : ℝ) (hc : c ≠ 0) :
   sorry
 
 /-- A remainder suppressed by the `p`-th power of a hadronic scale `Lam` over the hard scale
-`Q`, for all sufficiently large `Q` (Layer 0.3). -/
+`Q`, up to a power of the logarithm, for all sufficiently large `Q` (Layer 0.3). The power `m`
+of the logarithm is existentially quantified: the remainder bounds this roadmap consumes carry
+logarithms whose power grows with the perturbative order, and no pure power bound follows. -/
 def PowerSuppressed (R : ℝ → ℝ) (Lam : ℝ) (p : ℕ) : Prop :=
-  ∃ c Q0 : ℝ, ∀ Q : ℝ, Q0 ≤ Q → |R Q| ≤ c * (Lam / Q) ^ p
+  ∃ (c Q0 : ℝ) (m : ℕ), ∀ Q : ℝ, Q0 ≤ Q →
+    |R Q| ≤ c * (Lam / Q) ^ p * (1 + |Real.log (Q / Lam)|) ^ m
 
 /-- A power-suppressed remainder is suppressed to every lower power, for a positive hadronic
 scale (Layer 0.3). -/
@@ -108,6 +117,26 @@ def orderConvolution {Flavor : Type} [Fintype Flavor]
     (C : ℕ → Flavor → ℝ → CoefficientFunctional) (f : ℕ → Flavor → ℝ → ℝ)
     (n : ℕ) (x Q : ℝ) : ℝ :=
   ∑ k ∈ Finset.range (n + 1), ∑ i : Flavor, convolve (C k i Q) (f (n - k) i) x
+
+/-- The convolution of two coefficient functionals, `(C ⋆ D)(φ) = C (z ↦ D (w ↦ φ (z w)))`
+(Layer 0.2). The density of a parton in a parton is a coefficient functional and not a function,
+so partonic statements are written with this product. -/
+def CoefficientFunctional.conv (C D : CoefficientFunctional) : CoefficientFunctional :=
+  fun φ => C (fun z => D (fun w => φ (z * w)))
+
+/-- `δ(1 - z)` is a right unit for the convolution of coefficient functionals (Layer 0.2). -/
+theorem CoefficientFunctional.conv_deltaAtOne (C : CoefficientFunctional) :
+    CoefficientFunctional.conv C (CoefficientFunctional.deltaAtOne 1) = C := by
+  sorry
+
+/-- The order-`n` term of the product of a coefficient-function series with a series of
+partonic densities, both functional-valued (Layers 0.2 and 0.6). At order zero the partonic
+density is `deltaAtOne 1`, which is what makes the Cauchy sum triangular in the order. -/
+def partonicOrderConvolution {Flavor : Type} [Fintype Flavor]
+    (C : ℕ → Flavor → ℝ → CoefficientFunctional) (D : ℕ → Flavor → CoefficientFunctional)
+    (n : ℕ) (Q : ℝ) : CoefficientFunctional :=
+  fun φ => ∑ k ∈ Finset.range (n + 1), ∑ i : Flavor,
+    CoefficientFunctional.conv (C k i Q) (D (n - k) i) φ
 
 /-- Collinear factorisation to all orders in perturbation theory with remainder power `p`:
 at every order the observable equals the order-`n` term of the convolution, up to a
@@ -242,20 +271,32 @@ theorem tOdd_sign_change (f : WilsonLineDirection → ℝ → ℝ → ℝ)
     f TmdProcess.drellYan.linkDirection x kT = -f TmdProcess.sidis.linkDirection x kT := by
   sorry
 
+/-- `Wapp` reproduces `W` with a remainder of order `lam ^ n` up to a power of `|log lam|`, as
+`lam` tends to zero from above (Layer 0.3). The power of the logarithm is existentially
+quantified. This is the logarithm-carrying form of the existing `ApproximatesToOrder`, in the
+shape `InfraredStructure` Layer 0.5 defines. -/
+def ApproximatesUpToLogs (W Wapp : ℝ → ℝ) (n : ℕ) : Prop :=
+  ∃ m : ℕ, Asymptotics.IsBigO (nhdsWithin (0 : ℝ) (Set.Ioi 0)) (fun lam : ℝ => W lam - Wapp lam)
+    (fun lam : ℝ => lam ^ n * abs (Real.log lam) ^ m)
+
+/-- The existing pure-power predicate implies the logarithm-carrying one (Layer 0.3). -/
+theorem approximatesUpToLogs_of_approximatesToOrder (W Wapp : ℝ → ℝ) (n : ℕ)
+    (h : EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder W Wapp n) :
+    ApproximatesUpToLogs W Wapp n := by
+  sorry
+
 /-- Transverse-momentum-dependent factorisation for semi-inclusive deep-inelastic scattering at
-leading power in the ratio `lam = q_T / Q` (Layer 3.3), in the existing vocabulary
-`ApproximatesToOrder`.
+leading power in the ratio `lam = q_T / Q` (Layer 3.3), with a remainder of order one up to
+logarithms.
 
 `hSubtraction` is supplied by `InfraredStructure` Layers 2, 3, 5 and 6 (classification of
 leading regions, deformation out of the Glauber region, power-suppressed remainder of the
 nested subtraction); `hWard` by `InfraredStructure` Layers 5 and 7 (the leading-region sum is
 the hard factor times the transverse convolution `conv`). -/
 theorem sidis_tmd_factorization (W Wregions conv : ℝ → ℝ) (H : ℝ)
-    (hSubtraction :
-      EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder W Wregions 1)
+    (hSubtraction : ApproximatesUpToLogs W Wregions 1)
     (hWard : ∀ lam : ℝ, Wregions lam = H * conv lam) :
-    EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder
-      W (fun lam => H * conv lam) 1 := by
+    ApproximatesUpToLogs W (fun lam => H * conv lam) 1 := by
   sorry
 
 /-- Transverse-momentum-dependent factorisation for the Drell–Yan process (Layer 4.3). The
@@ -264,22 +305,20 @@ of `InfraredStructure` Layer 6 and `FeynmanIntegrals` Layer 7 that the Glauber c
 is power suppressed after the sum over cuts. -/
 theorem drellYan_tmd_factorization (W Wdeformed G conv : ℝ → ℝ) (H : ℝ)
     (hSplit : ∀ lam : ℝ, W lam = Wdeformed lam + G lam)
-    (hCutSum :
-      EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder
-        G (fun _ => 0) 1)
-    (hSubtraction :
-      EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder
-        Wdeformed (fun lam => H * conv lam) 1) :
-    EpsilonEridani.Particles.Parton.TMD.PowerCorrections.ApproximatesToOrder
-      W (fun lam => H * conv lam) 1 := by
+    (hCutSum : ApproximatesUpToLogs G (fun _ => 0) 1)
+    (hSubtraction : ApproximatesUpToLogs Wdeformed (fun lam => H * conv lam) 1) :
+    ApproximatesUpToLogs W (fun lam => H * conv lam) 1 := by
   sorry
 
 /-! ## Layer 5: hard exclusive processes -/
 
-/-- An exclusive amplitude equals its factorised form up to a remainder suppressed by the
-`p`-th power of the hadronic scale over the hard scale (Layer 5.1). -/
+/-- An exclusive amplitude equals its factorised form up to a relative remainder suppressed by
+the `p`-th power of the hadronic scale over the hard scale, up to a power of the logarithm
+(Layer 5.1). The bound is relative to `‖Aapp Q‖`: an absolute bound does not carry over to the
+squared amplitude. -/
 def AmplitudeFactorized (A Aapp : ℝ → ℂ) (Lam : ℝ) (p : ℕ) : Prop :=
-  ∃ c Q0 : ℝ, ∀ Q : ℝ, Q0 ≤ Q → ‖A Q - Aapp Q‖ ≤ c * (Lam / Q) ^ p
+  ∃ (c Q0 : ℝ) (m : ℕ), ∀ Q : ℝ, Q0 ≤ Q →
+    ‖A Q - Aapp Q‖ ≤ c * (Lam / Q) ^ p * (1 + |Real.log (Q / Lam)|) ^ m * ‖Aapp Q‖
 
 /-- The polarisation of the virtual photon in hard exclusive meson production (Layer 5.3). -/
 inductive PhotonPolarization
@@ -327,7 +366,8 @@ theorem entangled_not_product :
 inductive LedgerStatus
   /-- Proved in this roadmap to all orders in perturbation theory, with no hadronic input. -/
   | provedPerturbatively
-  /-- Proved in this roadmap to all orders, with `SoftHadronVertex` as the only hypothesis. -/
+  /-- Proved in this roadmap to all orders, with `SoftHadronVertex` and the process-specific
+  premises listed in Layer 7.3 as the hypotheses. -/
   | provedGivenHadronHypothesis
   /-- Proved in this roadmap at a stated finite order only; no all-orders proof exists. -/
   | provedAtFixedOrder

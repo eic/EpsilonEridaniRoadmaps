@@ -638,11 +638,31 @@ of the Landau equations:
 
 The published argument is the Coleman–Norton picture together with the observation that massless
 particles leaving a common point on distinct light rays cannot meet again. The roadmap's proof
-target makes that observation a lemma: if points `x_0, …, x_n = x_0` of Minkowski space satisfy
-`x_{j+1} - x_j = ± β_j q_j` with `β_j > 0` and `q_j` light-like of positive energy, with the
-signs given by the orientation of a cycle of on-shell lines, then all `q_j` on the cycle that
-are not separated by a hard vertex are parallel. The classification then follows by 1.4 and
-1.5. The converse direction is by explicit construction of the position assignment.
+target makes that observation two lemmas and one class-specific step.
+
+- *Vertex lemma.* At a vertex of the reduced graph at which every line is on shell, massless
+  and of non-zero momentum, momentum conservation holds among those lines; call the vertex
+  *direction-preserving* if all of them are parallel and *direction-changing* otherwise.
+- *No-reunion lemma.* Let `x_0` and `x_m` be two points of Minkowski space joined by two arcs
+  of on-shell lines, with displacements `± β_j q_j`, `β_j > 0`, `q_j` light-like of positive
+  energy and the signs given by the orientation of the lines along the arc. Suppose every
+  interior vertex of each arc is direction-preserving, so that each arc has a single direction,
+  `a` and `b`, and suppose the signed sum of the `β_j` along at least one arc is non-zero. Then
+  `a` and `b` are parallel. The proof is one line: `s a = t b` with `s ≠ 0` or `t ≠ 0` for
+  light-like `a`, `b`.
+- *Class-specific step.* For each of the four classes, the direction-changing vertices lie in
+  the subgraph of item 4: prove from the external kinematics of the class that a
+  direction-changing vertex cannot be joined to the external lines by on-shell lines alone
+  except through the vertex carrying the current.
+
+The no-reunion lemma does not say that a cycle of signed light-like displacements has parallel
+sides. The cycle `(0,0,0,0) → (1,1,0,0) → (2,0,0,0) → (1,−1,0,0) → (0,0,0,0)` has signs
+`+,+,−,−`, all `β_j = 1`, and two directions; it has four direction-changing vertices and is a
+picture of two separate hard scatterings, the subject of 2.3. It is recorded as an example so
+that the lemma is not applied to it.
+
+The classification then follows by 1.4 and 1.5. The converse direction is by explicit
+construction of the position assignment.
 
 ### 2.3 What the theorem does not say: multiple hard scatterings
 
@@ -892,20 +912,32 @@ initial-state colour.
 
 ### 4.5 Infrared-and-collinear-safe weights to all orders
 
-Take the predicate `IsIRCSafe` of `JetsAndEventShapes` Layer 0.3 as the hypothesis on a weight.
+The predicate `IsIRCSafe` of `JetsAndEventShapes` Layer 0.3 asserts limits, not rates, and a
+limit is not enough to integrate against `dλ/λ`: thrust composed with `τ ↦ 1/log(e/τ)` near
+zero is still `IsIRCSafe`, and its soft integral `∫ dλ / (λ log(e/λ))` diverges. The hypothesis
+on a weight is therefore quantitative. Define `IsIRCSafeOfOrder δ w`, for `δ > 0`: the change
+of `w` under the addition of a soft momentum `p`, and under the replacement of two collinear
+momenta at relative transverse momentum `p` by their sum, is `O(‖p‖^δ)`, uniformly on compact
+sets of the remaining final state. For `δ = 1` and soft emission this is the soft safety of
+order one of `JetsAndEventShapes` Layer 0.3. Prove that `IsIRCSafeOfOrder δ w` implies
+`IsIRCSafe w`, that the converse fails by the example above, and that thrust and the weights
+of `JetsAndEventShapes` Layer 1 satisfy it with `δ = 1`.
 
 **Theorem.** For every graph `G` of the class `annihilation` and every weight `w` on final
-states that is infrared and collinear safe, the weighted cut sum of `G` is analytic at `ε = 0`.
+states with `IsIRCSafeOfOrder δ w` for some `δ > 0`, the weighted cut sum of `G` is analytic at
+`ε = 0`.
 The published argument (Sterman 1978) is diagrammatic: at each pinch surface the leading
 contribution is common to the cuts that differ by soft and collinear rearrangements of the
 final state, a safe weight takes equal values on those cuts, and the unweighted sum over them
 has degree of divergence raised by one. The roadmap's proof target states this as: for each
 leading reduced graph `R` of the uncut graph, the cuts of `G` compatible with `R` are those
 that cut `R`'s jets and soft subgraph in all possible ways; on `U_R(lam)` the weight is
-constant up to `O(lam)` by safety; the sum over those cuts of the integrand restricted to
-`U_R(lam)` has infrared degree at least one, by the largest-time equation of `FeynmanIntegrals`
+constant up to `O(lam^δ)` by the quantitative hypothesis; the sum over those cuts of the integrand
+restricted to
+`U_R(lam)` has infrared degree raised by at least `δ`, by the largest-time equation of
+`FeynmanIntegrals`
 Layer 7 applied to the jet and soft subgraphs; and Layer 3.2 concludes. Its hypotheses are
-`IsIRCSafe w` and `NoAccidentalCancellation`.
+`IsIRCSafeOfOrder δ w` with `δ > 0` and `NoAccidentalCancellation`.
 
 This is the all-orders form of the finiteness milestone of `JetsAndEventShapes` Layer 0.5, which
 is stated there at one order with the soft and collinear limits of the real matrix element as
@@ -1139,14 +1171,27 @@ counting.
 **Theorem (one soft momentum).** Let `F(k⁻)` be the integrand of a graph as a function of the
 minus component of one soft momentum, the other components held fixed with `|k⁺| ≤ C lam Q` and
 `|k_T| ≤ C lam Q`, and suppose that every pole of `F` at `|k⁻| ≤ lam Q` arising from the
-denominators of the plus-direction jet lies in the lower half-plane. Then the integral of `F`
-over real `k⁻` equals the integral over the contour displaced into the upper half-plane by
-`lam Q` on `|Re k⁻| ≤ lam Q`, and on the displaced contour the dominance condition of Layer 0.4
-holds with a margin independent of `lam`. Consequently the soft approximation of 5.1 applies
+denominators of the plus-direction jet lies in the lower half-plane, and that `F` has no
+singularity of any other origin in the closed region swept between the real segment
+`|Re k⁻| ≤ lam Q` and the contour displaced into the upper half-plane by `c lam Q` there, for a
+constant `c > 0`. Then the integral of `F` over real `k⁻` equals the integral over the
+displaced contour, and on it the dominance condition of Layer 0.4 holds with a margin
+proportional to `c` and independent of `lam`. Consequently the soft approximation of 5.1 applies
 with its stated error, and the eikonal denominators it produces are `n₊ · k + iε`. The same
 holds with the half-planes exchanged and `- iε`. Prove it from
 `TauCeti.Analysis.Contour.HomologyCauchy` with the arc estimates of
 `TauCeti.Analysis.Contour.JordanLemma`.
+
+The pole-free hypothesis is not implied by the condition on the jet poles. The soft line's own
+propagator has a pole at `k⁻ = (|k_T|² − iε) / (2 k⁺)`, in the upper half-plane for `k⁺ < 0`,
+and the denominators of the opposite jet and of other soft lines contribute further poles.
+Statements to prove, which discharge the hypothesis where the deformation is needed: on the
+Glauber set, where `|k_T| ≥ c₀ lam Q` and `|k⁺| ≤ C lam Q`, the soft line's own pole lies at
+distance at least `c₀² lam Q / (2 C)` from the real axis, so that any `c < c₀² / (2 C)` avoids
+it; and for the classes `formFactor`, `annihilation` and `dis`, the poles in `k⁻` of the
+opposite jet and of the hard subgraph lie at distance of order `Q` or in the lower half-plane.
+For several soft momenta the deformation is a joint one and the same hypothesis is imposed on
+the full integrand along the homotopy.
 
 **Theorem (sign rule).** In a jet subgraph, a soft momentum `k` flowing into a line that
 subsequently reaches the final state produces poles in `k⁻` in the lower half-plane, and one
@@ -1319,8 +1364,8 @@ Statements to prove:
   test that the general theorems have usable hypotheses.
 - The evolution equation: `∂ log F / ∂ log Q² = (1/2) [K(ε, α_s(μ)) + G(Q²/μ², α_s(μ), ε)]`,
   with `K` a pure counterterm series defined from the soft function and `G` finite at `ε = 0`,
-  and `dK / d log μ = - dG / d log μ = - γ_cusp`, the cusp anomalous dimension of
-  `Renormalization` Layer 5. Derive it from the `ζ`-dependence of 7.2.
+  and `dK / d log μ = - dG / d log μ = - γ_K`, where `γ_K = 2 Γ_cusp` is twice the light-like
+  cusp anomalous dimension of `Renormalization` Layer 5.3. Derive it from the `ζ`-dependence of 7.2.
 - One loop: the coefficients of `1/ε²` and `1/ε` and the finite part of `F` at order `α_s`,
   from the region contributions of the Layer 5 examples.
 - Leading logarithms: from the evolution equation with the one-loop cusp anomalous dimension,
@@ -1347,8 +1392,11 @@ respect to the rapidity of one of its Wilson lines. Statements to prove:
 - `K` does not depend on `ζ`;
 - `K` does not depend on the jet function it acts on — not on the parton's momentum fraction,
   and on its flavour only through the colour representation;
-- `dK / d log μ = - γ_cusp`, and the anomalous dimension of `J` in `μ` is linear in `log ζ`
-  with slope `- γ_cusp / 2`, with the cusp anomalous dimension of `Renormalization` Layer 5;
+- `dK / d log μ = - γ_K`, and the anomalous dimension of `J` in `μ` is linear in `log ζ`
+  with slope `- γ_K / 2`, where `γ_K = 2 Γ_cusp` with `Γ_cusp` the light-like cusp anomalous
+  dimension of `Renormalization` Layer 5.3, so that `γ_K = 2 α_s C_F / π` at one loop, in
+  agreement with the one-loop kernel below; `γ_K` is the argument `gammaCusp` of the existing
+  `CuspConsistent`;
 - `K` is the same for a jet function with a past-pointing and with a future-pointing Wilson
   line, and for the cut jet functions of 7.5 in the initial and in the final state: the
   derivative of the soft function with respect to the rapidity of one line does not depend on
@@ -1508,7 +1556,8 @@ where marked, with explicitly named hypotheses:
     and proofs that `kln_final_state`, `kln_initial_state_survives`, `ir_cancellation` and
     `ir_cancellation_regulator_independent` of `RadiativeCorrections` are instances of the
     statements of Layer 4.
-14. All-orders finiteness of the weighted cut sum for an `IsIRCSafe` weight in annihilation,
+14. All-orders finiteness of the weighted cut sum for an `IsIRCSafeOfOrder δ` weight in
+    annihilation,
     with its hypotheses, and a weight failing collinear safety for which a graph has a pole.
 15. The Grammer–Yennie identity; the abelian Ward identity for any number of `K` photons on an
     open line and on a closed loop; the abelian eikonal identity in momentum space, derived from

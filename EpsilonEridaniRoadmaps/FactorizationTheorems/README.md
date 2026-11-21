@@ -220,7 +220,7 @@ From EpsilonEridani:
   operator-defined functions of this roadmap are proved to have.
 - `Particles.Parton.TMD.PowerCorrections` for `powerRatio`, `smallRatio`, `ApproximatesToOrder`
   and `ApproximatesToOrder.mono`. The transverse-momentum-dependent theorems of Layers 3 and 4 are
-  stated in this vocabulary and not in a new one.
+  stated in its logarithm-carrying form (0.3), which the existing predicate implies.
 - `QFT.Scattering.DIS.Tensors.Basic` and `.Tensors.Longitudinal` for the hadronic tensor;
   `QFT.Scattering.DIS.Inclusive.CrossSection`; `QFT.Scattering.DIS.Polarized.Basic`;
   `QFT.Scattering.DIS.SIDIS.Basic` for `sidisChannel` and `sidisStructureFunction`;
@@ -281,9 +281,15 @@ Collins, *Foundations of Perturbative QCD* (2011), ch. 1, 6 and 8; Curci, Furman
 - Define the *partonic* observable as the same with the hadron replaced by an on-shell massless
   parton, collinear divergences regulated dimensionally by `FeynmanIntegrals` Layer 4, and the
   *hadronic* observable as the same with the hadron entering through the vertex of 0.4.
-- Statements to prove: the sum at each order is a finite sum of convergent integrals after
-  renormalisation, for non-exceptional kinematics, citing `Renormalization` Layer 1 and
-  `FeynmanIntegrals` Layer 3; the perturbative observable is independent of the gauge parameter,
+- Statements to prove: after renormalisation the sum at each order is free of ultraviolet poles,
+  citing `Renormalization` Layer 1 and `FeynmanIntegrals` Layer 3. It is finite at the physical
+  dimension for the hadronic observable, and for a partonic observable with no coloured parton
+  in the initial state and an infrared-safe weight, citing `InfraredStructure` Layer 4. For a
+  partonic observable with an on-shell massless parton in the initial state it is not: collinear
+  poles survive the sum over cuts, as `InfraredStructure` Layer 4.3 records, and the object is a
+  function meromorphic in the regulator. Finiteness of such an observable is claimed only for
+  the combination left after the collinear subtraction of the layer that treats the process.
+  The perturbative observable is independent of the gauge parameter,
   citing `Renormalization` Layer 4; the truncation of a product of two series at order `n` is the
   finite Cauchy sum over the pairs `(k, l)` with `k + l = n`, with associativity for three
   factors.
@@ -319,6 +325,13 @@ Collins, *Foundations of Perturbative QCD* (2011), ch. 1, 6 and 8; Curci, Furman
     the integrability hypotheses of `mellinDis_convolveAt`; the moments of `deltaAtOne c` are
     `c`, and those of `plus (fun z => (1 - z)⁻¹)` are minus the harmonic numbers, by
     `plusOneMinus_pow`.
+  - Convolution of two coefficient functionals, `(C ⋆ D)(φ) = C (z ↦ D (w ↦ φ (z w)))`:
+    associative, with unit `deltaAtOne 1`, and equal to the convolution above when `D` is
+    integration against a density. The densities of a parton in a parton are not functions —
+    at order zero the density is `deltaAtOne 1`, and at higher orders it contains plus
+    distributions — so every partonic statement, including the uniqueness argument of 0.6, is
+    written with a coefficient functional on both sides and this product; the hadronic
+    statements, in which the density is a function, use the convolution above.
   - A measure-valued form: every positive coefficient functional of order zero is integration
     against a finite measure on `(0, 1]`, with `deltaAtOne c` the Dirac measure at `1` scaled by
     `c` and `ofRegular K` the measure with density `K`; plus distributions are not measures, and
@@ -326,16 +339,24 @@ Collins, *Foundations of Perturbative QCD* (2011), ch. 1, 6 and 8; Curci, Furman
 
 ### 0.3 What a factorisation theorem is
 
-- Define `PowerSuppressed R Λ p`: there are a constant and a threshold such that
-  `|R Q| ≤ c (Λ/Q)^p` for all `Q` above the threshold. Prove it equivalent to
-  `R =O[Filter.atTop] (fun Q => (Λ/Q)^p)` and monotone in `p` for `Λ > 0`.
+- Define `PowerSuppressed R Λ p`: there are a constant, a threshold and a natural number `m`
+  such that `|R Q| ≤ c (Λ/Q)^p (1 + |log(Q/Λ)|)^m` for all `Q` above the threshold. The power of
+  the logarithm is part of the existential and depends on the perturbative order: the remainder
+  bounds of `Renormalization` Layer 6.2 and `InfraredStructure` Layer 5.6 carry `|log|^L` and
+  `|log|^{2L}` at order `L`, and a pure power bound does not follow from them —
+  `(Λ/Q)² log(Q/Λ)` is the example. Prove it equivalent to
+  `R =O[Filter.atTop] (fun Q => (Λ/Q)^p · log(Q/Λ)^m)` for some `m`, monotone in `p` for
+  `Λ > 0`, and that it implies the pure power bound with any real exponent below `p`. No
+  theorem of this roadmap asserts a pure power bound at the nominal exponent.
 - Define `FactorizesToAllOrders F C f Λ p` for a perturbative observable `F`, a sequence of
   coefficient functionals `C` and a sequence of densities `f`: at every order `n` and every
   `x ∈ (0, 1)`, the difference between `F n x Q` and the order-`n` Cauchy sum of `C ⊗ f` is
   `PowerSuppressed` with scale `Λ` and power `p`.
 - Define the corresponding propositions for a double convolution (density and fragmentation
-  function), for a transverse convolution in the vocabulary of `ApproximatesToOrder`, and for an
-  exclusive amplitude with complex values.
+  function), for a transverse convolution, and for an exclusive amplitude with complex values.
+  The transverse statements use the logarithm-carrying form of `ApproximatesToOrder` defined in
+  `InfraredStructure` Layer 0.5, with the power of the logarithm existentially quantified at
+  each order; the existing pure-power `ApproximatesToOrder` implies it and is not implied by it.
 - Statements to prove: each proposition is stable under a finite scheme change in the sense of
   `Renormalization` Layer 2, with the coefficient functionals and the densities transforming
   inversely; each is stable under replacing `Λ` by a larger scale; and the proposition with the
@@ -525,7 +546,13 @@ ch. 8 and 11.
 
 ### 1.6 Other inclusive structure functions
 
-- Statements to prove: the theorem of 1.4 for `g₁` with the polarised light-ray operators; for
+- Statements to prove: the theorem of 1.4 for the flavour non-singlet part of `g₁`, with the
+  non-singlet polarised light-ray operators of `Renormalization` Layer 5.5. The singlet part is
+  not a target: it needs the polarised quark and gluon operators and their mixing, which
+  involve a closed fermion loop with one `γ₅` already at one loop and are excluded by
+  `Renormalization` Convention 9, so that no roadmap in the collection supplies their
+  renormalisation. The singlet leading-power form of `g₁` therefore remains the statement
+  `SpinStructure` makes, with the kernels `CollinearEvolution` Layer 4.1 states. For
   the parity-violating and charged-current structure functions with the electroweak currents of
   `ElectroweakAndBSM`, the coefficient functionals differing from the electromagnetic ones only
   by couplings at order zero; and that no chiral-odd operator contributes at leading power to any
@@ -729,7 +756,8 @@ References: Collins and Soper, *Nucl. Phys. B* **193** (1981) 381; Collins, Sope
   position space is a hard factor times the product of a transverse-momentum-dependent
   distribution and a transverse-momentum-dependent fragmentation function, each the matrix
   element of the operator of `InfraredStructure` Layer 7 with the soft factor absorbed as in 3.4,
-  at scales `μ` and `ζ`; the remainder satisfies `ApproximatesToOrder` with order one. In
+  at scales `μ` and `ζ`; the remainder is of order one in `qT/Q` up to logarithms, in the sense
+  of 0.3. In
   transverse momentum space the product is the transverse convolution of
   `TransverseMomentumDistributions` Layer 2.2.
 - The four hypotheses that `TransverseMomentumDistributions` Layer 2.4 lists — region
@@ -867,7 +895,8 @@ Perturbative QCD*, ch. 14.
     the sum over cuts of the spectator subgraphs at fixed `qT` is unrestricted.
   - **Theorem.** The cross section factorises as a hard factor times the product in transverse
     position space of two transverse-momentum-dependent distributions with the soft factor
-    absorbed as in 3.4, with `ApproximatesToOrder` of order one in `qT/Q`.
+    absorbed as in 3.4, with a remainder of order one in `qT/Q` up to logarithms, in the sense
+    of 0.3.
   - The eikonal lines produced by the soft and collinear approximations after the deformation of
     4.3 run from the past: `TmdProcess.drellYan.linkDirection = past`. The hard factor is the
     analytic continuation of that of Layer 3 from space-like to time-like `Q²`, and the relation
@@ -940,9 +969,16 @@ Efremov and Radyushkin, *Phys. Lett. B* **94** (1980) 245; Ji and Osborne, *Phys
   `iε` prescription — against a generalised parton distribution or a distribution amplitude,
   over `EpsilonEridani.QFT.Scattering.DIS.Exclusive.Convolution.Basic`.
 - Statements to prove: the pairing is well defined when the non-perturbative function is
-  continuous at the points where the kernel is singular, with the counterexample when it is
-  not; the amplitude-level statement implies the cross-section-level statement with the same
-  power; no sum over final states is available, so every cancellation used in Layers 1 to 4
+  locally Hölder continuous with positive exponent at the points where the kernel is singular.
+  Continuity is not enough: `f(ξ + t) = sign(t) / log(1/|t|)` near `t = 0`, with `f(ξ) = 0`, is
+  continuous and its principal value against `1/t` diverges. A Dini condition also suffices
+  and the roadmap states the Hölder form. Prove the convergence for the order-zero kernels of
+  5.2 and 5.3 under that hypothesis, and carry it as an explicit argument of every theorem of
+  this layer. The amplitude-level statement implies the cross-section-level statement with the
+  same power when the error is relative: `AmplitudeFactorized` bounds `‖A − Aapp‖` by the
+  suppression factor times `‖Aapp‖`, with `Aapp` eventually non-zero. An absolute bound does
+  not square: `Aapp(Q) = Q` and `A(Q) = Q + 1/Q` differ by `1/Q` and their squares by more than
+  two. No sum over final states is available, so every cancellation used in Layers 1 to 4
   that relied on one is unavailable and each step is re-proved at amplitude level.
 
 ### 5.2 Deeply virtual Compton scattering
@@ -954,7 +990,7 @@ Efremov and Radyushkin, *Phys. Lett. B* **94** (1980) 245; Ji and Osborne, *Phys
   - The soft region is power suppressed for this amplitude after the collinear lines are
     contracted to the hard subgraph, and the contour can be deformed out of the Glauber region
     and out of the region where a collinear line becomes soft at `x = ±ξ`, where the deformation
-    is what requires continuity of the distribution there.
+    is what requires the Hölder regularity of 5.1 of the distribution there.
   - **Theorem.** The amplitude satisfies `AmplitudeFactorized` with remainder power one in
     `Λ/Q`, with hard kernel the subtracted hard subgraph and non-perturbative function the
     matrix element of the off-forward light-ray operator, the generalised parton distribution
@@ -1018,8 +1054,9 @@ Efremov and Radyushkin, *Phys. Lett. B* **94** (1980) 245; Ji and Osborne, *Phys
 
 ### Examples
 
-- The order-zero Compton hard kernel paired with a test distribution continuous at `x = ξ`, and
-  the same pairing with a distribution discontinuous there, which diverges.
+- The order-zero Compton hard kernel paired with a test distribution Hölder continuous at
+  `x = ξ`; the same pairing with a distribution discontinuous there, which diverges; and with
+  the continuous function `sign(t)/log(1/|t|)` of 5.1, which also diverges.
 - The integrals `∫ z(1 - z)/z dz` and `∫ z(1 - z)/z² dz` on `(0, 1]`: the first converges, the
   second does not; these are the longitudinal and transverse endpoint integrands.
 - The asymptotic distribution amplitude inserted in 5.6, giving twice the decay constant.
@@ -1181,8 +1218,8 @@ Nayak, Qiu and Sterman, *Phys. Rev. D* **72** (2005) 114012; Ma and Qiu, *Phys. 
 Each row is a factorisation statement that another roadmap states as a hypothesis, a conditional
 theorem, an unproved target or a cited theorem. The status is one of: **all orders** — proved in
 the cited layer of this roadmap to all orders in perturbation theory, with no hadronic input;
-**all orders + H** — proved in the cited layer to all orders, with `SoftHadronVertex` as the only
-hypothesis; **fixed order** — proved in the cited layer at the stated order only, no all-orders
+**all orders + H** — proved in the cited layer to all orders, with `SoftHadronVertex` and the
+process-specific premises of that layer, listed after the table, as the hypotheses; **fixed order** — proved in the cited layer at the stated order only, no all-orders
 proof existing; **unproved** — remains a hypothesis, no all-orders proof existing in the
 literature; **model** — a model assumption, not derivable in QCD perturbation theory; **QED** — a
 QED statement owned and proved elsewhere. The ledger is realised as the function
@@ -1195,7 +1232,7 @@ QED statement owned and proved elsewhere. The ledger is realised as the function
 | `CollinearEvolution` | 5.5 | the factorisation hypothesis | all orders + H | 1.4, 1.5 |
 | `NuclearPartonDistributions` | 4.1 | target independence of the kernel | all orders + H | 1.4, 1.5 |
 | `NuclearPartonDistributions` | 3.2 | nucleon-convolution representation | model | — |
-| `SpinStructure` | 1.2 | leading-power form of `g₁` | all orders + H | 1.6 |
+| `SpinStructure` | 1.2 | leading-power form of `g₁`, non-singlet part | all orders + H | 1.6 |
 | `TransverseMomentumDistributions` | 2.1, 2.4 | region completeness | all orders | 3.1 |
 | `TransverseMomentumDistributions` | 2.4 | Glauber cancellation | all orders | 3.1 |
 | `TransverseMomentumDistributions` | 2.4 | eikonal validity; power counting | all orders | 3.3 |
@@ -1234,7 +1271,25 @@ QED statement owned and proved elsewhere. The ledger is realised as the function
 | `Photoproduction` | 0.3 | equivalent-photon approximation | QED | `Photoproduction` 0.3 |
 | `RadiativeCorrections` | 0.4 | `mass_singularity_factorisation` | QED | `RadiativeCorrections` 0.4 |
 
+Process-specific premises of the **all orders + H** rows. A theorem of the owning roadmap that
+is completed with a result of this one keeps these premises as hypotheses:
+
+- every row of Layer 5: the Hölder regularity of 5.1 of the non-perturbative function at the
+  singular points of the hard kernel;
+- `MesonStructure` 3.4 and `GeneralizedPartonDistributions` 3.7 (longitudinal photon): the
+  endpoint condition of 5.3 on the distribution amplitude;
+- `TransverseMomentumDistributions` 5.4 and `ElectroweakAndBSM` 5.5: invariance of the strong
+  interaction under parity and time reversal, as stated in `TransverseMomentumDistributions`
+  Layer 1.4;
+- every transverse-momentum-dependent row: the rapidity regulator is one of those satisfying the
+  axioms of `TransverseMomentumDistributions` Layer 2.3;
+- `Diffraction` 2.3: the final-state condition is the one that roadmap states, an identified
+  target-like system and not a rapidity veto.
+
 Notes that fix the meaning of individual rows:
+
+- *`g₁`.* The row covers the flavour non-singlet part. The singlet part is not proved here, for
+  the reason given in 1.6, and remains the statement of `SpinStructure`.
 
 - *Convergence of the sum over twist.* The operator product expansion of `Renormalization` Layer
   6 is an asymptotic expansion in the inverse hard scale at each order. Nothing here or there
@@ -1268,7 +1323,8 @@ Notes that fix the meaning of individual rows:
   **unproved** or **model**.
 - For each **all orders + H** row, the theorem obtained by supplying this roadmap's result to
   the conditional theorem of the owning roadmap is stated: the owning roadmap's conclusion with
-  `SoftHadronVertex` in place of its factorisation hypothesis.
+  `SoftHadronVertex` and the process-specific premises listed in 7.3 in place of its
+  factorisation hypothesis. No premise is dropped in that substitution.
 
 ### Examples
 
@@ -1357,8 +1413,8 @@ marked, with `SoftHadronVertex` as an explicit hypothesis:
 8. Collinear semi-inclusive factorisation with the same density as in item 4 and the same
    fragmentation function as in single-inclusive annihilation, reducing at order zero to
    `sidisStructureFunction`.
-9. Transverse-momentum-dependent factorisation for semi-inclusive scattering as
-   `ApproximatesToOrder` of order one, with region completeness and the Glauber deformation
+9. Transverse-momentum-dependent factorisation for semi-inclusive scattering with a remainder
+   of order one up to logarithms, with region completeness and the Glauber deformation
    proved, and the resulting `sidis_factorization` of `TransverseMomentumDistributions` with its
    four hypothesis arguments supplied.
 10. The one-loop spectator–spectator Drell–Yan graph: a leading Glauber contribution in each cut,

@@ -1,4 +1,6 @@
-import EpsilonEridani
+import Mathlib
+import EpsilonEridani.Particles.Parton.TMD.PowerCorrections
+import EpsilonEridani.QFT.Shower.Sudakov
 
 /-!
 # Infrared structure of perturbative amplitudes: representative target signatures
@@ -394,8 +396,9 @@ theorem sudakov_doubleLog (c t Q2 : ℝ) (ht : 0 < t) (htQ : t ≤ Q2) :
 `a = α_s C_F / π` and `c0 = 4 e^{-2 γ_E}` supplied as arguments. -/
 def csKernelOneLoop (a c0 bT mu : ℝ) : ℝ := -a * Real.log (mu ^ 2 * bT ^ 2 / c0)
 
-/-- Layer 7.4: the scale derivative of the one-loop kernel is minus the one-loop cusp anomalous
-dimension `2 a` over the scale, the first clause of the upstream `CuspConsistent`. -/
+/-- Layer 7.4: the scale derivative of the one-loop kernel is minus `γ_K = 2 a` over the scale,
+the first clause of the upstream `CuspConsistent`. Here `γ_K` is twice the light-like cusp
+anomalous dimension `Γ_cusp = a` of `Renormalization` Layer 5.3. -/
 theorem csKernelOneLoop_hasDerivAt (a c0 bT mu : ℝ) (hc : 0 < c0) (hb : bT ≠ 0)
     (hmu : 0 < mu) :
     HasDerivAt (fun m : ℝ => csKernelOneLoop a c0 bT m) (-(2 * a) / mu) mu := by

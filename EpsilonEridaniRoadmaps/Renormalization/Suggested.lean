@@ -1,4 +1,7 @@
-import EpsilonEridani
+import Mathlib
+import EpsilonEridani.QFT.PerturbationTheory.DimensionalRegularization.Basic
+import EpsilonEridani.QFT.QCD.Basic
+import EpsilonEridani.QFT.QCD.Renormalization
 
 /-!
 # Renormalisation: representative target signatures

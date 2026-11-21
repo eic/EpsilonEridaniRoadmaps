@@ -182,11 +182,14 @@ written in the shape Mathlib would want.
     pointwise on the singular set. The existing `regularizedDenominator`, `advancedDenominator`
     and `rightLimitAtZero` are used for the single-propagator statements. The trap this avoids is
     a pointwise limit that does not exist being treated as a function.
-14. The symmetry factor of a graph is the reciprocal of the order of its automorphism group, the
-    group of pairs of a vertex bijection and an edge bijection preserving incidence, labels and
-    each external leg. The existing `TopologyGraph.symmetryFactor : ℕ` is the order of that group
-    and Layer 0.8 proves it for the topologies the code enumerates. The trap this avoids is a
-    factor of two from counting, or not counting, the exchange of the two ends of a self-loop.
+14. The *symmetry factor* `S` of a graph is a natural number: the order of its half-edge
+    automorphism group of Layer 0.8, which contains the exchange of the two ends of each
+    self-loop. It is not the order of the group `Aut G` of vertex and edge bijections, from which
+    it differs by `2^s` for `s` self-loops, and it is not the weight: a graph enters an amplitude
+    with weight `1/S`. The existing `TopologyGraph.symmetryFactor : ℕ` is `S`, and Layer 0.8
+    proves it for the topologies the code enumerates. The trap this avoids is a factor of two
+    from counting, or not counting, the exchange of the two ends of a self-loop: for the
+    one-edge tadpole `|Aut G| = 1` and `S = 2`.
 15. An amplitude is an element of a power-series ring in the coupling over `ℂ` (Mathlib's
     `PowerSeries`), order by order a finite sum of integrals. No statement asserts convergence of
     the series. The trap this avoids is an all-orders statement being read as a statement about a
@@ -374,10 +377,12 @@ self-loop and several edges may share their ends.
 bonds, and no walk or connectedness predicate.
 
 - Definitions: `Graph.Reachable` as the reflexive–transitive closure of `Graph.Adj` on `V(G)`;
-  `Graph.Connected`; the components of `G` as the equivalence classes, each a subgraph.
+  `Graph.Connected`, which requires `V(G)` to be non-empty; the components of `G` as the
+  equivalence classes, each a subgraph.
 - Statements to prove: reachability is an equivalence relation on `V(G)`; a subgraph is closed
-  (`≤c`) if and only if its vertex set is a union of components; `G` is connected if and only if
-  its only closed subgraphs are the empty one and `G`; `e` is a bridge (`Graph.IsBridge`) if and
+  (`≤c`) if and only if its vertex set is a union of components; a graph with at least one vertex is
+  connected if and only if its only closed subgraphs are the empty one and itself; `e` is a bridge
+  (`Graph.IsBridge`) if and
   only if `G.deleteEdges {e}` has one more component than `G`; connectedness is preserved by
   `Graph.map` and reflected by `Graph.toSimpleGraph` on loopless graphs, so that the statement
   agrees with `SimpleGraph.Connected` where both apply.
@@ -462,7 +467,8 @@ Let `M` be a finite-dimensional real vector space of momenta.
   preserving `IsLink` and fixing the attachment of every external leg, extended to preserve
   vertex and edge labels when the graph is labelled (Layer 6.1); the *half-edge automorphism
   group*, which additionally records the exchange of the two ends of each self-loop; the symmetry
-  factor as the order of the latter; the forgetful map from a labelled Feynman graph to the
+  factor `S` as the order of the latter (Convention 14); the forgetful map from a labelled Feynman
+  graph to the
   existing `TopologyGraph`.
 - Statements to prove: `Aut G` is finite; the order of the half-edge group is `|Aut G| · 2^s`
   with `s` the number of self-loops; for `Graph.banana` with `n` edges and one leg at each end the
@@ -765,14 +771,16 @@ Phys.* **44** (1975) 73; Itzykson and Zuber, §8-1.
 ### 3.4 Massless propagators and non-exceptional momenta
 
 - Definitions: a set of external momenta is *non-exceptional* if no proper non-empty subset of the
-  legs has zero total momentum; for a set `S` of massless edges, the *infrared quotient* is `G /
-  (E(G) \ S)` with its induced legs, and `S` is *infrared-sensitive* at the given momenta if the
+  legs has zero total momentum; for a non-empty set `S` of massless edges, the *infrared quotient*
+  is `G / (E(G) \ S)` with its induced legs, and `S` is *infrared-sensitive* at the given momenta
+  if the
   two-forest polynomial `F₀` of the infrared quotient vanishes identically at those momenta.
 - Statements to prove: under the rescaling `α_e ↦ λ α_e` for `e ∈ S`, `λ → ∞`, the leading power of
   `U` is `loopNumber (G / (E \ S))`, by the complementary statement of 1.5; **convergence with
   massless lines**: the integral of 2.1 converges if and only if the ultraviolet condition of 3.3
-  holds and, for every infrared-sensitive set `S` of massless edges, `d · loopNumber (G / (E \ S)) −
-  2 Σ_{e ∈ S} ν_e > 0`; the massless one-loop `n`-gon with unit powers at non-exceptional momenta
+  holds and, for every non-empty infrared-sensitive set `S` of massless edges,
+  `d · loopNumber (G / (E \ S)) − 2 Σ_{e ∈ S} ν_e > 0`; the massless one-loop `n`-gon with unit
+  powers at non-exceptional momenta
   satisfies the infrared condition in `d = 4`, the only infrared-sensitive sets being single edges;
   a self-energy insertion on a massless line, which leaves two massless propagators carrying the
   same momentum, violates it in `d = 4`, and this is the standard failure.
@@ -830,8 +838,10 @@ Cim. B* **12** (1972) 20; Speer, *J. Math. Phys.* **9** (1968) 1404 and *Ann. In
   cube; **the continuation theorem** (Speer): for positive masses and fixed `ν` with positive real
   parts, `I_G` extends from `D_G` to a function that is `Meromorphic` on `ℂ` in `d`; its poles lie
   in the set of `d` for which `(d/2) · loopNumber γ − ν(γ)` is a non-negative integer for some
-  one-particle-irreducible subgraph `γ`; the order of a pole is at most the largest number of
-  such subgraphs forming a nested chain, hence at most `loopNumber G`; the continuation is unique,
+  one-particle-irreducible subgraph `γ`; the order of a pole is at most `loopNumber G`. The
+  bound by the length of the longest nested chain of such subgraphs is false, and is not a
+  target: two massive tadpoles joined by a bridge have a double pole at `d = 4` with no nested
+  pair, because disjoint divergent subgraphs also raise the order. The continuation is unique,
   by the identity theorem; the same statement with massless lines at non-exceptional Euclidean
   momenta, where the pole set additionally contains the infrared values `(d/2) · loopNumber (G /
   (E \ S)) − ν(S) ∈ {0, −1, …}` for infrared-sensitive `S`; meromorphy in each `ν_e` at fixed
@@ -1336,7 +1346,7 @@ The roadmap is complete when the following are statements in EpsilonEridani with
     √(1 − 4m²/s) θ(s − 4m²)`.
 15. The symmetry-factor theorem from Physlib's full Wick contractions, with the `φ⁴`
     second-order examples, and the proof that the `symmetryFactor` of the enumerated one-loop
-    `TopologyGraph`s is the automorphism order.
+    `TopologyGraph`s is the half-edge automorphism order.
 16. The QCD covariant-gauge rules with the existing scalar denominators proved to be theirs, the
     `d`-dimensional contraction identities, the non-existence of an anticommuting `γ₅` with
     non-zero four-matrix trace for `d ≠ 4`, and the one-loop self-energy pole coefficients equal
