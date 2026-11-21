@@ -211,7 +211,8 @@ every vertex. -/
 def IsCycle {Vertex Line : Type} [Fintype Line] [DecidableEq Vertex]
     (G : RoutedGraph Vertex Line) (c : Line → ℤ) : Prop :=
   ∀ v : Vertex,
-    ∑ e : Line, c e * ((if G.tgt e = v then (1 : ℤ) else 0) - (if G.src e = v then (1 : ℤ) else 0))
+    (∑ e : Line,
+        c e * ((if G.tgt e = v then (1 : ℤ) else 0) - (if G.src e = v then (1 : ℤ) else 0)))
       = 0
 
 /-- The Landau equations in momentum form (Layer 1.3): each line is on shell or has vanishing
@@ -360,9 +361,10 @@ theorem ward_ring {R : Type} [Ring R] (A B : R) (hA : IsUnit A) (hAB : IsUnit (A
 /-- Layer 5.5, the abelian eikonal identity in momentum space: the sum over orderings of the
 products of inverse partial sums is the product of the inverses. -/
 theorem eikonal_identity (n : ℕ) (a : Fin n → ℝ)
-    (h : ∀ s : Finset (Fin n), s.Nonempty → ∑ i ∈ s, a i ≠ 0) :
-    ∑ σ : Equiv.Perm (Fin n),
-        ∏ j : Fin n, (∑ i ∈ Finset.univ.filter (fun i : Fin n => i ≤ j), a (σ i))⁻¹
+    (h : ∀ s : Finset (Fin n), s.Nonempty → (∑ i ∈ s, a i) ≠ 0) :
+    (∑ σ : Equiv.Perm (Fin n),
+        ∏ j : Fin n,
+          (∑ i ∈ (Finset.univ : Finset (Fin n)).filter (fun i : Fin n => i ≤ j), a (σ i))⁻¹)
       = ∏ j : Fin n, (a j)⁻¹ := by
   sorry
 
@@ -372,10 +374,11 @@ theorem eikonal_identity (n : ℕ) (a : Fin n → ℝ)
 `A` before the cut, the difference `A - B` at the cut and factors `B` after it, gives the
 difference of the two uncut products. -/
 theorem telescoping_cut_sum {R : Type} [CommRing R] (n : ℕ) (A B : Fin n → R) :
-    ∑ c : Fin n,
-        (∏ f ∈ Finset.univ.filter (fun f : Fin n => f < c), A f) * (A c - B c) *
-          (∏ f ∈ Finset.univ.filter (fun f : Fin n => c < f), B f)
-      = (∏ f : Fin n, A f) - ∏ f : Fin n, B f := by
+    (∑ c : Fin n,
+        (∏ f ∈ (Finset.univ : Finset (Fin n)).filter (fun f : Fin n => f < c), A f) *
+          (A c - B c) *
+          (∏ f ∈ (Finset.univ : Finset (Fin n)).filter (fun f : Fin n => c < f), B f))
+      = (∏ f : Fin n, A f) - (∏ f : Fin n, B f) := by
   sorry
 
 /-! ## Layer 7: the Sudakov double logarithm and the one-loop Collins-Soper kernel -/
