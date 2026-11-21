@@ -835,8 +835,10 @@ densities, and the nuclear densities obey
 with the *same* `P_{ij}`. What is being proved is not the evolution equation — that is
 `CollinearEvolution`'s — but the assertion that the nucleus enters only through the initial
 condition. The content is that the kernel is derived from the collinear limit of a partonic
-splitting amplitude with no reference to the target's wavefunction, which is a statement about
-`EpsilonEridani.QFT.Factorization.Basic` and the factorisation theorem it proves.
+splitting amplitude with no reference to the target's wavefunction, which is the factorisation
+theorem of `FactorizationTheorems` Layers 1.4 and 1.5. `EpsilonEridani.QFT.Factorization.Basic`
+supplies the convolution and evolution vocabulary in which that theorem is stated; it does not
+contain a proof of it.
 
 Corollary, via `TauCeti.Analysis.Semigroups.Generator.Uniqueness` and
 `TauCeti.Analysis.Semigroups.CauchyProblem.Uniqueness`: there is a single evolution family
@@ -929,7 +931,8 @@ counterexample showing the sufficient condition cannot be dropped.
 Layer 0 for the densities; Layer 1 for the sum rules preserved;
 `EpsilonEridani.QFT.Factorization.Evolution.Basic`, `.CollinearForm`, `.MomentSpace`, `.SmallX` and
 `.Solutions` for the evolution equation and its solution theory;
-`EpsilonEridani.QFT.Factorization.Basic` for the factorisation statement that makes the kernel
+`EpsilonEridani.QFT.Factorization.Basic` for the vocabulary of the factorisation statement, and
+`FactorizationTheorems` Layers 1.4 and 1.5 for the theorem that makes the kernel
 target-independent; `EpsilonEridani.Particles.Parton.TMD.PowerCorrections` for the vocabulary of
 power-suppressed remainders; `TauCeti.Analysis.Semigroups.Defs`, `.Generator.Basic`,
 `.Generator.Uniqueness`, `.CauchyProblem.Basic` and `.CauchyProblem.Uniqueness` for the semigroup

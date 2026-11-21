@@ -694,8 +694,10 @@ State every hypothesis explicitly and separately: the region completeness of Lay
 validity of the eikonal approximation for spectator interactions; the cancellation of Glauber-region
 contributions; and the power counting. Of these, region completeness and Glauber cancellation are
 **hypotheses of the theorem, not results of this roadmap**: they are the content of the
-diagrammatic all-order arguments in the literature, and the roadmap states them as named
-assumptions so that every downstream result is explicitly conditional on them. Layer 2.4 proves
+diagrammatic all-order arguments in the literature, which `FactorizationTheorems` Layers 3.1 and
+3.3 make proof targets for this process on the general theorems of `InfraredStructure` Layers 2
+and 6. This roadmap states them as named assumptions so that every downstream result is
+explicitly conditional on them. Layer 2.4 proves
 the theorem *given* the hypotheses, and proves the hypotheses at one loop for the one-gluon
 exchange contribution, which is a genuine check and is not an all-order proof.
 
