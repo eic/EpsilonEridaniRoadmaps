@@ -82,7 +82,9 @@ Included:
 - Wilson lines: the path-ordered exponential as a formal power series in the coupling, eikonal
   Feynman rules, multiplicative renormalisation of smooth open and closed lines, the cusp anomalous
   dimension and its large-angle asymptotics, and the bilocal light-ray operator defining a parton
-  density, with the theorem that its ultraviolet renormalisation kernel is the DGLAP kernel.
+  density, with the theorem that its ultraviolet renormalisation kernel is the DGLAP kernel;
+  its off-forward, vacuum-to-hadron and final-state matrix elements with their kernels; and the
+  short-separation expansion of bilocal operators joined by Wilson lines.
 - The operator product expansion in perturbation theory: normal products, the Zimmermann
   identities, Wilson coefficients, the expansion to every order with an explicit remainder bound,
   and the renormalisation-group equation for the coefficients.
@@ -1009,6 +1011,12 @@ Statements to prove:
   parametrised by finitely many constants; and each is a rescaling of a field, the coupling or the
   gauge parameter. The classification of the local solutions is a named target with its own
   proof.
+- **On-shell form.** For a connected Green function with one external gluon contracted with
+  its own momentum and every other external line amputated, on shell and contracted with a
+  physical polarisation or spinor, the identity reduces to the statement that the Green function
+  vanishes, at every order. This is the form that `InfraredStructure` Layer 5 consumes; the
+  extension to several such gluons, and to a subgraph embedded in a larger graph, is proved
+  there by induction from this statement.
 
 ### 4.3 The Ward–Takahashi identities of QED
 
@@ -1229,6 +1237,46 @@ Statements to prove:
   single `γ₅`, or a Levi-Civita tensor in `d` dimensions, already at one loop, and is outside this
   roadmap by Convention 9; `CollinearEvolution` Layer 4.1 states those kernels.
 
+### 5.6 Off-forward, vacuum-to-hadron and final-state matrix elements
+
+The operators `O_q(z)` and `O_g(z)` of 5.4 are renormalised as operators; 5.5 states the result
+for forward matrix elements. Three further kinds of matrix element are consumed by
+`FactorizationTheorems`, and each is a target here.
+
+Statements to prove:
+
+- **Off-forward matrix elements.** Between states of different momenta the total derivatives of
+  the twist-two operators of 3.5 do not vanish, and the renormalisation matrix of spin `n` acts
+  on the operators `∂^k O^{n−k}`; it is triangular in `k`, with the forward anomalous dimensions
+  of 3.6 on its diagonal. This is a theorem about the operators and uses 3.2 only.
+- **The off-forward kernel.** In the variables `(x, ξ)` conjugate to the two light-cone
+  positions, with `ξ` the skewness, the counterterm is an integral operator in `x` at fixed `ξ`:
+  renormalisation does not change `ξ` or the momentum transfer. Its simple-pole coefficient is
+  the generalised kernel that `GeneralizedPartonDistributions` Layer 4.1 poses as a semigroup
+  generator. Prove the two limits: at `ξ = 0` the kernel is `P_{ij}` of 5.5, and on the region
+  `|x| ≤ ξ`, rescaled to `ξ = 1`, the non-singlet kernel is the kernel of `MesonStructure`
+  Layer 2.3. Compute the one-loop non-singlet kernel explicitly.
+- **Diagonalisation at one loop.** The one-loop non-singlet off-forward renormalisation matrix
+  is diagonal in the basis of operators whose coefficient polynomials are the Gegenbauer
+  polynomials of index `3/2` of `EpsilonEridani.Mathematics.SpecialFunctions.Gegenbauer.Basic`,
+  with eigenvalues the forward anomalous dimensions of 3.6. This is a one-loop statement; beyond
+  one loop the matrix is triangular and not diagonal, and the roadmap proves the triangularity
+  and does not assert the diagonal form.
+- **Vacuum-to-hadron matrix elements.** The matrix element of `O_q(z)` between the vacuum and a
+  one-hadron state, Fourier transformed in `z`, is the unrenormalised leading-twist distribution
+  amplitude of `MesonStructure` Layer 2.1; it renormalises by the `ξ = 1` kernel above. Support
+  in the momentum fraction is proved under `HasSpectralSupport`.
+- **Final-state matrix elements.** The fragmentation operator is not a matrix element of a
+  time-ordered product: it is the sum over unobserved final states `X` of
+  `⟨0| W ψ(0) |h X⟩ ⟨h X| ψ̄(z n) W† |0⟩`, and its graph expansion is the cut-graph sum of
+  `FeynmanIntegrals` Layer 7 with the observed line fixed. Prove that its ultraviolet
+  divergences are removed by a Mellin convolution in the momentum fraction, by the argument of
+  5.5 applied to cut graphs, and that the simple-pole coefficients are the timelike kernels of
+  `Hadronization`. At one loop the quark-to-quark kernel equals the spacelike one of 5.5; state
+  and prove the one-loop relation for the off-diagonal entries with the factors the calculation
+  gives. Beyond one loop the timelike and spacelike kernels differ, and no relation between
+  them is asserted here.
+
 ### Examples
 
 - The one-loop cusp anomalous dimension computed from the single-gluon exchange across the cusp,
@@ -1256,7 +1304,10 @@ Layers 0 to 4. `FeynmanIntegrals` Layers 4, 5 and 6. `EpsilonEridani.QFT.QCD.Bas
 `EpsilonEridani.Particles.Parton.TMD.CollinsSoper`, `TauCeti.RingTheory.PowerSeries.Exp`. From
 `CollinearEvolution`: Layer 0.3 for plus distributions, Layers 1.2, 4.1 and 4.2 for the kernels.
 To `InfraredStructure` Layer 7: rapidity divergences and the light-like renormalisation group. To
-`FactorizationTheorems` Layers 0 and 1: the operator definition of a density and its evolution.
+`FactorizationTheorems` Layers 0 and 1: the operator definition of a density and its evolution;
+to its Layers 2 and 5: the final-state, off-forward and vacuum-to-hadron matrix elements of 5.6.
+From `GeneralizedPartonDistributions` Layer 4.1, `MesonStructure` Layers 2.1 and 2.3 and
+`Hadronization`: the objects whose kernels 5.6 derives.
 
 ---
 
@@ -1384,6 +1435,37 @@ Statements to prove:
   Green functions to hadronic matrix elements, and is `FactorizationTheorems` Layer 1. The
   convergence of the sum over `τ` in `OPEData` is not a consequence of the perturbative expansion
   and remains the hypothesis it is there.
+
+### 6.6 Bilocal operators at short separation
+
+The expansion of 6.2 is stated for a product of two local operators. Two bilocal operators joined
+by Wilson lines are expanded in the same way, and `FactorizationTheorems` Layers 1 and 3 consume
+the results.
+
+Statements to prove:
+
+- **The space-like bilocal operator.** For the quark operator `ψ̄(z) Γ W[z, 0] ψ(0)` with `z`
+  space-like and `W` the straight line, renormalised by 5.2 with the two endpoint constants, the
+  Green functions with elementary fields at fixed non-exceptional momenta have, as `z² → 0` at
+  fixed `z · p` for each external momentum `p`, an expansion on the light-ray operators of 5.4
+  with coefficient functions that are polynomial in `log(−z² μ²)` at each order, and a remainder
+  `O(z² · |log(−z²)|^L)` relative to the leading term at order `L`. The proof is that of 6.2
+  with the Wilson line expanded by 5.1; the linear divergence of the line is absent in
+  dimensional regularisation by `FeynmanIntegrals` Layer 4 and its treatment in a lattice
+  regularisation is `LatticeBridge`'s.
+- **The one-loop coefficient.** The coefficient function at first order for the vector
+  structure, as an explicit distribution in the momentum fraction, with its logarithm fixed by
+  the kernel `P_{qq}` of 5.5. This is the kernel that `LatticeBridge` Layer 3.3 carries.
+- **The transversely separated operator.** For the operator with the two fields separated by
+  `b_T` at equal light-cone position and joined by a staple-shaped line, with the rapidity
+  regulator of `InfraredStructure` Layer 7 in place, the expansion as `b_T → 0` on the
+  light-ray operators of 5.4, with coefficient functions depending on `log(b_T² μ²)` and on the
+  rapidity scale, and a remainder `O(b_T² · |log b_T|^{2L})`. The expansion is stated for the
+  regulated operator; the removal of the regulator is `InfraredStructure` Layer 7's, and the
+  resulting statement for distributions is `TransverseMomentumDistributions` Layer 4.1.
+- **Renormalisation-group equations.** The coefficient functions of both expansions satisfy the
+  equation of 6.4 with the anomalous dimension of the bilocal operator on one side and the
+  kernel of 5.5 acting by convolution on the other.
 
 ### Examples
 

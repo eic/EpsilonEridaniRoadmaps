@@ -91,7 +91,8 @@ Included:
   rapidity divergences and their cancellation between the factors; the Sudakov form factor of a
   massless quark factorised for every graph, its evolution equation and its leading-logarithmic
   exponentiation; the derivation of the Collins–Soper equation and of the properties of its
-  kernel.
+  kernel; and the cut jet, beam and soft functions of inclusive observables with their
+  factorised form on cut graphs.
 
 Not included. Graphs, momentum routing, Symanzik polynomials, the parametric representation,
 ultraviolet convergence, dimensional regularisation, the `iε` prescription, Feynman rules and the
@@ -160,9 +161,11 @@ Layer 1.2 are mathematics with no physics in them and belong in
    are never used as a sufficient one. The trap this avoids is concluding from a solution of the
    equations that an integral diverges; Layer 1.6 has the counterexamples.
 6. Infrared divergences are regulated by the dimensional regularisation of `FeynmanIntegrals`
-   Layer 4, with `d = 4 - 2 ε`, and a statement of infrared finiteness is the statement that a
-   function meromorphic in `ε` is analytic at `ε = 0`. A gluon mass is never used. The trap this
-   avoids is a regulator that breaks the Ward identities on which Layer 5 depends.
+   Layer 4, written with the regulator of `Renormalization` Convention 1, `d = 4 - 2 ε`, which
+   is half the regulator of the existing `regularizedDimension`; and a statement of infrared
+   finiteness is the statement that a function meromorphic in `ε` is analytic at `ε = 0`. A
+   gluon mass is never used. The trap this avoids is a regulator that breaks the Ward identities
+   on which Layer 5 depends.
 7. The gauge is an explicit argument of every power-counting statement: `covariant ξ` or
    `axial n`. The infrared degree of an individual reduced graph depends on it; the theorems
    that do not depend on it say so and are proved, not assumed. The trap this avoids is quoting a
@@ -1346,6 +1349,11 @@ respect to the rapidity of one of its Wilson lines. Statements to prove:
   and on its flavour only through the colour representation;
 - `dK / d log μ = - γ_cusp`, and the anomalous dimension of `J` in `μ` is linear in `log ζ`
   with slope `- γ_cusp / 2`, with the cusp anomalous dimension of `Renormalization` Layer 5;
+- `K` is the same for a jet function with a past-pointing and with a future-pointing Wilson
+  line, and for the cut jet functions of 7.5 in the initial and in the final state: the
+  derivative of the soft function with respect to the rapidity of one line does not depend on
+  the `iε` signs of the others. This is what makes one kernel govern distributions and
+  fragmentation functions alike;
 - one loop: `K = - (α_s C_F / π) log(μ² b_T² e^{2 γ_E} / 4)`.
 
 The second, third and fourth items are, respectively, the property that
@@ -1355,6 +1363,45 @@ The second, third and fourth items are, respectively, the property that
 `SatisfiesMuRg` and `SatisfiesZetaRg` for it. The solution of the equations, the transform to
 impact-parameter space as a theory, and the non-perturbative region of large `b_T` are
 `TransverseMomentumDistributions` Layer 3.
+
+### 7.5 Cut functions for inclusive observables
+
+The functions of 7.1 are amplitude-level. An inclusive cross section needs their counterparts
+on cut graphs, built with the cut-graph sums of `FeynmanIntegrals` Layer 7.
+
+Define:
+
+- the *inclusive jet function* of a direction: the sum over cuts of the two-point function of
+  the parton field with its Wilson line in the direction `w`, as a function of the invariant
+  mass of the cut, or of the transverse position conjugate to the transverse momentum of the
+  observed parton;
+- the *beam function*: the same cut two-point function with the parton entering the hard
+  subgraph from an initial-state jet, as a function of the light-cone fraction and of the
+  virtuality or transverse position; it is defined for an on-shell partonic initial state, and
+  its matrix element in a hadron belongs to `FactorizationTheorems`;
+- the *cut soft function*: the sum over cuts of the product of Wilson lines of 7.1, with a
+  weight function of the momenta crossing the cut as explicit data.
+
+Statements to prove:
+
+- **Factorised form on cut graphs.** For the classes `annihilation` and `dis`, and a weight
+  that is additive over the final-state momenta and is the sum of a function of each jet's
+  momenta and of the soft momenta at leading power, the cut-graph sum with the subtractions of
+  5.6 is the product of the hard function, its conjugate, the cut jet or beam functions and the
+  cut soft function, convolved in the variable conjugate to the weight. The proof is that of
+  7.1 on each side of the cut together with the sum over cuts of Layer 6.4 inside each factor.
+- **Unweighted cuts.** With weight one, the cut soft function is one at every order, and the
+  inclusive jet function integrated over its invariant mass is one: the cancellations of Layer
+  4 inside each factor.
+- **Rapidity divergences.** The cut jet and beam functions at fixed transverse position carry
+  the rapidity divergences of 7.2, which cancel against the cut soft function in the product;
+  the functions at fixed invariant mass have none.
+- **One loop.** The inclusive jet function at fixed invariant mass and the cut soft function
+  for the hemisphere weight, at first order, with their poles.
+
+The thrust distribution and its deep-inelastic counterpart are the instances with the
+hemisphere weight; their statements as cross sections, and the relation of the beam function to
+a parton density, are `FactorizationTheorems` Layer 6.
 
 ### Examples
 
