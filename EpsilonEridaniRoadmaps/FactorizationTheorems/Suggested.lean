@@ -52,10 +52,11 @@ def CoefficientFunctional.ofRegular (K : ℝ → ℝ) : CoefficientFunctional :=
 def CoefficientFunctional.deltaAtOne (c : ℝ) : CoefficientFunctional :=
   fun φ => c * φ 1
 
-/-- The coefficient functional `[K]₊` of a kernel singular at `z = 1`, built on the existing
-`EpsilonEridani.plusFunctional` (Layer 0.2). -/
+/-- The coefficient functional `[K]₊` of a kernel singular at `z = 1`: the pairing
+`∫₀¹ K z (φ z - φ 1) dz`, which is the body of the existing `plusFunctional` of
+`EpsilonEridani.Mathematics.Distribution.PlusFunctional` (Layer 0.2). -/
 def CoefficientFunctional.plus (K : ℝ → ℝ) : CoefficientFunctional :=
-  fun φ => EpsilonEridani.plusFunctional K φ
+  fun φ => intervalIntegral (fun z : ℝ => K z * (φ z - φ 1)) 0 1 MeasureTheory.volume
 
 /-- The test function `z ↦ f (x / z) / z` on `[x, ∞)`, extended by zero, against which a
 coefficient functional is paired to form the collinear convolution at `x` (Layer 0.2). -/
@@ -106,7 +107,7 @@ coefficient functional of flavour `i` at hard scale `Q`; `f l i` the order-`l` d
 def orderConvolution {Flavor : Type} [Fintype Flavor]
     (C : ℕ → Flavor → ℝ → CoefficientFunctional) (f : ℕ → Flavor → ℝ → ℝ)
     (n : ℕ) (x Q : ℝ) : ℝ :=
-  ∑ kl ∈ Finset.antidiagonal n, ∑ i : Flavor, convolve (C kl.1 i Q) (f kl.2 i) x
+  ∑ k ∈ Finset.range (n + 1), ∑ i : Flavor, convolve (C k i Q) (f (n - k) i) x
 
 /-- Collinear factorisation to all orders in perturbation theory with remainder power `p`:
 at every order the observable equals the order-`n` term of the convolution, up to a

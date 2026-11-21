@@ -285,7 +285,8 @@ Collins, *Foundations of Perturbative QCD* (2011), ch. 1, 6 and 8; Curci, Furman
   renormalisation, for non-exceptional kinematics, citing `Renormalization` Layer 1 and
   `FeynmanIntegrals` Layer 3; the perturbative observable is independent of the gauge parameter,
   citing `Renormalization` Layer 4; the truncation of a product of two series at order `n` is the
-  finite Cauchy sum over `Finset.antidiagonal n`, with associativity for three factors.
+  finite Cauchy sum over the pairs `(k, l)` with `k + l = n`, with associativity for three
+  factors.
 - State, as a remark attached to the definition and not as a target, that no property of the sum
   over `n` is asserted.
 
