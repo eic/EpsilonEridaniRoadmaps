@@ -508,8 +508,8 @@ Ryskin, *Eur. Phys. J. C* **21** (2001) 521.
   instance a contributor can discharge, and it is what makes the general statement checkable.
 - Record the general theorem as a `sorry`-ed target with its hypotheses. Its proof is an
   all-orders argument about the cancellation of final-state interactions between the struck quark
-  and the target remnant, and this roadmap states it, names its source, and does not claim to have
-  reproved it.
+  and the target remnant. This roadmap states it and names its source; the proof is the target
+  of `FactorizationTheorems` Layer 6.1.
 
 ### 2.4 Positivity and the inclusive bound
 

@@ -778,8 +778,10 @@ together with the statement that the sum over `τ` converges for `Q²` above a t
   "leading twist" means and it is the only place the roadmap defines it.
 - The scale-independence theorem: the product `C · A` is independent of `μ`, which is the
   statement that makes the factorisation meaningful. State it as a hypothesis on `OPEData`, not
-  as a theorem, because it is equivalent to the renormalisation-group equation for the operator
-  and that equation is `CollinearEvolution`'s.
+  as a theorem of this roadmap, because it is equivalent to the renormalisation-group equation
+  for the operator. That equation is `CollinearEvolution`'s, and `Renormalization` Layer 6.5
+  proves that the perturbative coefficients and matrix elements of the twist-two operators
+  satisfy the hypothesis at every order.
 - Injectivity: distinct twist-two matrix element sequences give distinct moment sequences, under
   a determinacy hypothesis taken from `TauCeti.Probability.Moments.Determinacy`. The converse,
   reconstructing the matrix elements from finitely many measured moments, is not claimed; the

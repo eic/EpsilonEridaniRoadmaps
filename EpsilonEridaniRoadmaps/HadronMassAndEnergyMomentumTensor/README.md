@@ -555,8 +555,9 @@ Define the trace operator `Θ := T^μ{}_μ` and prove the anomaly relation
 
 in dimensional regularisation, with the beta function taken from
 `EpsilonEridani.QFT.QCD.OneLoopBeta` and the mass anomalous dimension `γ_m` from
-`EpsilonEridani.QFT.QCD.Renormalization`. The formalisation makes three things explicit that prose
-accounts often leave implicit:
+`Renormalization` Layers 2.4 and 2.6, converted to the normalisation of this formula; the module
+`EpsilonEridani.QFT.QCD.Renormalization` does not define one. The formalisation makes three
+things explicit that prose accounts often leave implicit:
 
 1. The classical trace is `Σ_q m_q ψ̄_q ψ_q`, proved in Layer 0.3; the anomaly is the *difference*
    between the renormalized trace and the classical one, and is therefore defined only once the
