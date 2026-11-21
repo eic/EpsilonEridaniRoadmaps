@@ -643,7 +643,8 @@ are `MultiPartonCorrelations`. State the hypotheses — the hard scale, fixed sk
 treatment of target mass and momentum transfer as power-suppressed — and the order of neglected
 terms. All-orders factorisation is a hard theorem: state plainly that what this roadmap proves is
 the leading-order statement together with the structural consistency of Layer 4.3, and that
-all-orders factorisation is imported as a hypothesis, not a milestone that can be discharged.
+all-orders factorisation is imported as a hypothesis, not a milestone of this roadmap. Its proof,
+under the hypotheses stated there, is `FactorizationTheorems` Layer 5.2.
 
 Define the leading-order hard kernel explicitly, with its `iε` prescription and the two terms from
 the two photon attachments, as a distribution on test functions over

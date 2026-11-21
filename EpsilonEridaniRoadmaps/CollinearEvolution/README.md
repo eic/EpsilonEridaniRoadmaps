@@ -88,8 +88,9 @@ which belong to `RadiativeCorrections`. It does not resum logarithms of any rati
 the factorisation scale, so threshold and jet resummation belong to `JetsAndEventShapes`. It
 does not derive the factorisation formula itself: the all-order statement that a hadronic cross
 section is a convolution of a density with a coefficient function is a hypothesis here, stated
-and used but not proved, and the roadmap that owns the statement is
-`InclusiveStructureFunctions`. Finally, it does not derive the two-loop or three-loop kernels
+and used but not proved. It is proved, to all orders in perturbation theory and under the hadron
+hypothesis stated there, in `FactorizationTheorems` Layer 1; `InclusiveStructureFunctions`
+carries its moment-space form. Finally, it does not derive the two-loop or three-loop kernels
 from Feynman diagrams; see the honest statement of that boundary in Layer 5.
 
 Material from this roadmap belongs under `EpsilonEridani/QFT/Factorization/`, in the existing
@@ -1053,7 +1054,9 @@ This subsection is where the roadmap is most careful about what it claims.
   uncalculated orders, and that estimate is a heuristic, not a theorem; the roadmap says so.
 - The all-order statement — that a scale-independent structure function exists at all, of which
   the order-by-order statements are truncations — is the **factorisation hypothesis**. It is used
-  here and not proved here, and `InclusiveStructureFunctions` is the roadmap that owns it. No
+  here and not proved here: `FactorizationTheorems` Layers 1.4 and 1.5 prove it to all orders in
+  perturbation theory under the hypothesis `SoftHadronVertex`, and `InclusiveStructureFunctions`
+  Layer 4.2 carries its moment-space form. No
   milestone in this roadmap is contingent on it: every theorem above is a statement about
   truncated series and is provable without it.
 
@@ -1109,8 +1112,9 @@ keeps the generator fixed.
 
 External flows, all of them outward except two:
 
-- Into this roadmap: the factorisation hypothesis and the structure function definitions from
-  `InclusiveStructureFunctions` (Layer 5); nothing else.
+- Into this roadmap: the factorisation hypothesis, whose proof is `FactorizationTheorems`
+  Layer 1, and the structure function definitions from `InclusiveStructureFunctions` (Layer 5);
+  nothing else.
 - Out of it: `γ` and the flow to `InclusiveStructureFunctions`, `NuclearPartonDistributions`,
   `MesonStructure`, `Diffraction`, `LatticeBridge`, `Photoproduction` and `JetsAndEventShapes`;
   `Δγ` to `SpinStructure`; `δγ` to `TransverseMomentumDistributions`; the timelike kernels to
